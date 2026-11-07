@@ -1,102 +1,233 @@
 <!doctype html>
-<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#050b09"><meta name="description" content="Privacy notice describing VORTEX AI website sign-in, MT5 snapshot data and hosting providers."><title>Privacy notice | VORTEX AI</title><link rel="icon" type="image/svg+xml" href="/favicon.svg?v=20261031-1"><link rel="shortcut icon" href="/favicon.svg?v=20261031-1"><style>
-:root{color-scheme:dark;--bg:#050b09;--panel:#0c1513;--line:#203c34;--text:#f2faf7;--muted:#a1b9b0;--teal:#00e6ad;--cyan:#bfffea;--amber:#ffd58a}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 78% -8%,#123d32 0,transparent 45%),var(--bg);color:var(--text);font:15px/1.65 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}a{color:var(--cyan)}.wrap{width:min(1000px,calc(100% - 32px));margin:auto}header{border-bottom:1px solid #17372d;background:#050b09e8}nav{height:82px;display:flex;align-items:center;justify-content:space-between;gap:18px}.logo{width:118px;max-width:32vw;height:auto;display:block}.navlinks,.footlinks{display:flex;gap:18px;flex-wrap:wrap;font-size:12px;color:var(--muted)}.navlinks a,.footlinks a{color:var(--muted);text-decoration:none}.navlinks a:hover,.footlinks a:hover{color:var(--teal)}main{padding:52px 0 70px}.kicker{color:var(--teal);font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase}h1{font-size:clamp(32px,5vw,48px);line-height:1.08;letter-spacing:-.04em;margin:10px 0 12px}h2{font-size:21px;line-height:1.25;margin:25px 0 8px}h3{font-size:16px;margin:0 0 6px}p,li{color:var(--muted)}p{margin:8px 0 15px}.lead{font-size:17px;max-width:740px}.panel,.card{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:22px;margin:15px 0}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}.grid .card{margin:0}.price{font-size:25px;color:var(--teal);font-weight:800;margin:12px 0}.pill{display:inline-block;border:1px solid #31564a;border-radius:99px;padding:4px 9px;color:var(--teal);font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}.btn{display:inline-flex;align-items:center;justify-content:center;padding:10px 15px;border-radius:10px;background:var(--teal);border:1px solid var(--teal);color:#061d15;text-decoration:none;font-weight:800;font-size:13px}.notice{border-left:3px solid var(--amber);background:#261d0e;color:#ffdfaa;padding:14px 16px;border-radius:0 10px 10px 0;margin:19px 0}.muted{color:var(--muted)}.faq{border-bottom:1px solid var(--line);padding:17px 0}.faq:last-child{border:0}.faq h3{font-size:15px}.faq p{margin-bottom:0}footer{border-top:1px solid var(--line);padding:24px 0 30px;color:#81988e;font-size:11px}.foot{display:flex;justify-content:space-between;align-items:flex-start;gap:18px}.back{color:var(--muted);text-decoration:none;font-size:12px}
-@media(max-width:720px){.grid{grid-template-columns:1fr}.foot{display:block}.footlinks{margin-top:12px}.navlinks{gap:10px;font-size:11px}nav{height:74px}.logo{width:96px}main{padding-top:38px}}
-
-/* Shared responsive header and content safeguards */
-html{scroll-padding-top:88px}
-body{max-width:100%;overflow-x:hidden}
-.wrap,main,.panel,.card,.grid,.foot{min-width:0}
-header{position:sticky;top:0;z-index:30;background:#050b09ed;border-bottom:1px solid #17372d;backdrop-filter:blur(12px)}
-nav{position:relative;min-width:0;gap:clamp(8px,1.6vw,18px)}
-nav>a:first-child{flex:0 0 auto;min-width:0}
-.logo{width:116px;max-width:34vw;height:auto;object-fit:contain}
-.navlinks{display:flex;align-items:center;justify-content:center;gap:clamp(10px,1.4vw,18px);flex-wrap:nowrap;min-width:0}
-.navlinks a{display:inline-flex;align-items:center;min-height:44px;white-space:nowrap}
-.back{flex:0 0 auto;white-space:nowrap}
-.menu-toggle{display:none;flex:0 0 42px;width:42px;height:42px;align-items:center;justify-content:center;gap:4px;flex-direction:column;border:1px solid #31564a;border-radius:10px;background:#12221d;color:var(--text);padding:8px;cursor:pointer}
-.menu-toggle .bar{display:block;width:19px;height:2px;border-radius:2px;background:currentColor;transition:transform .18s ease,opacity .18s ease}
-.menu-toggle.is-open .bar:nth-child(1){transform:translateY(6px) rotate(45deg)}
-.menu-toggle.is-open .bar:nth-child(2){opacity:0}
-.menu-toggle.is-open .bar:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
-img,svg,video,iframe{max-width:100%}
-button,.btn{min-height:44px;max-width:100%;white-space:normal;text-align:center;touch-action:manipulation}
-p,li,h1,h2,h3{overflow-wrap:anywhere}
-pre,code{max-width:100%;overflow-wrap:anywhere}
-@media(max-width:760px){
-  html{scroll-padding-top:78px}
-  nav{height:72px;gap:10px}
-  .logo{width:96px;max-width:28vw}
-  .menu-toggle{display:inline-flex}
-  .navlinks{display:none}
-  .navlinks.is-open{display:grid;position:absolute;left:0;right:0;top:calc(100% + 1px);z-index:31;grid-template-columns:repeat(2,minmax(0,1fr));gap:0;padding:8px 14px;border:1px solid #31564a;border-radius:0 0 14px 14px;background:#07110eef;box-shadow:0 16px 35px #0009;max-height:calc(100vh - 90px);overflow-y:auto}
-  .navlinks.is-open a{min-width:0;min-height:46px;padding:11px 8px;border-bottom:1px solid #1b382e;white-space:normal;overflow-wrap:anywhere}
-  .navlinks.is-open a:nth-last-child(-n+2){border-bottom:0}
-  .back{font-size:12px}
-  .wrap{width:calc(100% - 24px)}
-  main{padding:36px 0 48px}
-  .panel,.card{padding:18px}
-  .grid{grid-template-columns:minmax(0,1fr)}
-  .foot{display:block}
-  .footlinks{margin-top:12px}
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#050b09">
+<meta name="description" content="VORTEX AI technical data handling and privacy notice. Details actual data collected, storage infrastructure, and security practices.">
+<meta property="og:title" content="Data Handling & Privacy Notice · VORTEX AI">
+<meta property="og:description" content="Technical privacy documentation for VORTEX AI telemetry and authentication services.">
+<meta property="og:image" content="/vortex-ai-logo.webp?v=20261028-1">
+<meta property="og:type" content="website">
+<link rel="canonical" href="https://vortexbot.ai/privacy.html">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg?v=20261031-1">
+<link rel="shortcut icon" href="/favicon.svg?v=20261031-1">
+<title>Privacy & Data Handling Notice | VORTEX AI</title>
+<link rel="stylesheet" href="/nav.css">
+<style>
+:root{
+  color-scheme: dark;
+  --bg: #050b09;
+  --panel: #0c1513;
+  --line: #1c3830;
+  --text: #f0faf6;
+  --muted: #9bb5ab;
+  --teal: #00e6ad;
+  --cyan: #80ffe1;
+  --amber: #ffc453;
 }
-@media(max-width:360px){
-  nav{gap:7px}
-  .logo{width:88px}
-  .menu-toggle{flex-basis:40px;width:40px;height:40px}
-  .back{font-size:11px}
+*{box-sizing:border-box}
+body{
+  margin: 0;
+  background: radial-gradient(ellipse at 78% -8%, #123d32 0, transparent 45%), var(--bg);
+  color: var(--text);
+  font: 15px/1.65 Inter, ui-sans-serif, system-ui, -apple-system, sans-serif;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
-@media(prefers-reduced-motion:reduce){.menu-toggle .bar{transition:none}}
+a{color:var(--cyan);text-decoration:none}
+a:hover{text-decoration:underline}
+.wrap{width:min(1120px, calc(100% - 32px));margin:auto}
 
-</style><link rel="stylesheet" href="/assistant.css?v=1">
+header{
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: #050b09e8;
+  border-bottom: 1px solid #17372d;
+  backdrop-filter: blur(12px);
+}
+nav{
+  height: 76px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:126px;max-width:32vw;height:auto;display:block}
+.nav-desktop-links{
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+}
+.nav-desktop-links a{color:var(--muted);text-decoration:none}
+.nav-desktop-links a:hover{color:var(--teal)}
+.nav-cta{
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--teal);
+  background: var(--teal);
+  color: #061d15;
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 13px;
+  text-decoration: none;
+}
+
+main{flex:1;padding:48px 0 64px}
+.eyebrow{color:var(--teal);text-transform:uppercase;letter-spacing:.16em;font-size:11px;font-weight:800;margin-bottom:10px}
+h1{font-size:clamp(30px,4.2vw,48px);letter-spacing:-.04em;line-height:1.1;margin:0 0 16px}
+.lead{color:var(--muted);font-size:16px;max-width:760px;margin:0 0 36px}
+
+.legal-card{
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 32px;
+  margin-bottom: 24px;
+}
+.legal-card h2{font-size:20px;margin:28px 0 12px;color:var(--text);letter-spacing:-.02em}
+.legal-card h2:first-of-type{margin-top:0}
+.legal-card p, .legal-card ul{color:var(--muted);font-size:14px;line-height:1.7}
+.legal-card ul{padding-left:22px}
+.legal-card li{margin-bottom:6px}
+
+.legal-banner{
+  background: #241a08;
+  border: 1px solid #6b4e18;
+  border-radius: 12px;
+  padding: 14px 18px;
+  color: #ffdfa3;
+  font-size: 12.5px;
+  margin-bottom: 24px;
+}
+
+footer{
+  border-top: 1px solid var(--line);
+  padding: 32px 0;
+  color: #81988e;
+  font-size: 12px;
+  background: #040907;
+}
+.foot{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:18px}
+.footlinks{display:flex;gap:18px;flex-wrap:wrap}
+.footlinks a{color:#81988e;text-decoration:none}
+.footlinks a:hover{color:var(--teal)}
+
+@media(max-width:600px){
+  .legal-card{padding:20px}
+  .foot{flex-direction:column;align-items:flex-start}
+}
+</style>
+<link rel="stylesheet" href="/assistant.css?v=1">
+<link rel="stylesheet" href="/mobile-fixes.css?v=1">
 </head>
-<body><header><div class="wrap"><nav aria-label="Main navigation"><a href="/" aria-label="VORTEX AI home"><img class="logo" src="/vortext-ai-logo.webp?v=20261101-2" alt="VORTEX AI"></a><button id="menu-toggle" class="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="site-links" title="Open navigation"><span class="bar" aria-hidden="true"></span><span class="bar" aria-hidden="true"></span><span class="bar" aria-hidden="true"></span></button><div class="navlinks" id="site-links"><a href="/">Home</a><a href="/pricing.html">Plans</a><a href="/faq.html">FAQ</a><a href="/contact.html">Contact</a></div><a class="back" href="/login.html">Sign in ↗</a></nav></div></header>
-<main class="wrap">
-<div class="kicker">Privacy</div><h1>Privacy notice</h1><p class="lead">Last updated: October 31, 2026. This notice explains the main categories of information used by the VORTEX AI website and private dashboard.</p>
-<section class="panel"><h2>1. Information processed</h2><ul><li><strong>Account information:</strong> email address and authentication/session information supplied through the configured sign-in provider. The browser stores the active Supabase session so the dashboard can maintain sign-in state; sign out on shared devices.</li><li><strong>Trading telemetry:</strong> account-level MT5 snapshot fields such as broker/server name, account currency, balance/equity, open positions and bot-tagged deal history when the publisher is connected.</li><li><strong>Technical information:</strong> basic request, security and diagnostic logs processed by the website hosting and authentication infrastructure.</li><li><strong>Support information:</strong> details you choose to send through the published support channel.</li></ul>
-<h2>2. How information is used</h2><p>Information is used to authenticate users, enforce dashboard access permissions, display authorized trading snapshots, diagnose service issues and respond to support requests.</p>
-<h2>3. Service providers</h2><p>The website uses Vercel for hosting, Supabase for authentication and the trade-snapshot database, and jsDelivr to deliver the pinned Supabase JavaScript client (version 2.118.0). When the browser downloads that client, the CDN may receive standard connection metadata such as IP address, user agent and request details. These providers process information under their own terms and privacy documentation.</p>
-<h2>4. Access controls and security</h2><p>The trade dashboard is intended to require a valid sign-in and server-side authorization. Privileged database credentials and feed-signing secrets must remain server-side and must never be placed in browser code or shared through support messages. No online system can be guaranteed completely secure.</p>
-<h2>5. Retention</h2><p>No fixed retention periods have been approved or published for authentication data, trading snapshots, support enquiries or diagnostic logs. The retention schedule must be finalized and disclosed before customer onboarding. Until then, VORTEX AI is operating in a limited pre-launch state and should not be used to submit identity documents or other unnecessary sensitive information.</p>
-<h2>6. Your choices</h2><p>You should use the sign-out control on shared devices and keep your sign-in credentials secure. A verified privacy contact route has not yet been published. The operator must provide a monitored contact method and a process for access, correction and deletion requests before customer onboarding.</p>
-<h2>7. Children</h2><p>VORTEX AI is not intended for children. Do not use the service if you are not legally permitted to enter into the relevant agreements in your jurisdiction.</p>
-<h2>8. Changes and contact</h2><p>This notice may change as the product, infrastructure and legal requirements evolve. The operator's full legal identity, operating jurisdiction, privacy contact and finalized retention schedule remain unresolved. Do not treat this draft as the completed privacy notice.</p></section>
-<div class="notice">PRE-LAUNCH NOTICE: this is a preliminary privacy disclosure, not a completed legal notice. Public customer onboarding must remain closed until the operator identity, jurisdiction, privacy contact, retention schedule and applicable legal obligations are confirmed and reviewed.</div>
-</main>
-<footer><div class="wrap foot"><span>© VORTEX AI · Automated trading involves risk.</span><div class="footlinks"><a href="/pricing.html">Plans</a><a href="/faq.html">FAQ</a><a href="/contact.html">Contact & Support</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/">Home</a></div></div></footer>
-<script>
-(function(){
-  const button=document.getElementById("menu-toggle");
-  const links=document.getElementById("site-links");
-  const nav=button&&button.closest("nav");
-  if(!button||!links||!nav)return;
-  function setOpen(open){
-    button.setAttribute("aria-expanded",String(open));
-    button.setAttribute("aria-label",open?"Close navigation":"Open navigation");
-    button.title=open?"Close navigation":"Open navigation";
-    button.classList.toggle("is-open",open);
-    links.classList.toggle("is-open",open);
-  }
-  button.addEventListener("click",function(){
-    setOpen(button.getAttribute("aria-expanded")!=="true");
-  });
-  links.addEventListener("click",function(event){
-    if(event.target.closest("a"))setOpen(false);
-  });
-  document.addEventListener("click",function(event){
-    if(!nav.contains(event.target))setOpen(false);
-  });
-  document.addEventListener("keydown",function(event){
-    if(event.key==="Escape"&&button.getAttribute("aria-expanded")==="true"){
-      setOpen(false);button.focus();
-    }
-  });
-  window.addEventListener("resize",function(){
-    if(window.innerWidth>760)setOpen(false);
-  });
-})();
-</script>
+<body>
 
+<header>
+  <div class="wrap">
+    <nav aria-label="Main navigation">
+      <div class="brand">
+        <a href="/" aria-label="VORTEX AI home"><img class="logo" src="/vortex-ai-logo.webp?v=20261028-1" alt="VORTEX AI"></a>
+      </div>
+      <div class="nav-desktop-links">
+        <a href="/">Platform</a>
+        <a href="/getting-started.html">Getting Started</a>
+        <a href="/status.html">Status</a>
+        <a href="/faq.html">FAQ</a>
+        <a href="/#risk">Risk</a>
+        <a class="nav-cta" href="/login.html">Sign In ↗</a>
+      </div>
+      <button class="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="mobile-menu" type="button">
+        <svg class="icon-bars" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6zm0 5h18v2H3v-2zm0 5h18v2H3v-2z"/></svg>
+        <svg class="icon-close" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<!-- Mobile Navigation Drawer -->
+<div id="mobile-menu" class="mobile-menu" hidden aria-label="Mobile navigation">
+  <a class="mobile-nav-link" href="/">Platform Overview <span>→</span></a>
+  <a class="mobile-nav-link" href="/getting-started.html">Getting Started <span>→</span></a>
+  <a class="mobile-nav-link" href="/status.html">Fleet Status <span>→</span></a>
+  <a class="mobile-nav-link" href="/faq.html">FAQ & Help <span>→</span></a>
+  <a class="mobile-nav-link" href="/#risk">Risk Disclosure <span>→</span></a>
+  <a class="mobile-nav-link mobile-nav-cta" href="/login.html">Sign In to Dashboard ↗</a>
+</div>
+
+<main>
+  <div class="wrap">
+    <div class="eyebrow">Data Governance & Telemetry Privacy</div>
+    <h1>Data Handling & Privacy Notice</h1>
+    <p class="lead">This document outlines the exact data collected, stored, and processed by the VORTEX AI platform, derived directly from our actual codebase, database schema, and serverless hosting architecture.</p>
+
+    <div class="legal-banner">
+      <strong>Notice:</strong> This is a technical privacy disclosure reflecting current software implementation. It is marked for formal institutional legal review prior to commercial general availability.
+    </div>
+
+    <article class="legal-card">
+      <h2>1. Information We Collect</h2>
+      <p>VORTEX AI collects and processes only the minimum data required for secure operator authentication and read-only telemetry monitoring:</p>
+      <ul>
+        <li><strong>Authentication Identifiers:</strong> Operator email address, Supabase user UUID, assigned authorization role (<code>ADMIN</code>, <code>SUPER_ADMIN</code>, or standard authenticated operator), and cryptographically signed session tokens (HS256 JWT stored in the browser's <code>localStorage</code>).</li>
+        <li><strong>Read-Only Broker Telemetry:</strong> MT5 account numbers (e.g. <code>26179878</code>), broker server names (e.g. <code>VantageMarkets-Demo</code>), balance, equity, margin, free margin, currency, authoritative trade mode (<code>DEMO</code> / <code>REAL</code>), open position tickets, and recent trade deal history.</li>
+        <li><strong>Infrastructure Access Logs:</strong> Standard HTTP request logs generated by Vercel edge functions, including client IP address, user-agent, timestamp, and HTTP response status codes.</li>
+      </ul>
+
+      <h2>2. What We Explicitly NEVER Collect or Store</h2>
+      <p>Our zero-trust architecture strictly isolates broker authentication secrets:</p>
+      <ul>
+        <li><strong>NO Broker Trading Passwords:</strong> MetaTrader 5 account passwords and investor passwords are never entered into the website, transmitted over the API, or stored in our database.</li>
+        <li><strong>NO Bank or Payment Information:</strong> VORTEX AI does not collect credit cards, bank account routing details, or payment card information.</li>
+        <li><strong>NO Client-Side Private Keys:</strong> Service role keys and HMAC signing secrets remain strictly server-side on Vercel and are never accessible to client browser JavaScript.</li>
+      </ul>
+
+      <h2>3. Third-Party Sub-Processors & Hosting Infrastructure</h2>
+      <p>VORTEX AI utilizes the following enterprise cloud infrastructure providers:</p>
+      <ul>
+        <li><strong>Vercel Inc.:</strong> Hosts the static web assets and serverless edge functions under project <code>vortexbot-ai</code>. Data processed includes edge API requests and JWT verification.</li>
+        <li><strong>Supabase Inc. (AWS Region ap-south-1):</strong> Provides cloud PostgreSQL persistence (project <code>xtyszeuvtfcgognkrwxv</code>) and user identity authentication. Stores sanitized telemetry in <code>vortex_trade_snapshots</code> and operator profiles in <code>vortex_authorized_operators</code>.</li>
+      </ul>
+
+      <h2>4. Data Retention & Deletion</h2>
+      <p>Telemetry snapshots in <code>vortex_trade_snapshots</code> are retained for historical charting and audit replay. Operators may request the deletion of their user profile and associated telemetry logs by submitting an administrative request. Local MT5 trading records remain entirely on the operator's private workstation in SQLite database <code>database/trading.db</code>.</p>
+
+      <h2>5. Security Controls & Protection</h2>
+      <p>All data in transit is encrypted using modern TLS (HTTPS). Ingestion endpoints require HMAC-SHA256 signatures with nonce deduplication to prevent replay attacks. Serverless endpoints enforce strict Row Level Security (RLS) in PostgreSQL to shield records from unauthorized access.</p>
+    </article>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <div>
+      <div>© 2026 VORTEX AI · Educational &amp; Research Monitoring Platform. All rights reserved.</div>
+      <div style="font-size:12px;color:var(--muted);margin-top:6px">Customer Support: <a href="mailto:supportvortexbot@gmail.com" style="color:var(--teal);text-decoration:none;font-weight:600;user-select:all">supportvortexbot@gmail.com</a></div>
+    </div>
+    <div class="footlinks">
+      <a href="/">Platform</a>
+      <a href="/getting-started.html">Getting Started</a>
+      <a href="/status.html">System Status</a>
+      <a href="/faq.html">FAQ</a>
+      <a href="mailto:supportvortexbot@gmail.com">Contact Support</a>
+      <a href="/privacy.html">Privacy Policy</a>
+      <a href="/terms.html">Terms of Service</a>
+      <a href="/#risk">Risk Disclosure</a>
+      <a href="/login.html">Sign In</a>
+    </div>
+  </div>
+</footer>
+
+<script src="/nav.js"></script>
 <script src="/assistant.js?v=1" defer></script>
-</body></html>
+</body>
+</html>
+
