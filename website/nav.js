@@ -16,6 +16,21 @@
       return Array.from(menu.querySelectorAll('a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])'));
     }
 
+    // The dashboard header height changes as its brand/operator rows wrap.
+    // Measure the rendered sticky header instead of relying on fixed pixel offsets.
+    function syncDrawerPosition() {
+      const header = document.querySelector('header');
+      if (!header) return;
+      const headerBottom = Math.max(0, Math.ceil(header.getBoundingClientRect().bottom));
+      menu.style.top = headerBottom + 'px';
+      menu.style.maxHeight = 'calc(100dvh - ' + headerBottom + 'px - env(safe-area-inset-bottom))';
+    }
+
+    function resetDrawerPosition() {
+      menu.style.removeProperty('top');
+      menu.style.removeProperty('max-height');
+    }
+
     function openMenu() {
       isOpen = true;
       previousActiveElement = document.activeElement;
@@ -24,6 +39,7 @@
       menu.classList.add('is-open');
       menu.hidden = false;
       menu.setAttribute('aria-hidden', 'false');
+      syncDrawerPosition();
       document.body.classList.add('nav-open');
       document.body.style.overflow = 'hidden';
 
@@ -42,6 +58,7 @@
       menu.classList.remove('is-open');
       menu.hidden = true;
       menu.setAttribute('aria-hidden', 'true');
+      resetDrawerPosition();
       document.body.classList.remove('nav-open');
       document.body.style.overflow = '';
 
@@ -114,8 +131,16 @@
     window.addEventListener('resize', function() {
       if (window.innerWidth > 850 && isOpen) {
         closeMenu(false);
+      } else if (isOpen) {
+        syncDrawerPosition();
       }
     });
+
+    if (window.visualViewport) {
+      window.visualViewport.addEventListener('resize', function() {
+        if (isOpen) syncDrawerPosition();
+      });
+    }
   }
 
   if (document.readyState === 'loading') {
