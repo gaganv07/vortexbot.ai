@@ -10,7 +10,7 @@
 
 <meta name="theme-color" content="#050b09">
 
-<title>VORTEX AI — Institutional Multi-Account Operations Console</title>
+<title>VORTEX AI | Trading Dashboard</title>
 
 <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=20261031-1">
 
@@ -756,6 +756,7 @@ tr:hover td{
 
 <link rel="stylesheet" href="/assistant.css?v=1">
 <link rel="stylesheet" href="/mobile-fixes.css?v=2">
+<link rel="stylesheet" href="/design-system.css?v=1">
 </head>
 
 <body class="dashboard-page">
@@ -776,17 +777,17 @@ tr:hover td{
 
         </a>
 
-        <span class="brand-tag">Operations Console</span>
+        <span class="brand-tag">Trading Dashboard</span>
 
       </div>
 
       <div class="header-actions">
 
-        <div class="pill pill-disarmed" title="Execution Controller Hard Disarmed. All orders inhibited.">
+        <div class="pill pill-disarmed" title="This website provides read-only account visibility.">
 
           <span class="pill-dot"></span>
 
-          <span>Execution: Hard Disarmed</span>
+          <span>Read-only access</span>
 
         </div>
 
@@ -798,7 +799,7 @@ tr:hover td{
 
         </button>
 
-        <a href="mailto:supportvortexbot@gmail.com" class="btn-sm" style="text-decoration:none;display:inline-flex;align-items:center;gap:6px" title="Email Customer Support">Support ✉</a>
+        <a href="https://wa.me/919148034459" class="btn-sm" target="_blank" rel="noopener noreferrer" style="text-decoration:none;display:inline-flex;align-items:center;gap:6px" title="Contact customer support">Support</a>
 
         <div class="user-menu">
 
@@ -824,9 +825,9 @@ tr:hover td{
 
     <nav class="nav-tabs" aria-label="Dashboard sections">
 
-      <button class="tab-link active" data-tab="tab-overview" type="button">Fleet Overview</button>
+      <button class="tab-link active" data-tab="tab-overview" type="button">Overview</button>
 
-      <button class="tab-link" data-tab="tab-accounts" type="button">20 Accounts Matrix</button>
+      <button class="tab-link" data-tab="tab-accounts" type="button">Accounts</button>
 
       <button class="tab-link" data-tab="tab-positions" type="button">Open Positions (<span id="tab-positions-count">0</span>)</button>
 
@@ -844,9 +845,9 @@ tr:hover td{
 
       <button class="tab-link" data-tab="tab-notifications" type="button">Notifications</button>
 
-      <button class="tab-link" data-tab="tab-system" type="button">System Health</button>
+      <button class="tab-link" data-tab="tab-system" type="button">Service status</button>
 
-      <button class="tab-link" data-tab="tab-audit" type="button">Activity &amp; Audit</button>
+      <button class="tab-link" data-tab="tab-audit" type="button">Activity</button>
 
       <button class="tab-link" data-tab="tab-settings" type="button">Profile &amp; Settings</button>
 
@@ -862,11 +863,11 @@ tr:hover td{
 
 <div id="mobile-menu" class="mobile-menu" hidden aria-label="Mobile navigation">
 
-  <div style="font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-weight:750;margin-bottom:4px">Console Views</div>
+  <div style="font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;font-weight:750;margin-bottom:4px">Dashboard</div>
 
-  <a class="mobile-nav-link" href="#overview" onclick="switchTab('tab-overview')">Fleet Overview <span>→</span></a>
+  <a class="mobile-nav-link" href="#overview" onclick="switchTab('tab-overview')">Overview <span>→</span></a>
 
-  <a class="mobile-nav-link" href="#accounts" onclick="switchTab('tab-accounts')">20 Accounts Matrix <span>→</span></a>
+  <a class="mobile-nav-link" href="#accounts" onclick="switchTab('tab-accounts')">Accounts <span>→</span></a>
 
   <a class="mobile-nav-link" href="#positions" onclick="switchTab('tab-positions')">Open Positions <span>→</span></a>
 
@@ -880,7 +881,7 @@ tr:hover td{
 
   <a class="mobile-nav-link" href="#risk" onclick="switchTab('tab-risk')">Risk Overview <span>→</span></a>
 
-  <a class="mobile-nav-link" href="#system" onclick="switchTab('tab-system')">System Health <span>→</span></a>
+  <a class="mobile-nav-link" href="#system" onclick="switchTab('tab-system')">Service status <span>→</span></a>
 
   <a class="mobile-nav-link" href="#settings" onclick="switchTab('tab-settings')">Profile &amp; Settings <span>→</span></a>
 
@@ -892,7 +893,7 @@ tr:hover td{
 
   <a class="mobile-nav-link" href="/faq.html">FAQ &amp; Help <span>↗</span></a>
 
-  <a class="mobile-nav-link" href="mailto:supportvortexbot@gmail.com">Customer Support (supportvortexbot@gmail.com) <span>✉</span></a>
+  <a class="mobile-nav-link" href="https://wa.me/919148034459" target="_blank" rel="noopener noreferrer">Customer support <span>↗</span></a>
 
   <a class="mobile-nav-link" href="/terms.html">Terms of Service <span>↗</span></a>
 
@@ -912,11 +913,11 @@ tr:hover td{
 
     <div>
 
-      <strong>Execution Safety Architecture:</strong> Global LIVE execution: <strong>HARD DISARMED</strong> (Real capital fully protected). DEMO execution: Separately controlled &amp; restricted strictly to <code>account_003</code> (VantageMarkets-Demo, Login: 26179878, 0.25% risk cap). Order &amp; market data: Live broker observations. Remaining 19 fleet accounts: <strong>TRADING DISABLED</strong>.
+      <strong>Read-only dashboard:</strong> Review broker-reported balances, account health, open positions and trading history. No orders can be placed, changed or closed from this website.
 
     </div>
 
-    <div id="sync-indicator" style="font-size:11px;color:var(--muted)">Syncing with serverless edge...</div>
+    <div id="sync-indicator" style="font-size:11px;color:var(--muted)">Updating account information...</div>
 
   </div>
 
@@ -950,7 +951,7 @@ tr:hover td{
 
         <div class="kpi-value val-green" id="kpi-connected-accounts">—</div>
 
-        <div class="kpi-sub" id="kpi-connected-sub">Live MT5 Terminal Feed</div>
+        <div class="kpi-sub" id="kpi-connected-sub">Broker account connection</div>
 
       </div>
 
@@ -960,7 +961,7 @@ tr:hover td{
 
         <div class="kpi-value" id="kpi-total-balance">—</div>
 
-        <div class="kpi-sub" id="kpi-balance-sub">Broker-Reported USD Telemetry</div>
+        <div class="kpi-sub" id="kpi-balance-sub">Account currency: USD</div>
 
       </div>
 
@@ -986,19 +987,19 @@ tr:hover td{
 
         <div>
 
-          <h2 class="card-title">Active Demonstration Pilot: Account 003</h2>
+          <h2 class="card-title">Connected demonstration account</h2>
 
-          <div class="card-meta">Primary active MT5 terminal connection</div>
+          <div class="card-meta">Main connected trading account</div>
 
         </div>
 
         <div style="display:flex;gap:8px;flex-wrap:wrap" id="account-003-badges">
 
-          <span class="status-badge status-badge-stale" id="acc003-feed-badge">⚠ STALE CACHE</span>
+          <span class="status-badge status-badge-stale" id="acc003-feed-badge">Data delayed</span>
 
           <span class="mode-badge mode-badge-demo" id="acc003-mode-badge">DEMO</span>
 
-          <span class="prov-badge prov-badge-cache" id="acc003-prov-badge">PREFLIGHT BOOTSTRAP CACHE</span>
+          <span class="prov-badge prov-badge-cache" id="acc003-prov-badge">Previous saved update</span>
 
         </div>
 
@@ -1010,17 +1011,17 @@ tr:hover td{
 
         <div>
 
-          <span style="font-size:11px;color:var(--muted)">Broker Login</span>
+          <span style="font-size:11px;color:var(--muted)">Broker account</span>
 
-          <div style="font-size:16px;font-weight:700">#26179878</div>
+          <div style="font-size:16px;font-weight:700">Protected</div>
 
         </div>
 
         <div>
 
-          <span style="font-size:11px;color:var(--muted)">Authoritative Server</span>
+          <span style="font-size:11px;color:var(--muted)">Connection</span>
 
-          <div style="font-size:16px;font-weight:700">VantageMarkets-Demo</div>
+          <div style="font-size:16px;font-weight:700">Broker account connected</div>
 
         </div>
 
@@ -1052,11 +1053,11 @@ tr:hover td{
 
         <div>
 
-          <span style="font-size:11px;color:var(--muted)">Execution Inhibit</span>
+          <span style="font-size:11px;color:var(--muted)">Website access</span>
 
-          <div style="font-size:16px;font-weight:700;color:var(--teal)" id="acc003-exec-inhibit">DEMO ARMED (Gate 5A Passed)</div>
+          <div style="font-size:16px;font-weight:700;color:var(--teal)" id="acc003-exec-inhibit">Read-only access</div>
 
-          <div style="font-size:10px;color:var(--amber)">LIVE REAL TRADING HARD DISARMED</div>
+          <div style="font-size:10px;color:var(--amber)">No order actions are available here</div>
 
         </div>
 
@@ -1071,8 +1072,8 @@ tr:hover td{
     <div class="card" style="margin-top:16px">
       <div class="card-header">
         <div>
-          <h2 class="card-title">AI / Machine Learning Ensemble Pipeline (Phase 82)</h2>
-          <div class="card-meta">Live multi-model inference telemetry &amp; consensus decision engine</div>
+          <h2 class="card-title">Market analysis and conditions</h2>
+          <div class="card-meta">A summary of current market direction, conditions and data quality</div>
         </div>
         <span class="role-badge role-badge-admin" id="ai-ensemble-global-status">OPERATIONAL</span>
       </div>
@@ -1083,48 +1084,48 @@ tr:hover td{
             <span style="font-size:12px;font-weight:750;color:var(--text)">Supervised Classifier</span>
             <span class="role-badge role-badge-admin" id="ml-model-badge" style="font-size:9px">OPERATIONAL</span>
           </div>
-          <div style="font-size:11px;color:var(--muted)">Model: <strong>HistGradientBoosting</strong></div>
-          <div style="font-size:11px;color:var(--teal);margin-top:2px">Brier Score: <strong id="ml-brier-score">0.2244 (Calibrated)</strong></div>
-          <div style="font-size:11px;color:var(--muted);margin-top:4px">Inferences: <strong id="ml-inference-count" style="color:var(--cyan)">0 evals</strong></div>
+          <div style="font-size:11px;color:var(--muted)">Analysis type: <strong>Price direction</strong></div>
+          <div style="font-size:11px;color:var(--teal);margin-top:2px">Signal quality: <strong id="ml-brier-score">0.2244 (Calibrated)</strong></div>
+          <div style="font-size:11px;color:var(--muted);margin-top:4px">Evaluations: <strong id="ml-inference-count" style="color:var(--cyan)">0 evals</strong></div>
           <div style="font-size:10px;color:var(--muted);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Last: <span id="ml-last-inference">Awaiting candidate...</span></div>
-          <div style="font-size:11px;color:var(--text);margin-top:4px">Prediction: <strong id="ml-last-pred" style="color:var(--amber)">—</strong></div>
+          <div style="font-size:11px;color:var(--text);margin-top:4px">Current view: <strong id="ml-last-pred" style="color:var(--amber)">—</strong></div>
         </div>
         <!-- 2. Regime Classifier -->
         <div style="background:#091410;padding:14px;border-radius:12px;border:1px solid #1a382e">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-            <span style="font-size:12px;font-weight:750;color:var(--text)">Market Regime Classifier</span>
+            <span style="font-size:12px;font-weight:750;color:var(--text)">Market conditions</span>
             <span class="role-badge role-badge-admin" id="regime-model-badge" style="font-size:9px">ACTIVE</span>
           </div>
-          <div style="font-size:11px;color:var(--muted)">Regime: <strong id="current-market-regime" style="color:var(--cyan)">NORMAL</strong></div>
-          <div style="font-size:11px;color:var(--teal);margin-top:2px">Method: <strong>Trend / Vol / Structure</strong></div>
-          <div style="font-size:11px;color:var(--muted);margin-top:4px">Classifications: <strong id="regime-inference-count" style="color:var(--cyan)">0 evals</strong></div>
+          <div style="font-size:11px;color:var(--muted)">Conditions: <strong id="current-market-regime" style="color:var(--cyan)">NORMAL</strong></div>
+          <div style="font-size:11px;color:var(--teal);margin-top:2px">Factors: <strong>Trend, volatility and structure</strong></div>
+          <div style="font-size:11px;color:var(--muted);margin-top:4px">Checks: <strong id="regime-inference-count" style="color:var(--cyan)">0 evals</strong></div>
           <div style="font-size:10px;color:var(--muted);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Last: <span id="regime-last-inference">Awaiting candidate...</span></div>
         </div>
         <!-- 3. Anomaly Filter -->
         <div style="background:#091410;padding:14px;border-radius:12px;border:1px solid #1a382e">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-            <span style="font-size:12px;font-weight:750;color:var(--text)">Market Anomaly Filter</span>
+            <span style="font-size:12px;font-weight:750;color:var(--text)">Unusual market activity</span>
             <span class="role-badge role-badge-admin" id="anomaly-model-badge" style="font-size:9px">ACTIVE</span>
           </div>
-          <div style="font-size:11px;color:var(--muted)">Filter Status: <strong id="anomaly-state" style="color:var(--teal)">CLEAN</strong></div>
-          <div style="font-size:11px;color:var(--muted);margin-top:2px">Thresholds: <strong>2.5x Sprd / 15s Tick</strong></div>
-          <div style="font-size:11px;color:var(--muted);margin-top:4px">Inferences: <strong id="anomaly-inference-count" style="color:var(--cyan)">0 evals</strong></div>
+          <div style="font-size:11px;color:var(--muted)">Market status: <strong id="anomaly-state" style="color:var(--teal)">CLEAN</strong></div>
+          <div style="font-size:11px;color:var(--muted);margin-top:2px">Checks: <strong>Spread and price movement</strong></div>
+          <div style="font-size:11px;color:var(--muted);margin-top:4px">Checks: <strong id="anomaly-inference-count" style="color:var(--cyan)">0 evals</strong></div>
           <div style="font-size:10px;color:var(--muted);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Last: <span id="anomaly-last-inference">Awaiting candidate...</span></div>
         </div>
         <!-- 4. Consensus Ensemble -->
         <div style="background:#091410;padding:14px;border-radius:12px;border:1px solid #1a382e">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-            <span style="font-size:12px;font-weight:750;color:var(--text)">Consensus Decision</span>
+            <span style="font-size:12px;font-weight:750;color:var(--text)">Combined market assessment</span>
             <span class="role-badge role-badge-admin" id="ensemble-model-badge" style="font-size:9px">CONSENSUS</span>
           </div>
-          <div style="font-size:11px;color:var(--muted)">Evaluations: <strong id="ensemble-total-evals" style="color:var(--cyan)">0</strong></div>
-          <div style="font-size:11px;color:var(--muted);margin-top:2px">Decisions: <strong id="ensemble-decisions-count" style="color:var(--text)">Appr: 0 | Rej: 0</strong></div>
+          <div style="font-size:11px;color:var(--muted)">Checks: <strong id="ensemble-total-evals" style="color:var(--cyan)">0</strong></div>
+          <div style="font-size:11px;color:var(--muted);margin-top:2px">Assessments: <strong id="ensemble-decisions-count" style="color:var(--text)">Aligned: 0 | Divergent: 0</strong></div>
           <div style="font-size:11px;color:var(--amber);margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Last: <span id="ensemble-last-reason">Awaiting candidate...</span></div>
         </div>
-        <!-- 5. Centralized DEMO Risk -->
+        <!-- 5. Demo account risk limits -->
         <div style="background:#091410;padding:14px;border-radius:12px;border:1px solid #1a382e">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-            <span style="font-size:12px;font-weight:750;color:var(--text)">Centralized DEMO Risk</span>
+            <span style="font-size:12px;font-weight:750;color:var(--text)">Demo account risk limits</span>
             <span class="role-badge role-badge-admin" style="font-size:9px">ENFORCED</span>
           </div>
           <div style="font-size:11px;color:var(--muted)">Risk / Trade: <strong>0.25% Max</strong></div>
@@ -1145,13 +1146,13 @@ tr:hover td{
 
         <div>
 
-          <h2 class="card-title">20-Account Operational Fleet Matrix</h2>
+          <h2 class="card-title">Connected accounts</h2>
 
-          <div class="card-meta">Authoritative registry synchronized from accounts.json</div>
+          <div class="card-meta">Account mode, balances and connection status</div>
 
         </div>
 
-        <span class="card-meta">Read-Only Scoping Active</span>
+        <span class="card-meta">View-only access</span>
 
       </div>
 
@@ -1163,11 +1164,11 @@ tr:hover td{
 
             <tr>
 
-              <th>Account ID</th>
+              <th>Account</th>
 
-              <th>Login</th>
+              <th>Account reference</th>
 
-              <th>Broker Server</th>
+              <th>Connection</th>
 
               <th>Mode</th>
 
@@ -1175,11 +1176,11 @@ tr:hover td{
 
               <th>Equity</th>
 
-              <th>Feed Freshness</th>
+              <th>Connection status</th>
 
-              <th>Data Provenance</th>
+              <th>Data status</th>
 
-              <th>Trading Enabled</th>
+              <th>Website access</th>
 
               <th>Action</th>
 
@@ -1215,7 +1216,7 @@ tr:hover td{
 
           <h2 class="card-title">Active Broker Open Positions</h2>
 
-          <div class="card-meta">Real-time positions fetched from connected MT5 terminals</div>
+          <div class="card-meta">Positions reported by connected broker accounts</div>
 
         </div>
 
@@ -1255,7 +1256,7 @@ tr:hover td{
 
           <tbody id="positions-table-body">
 
-            <tr><td colspan="10" style="text-align:center;padding:24px;color:var(--muted)">No open positions. System operating under HARD DISARMED safety controls (0 orders).</td></tr>
+            <tr><td colspan="10" style="text-align:center;padding:24px;color:var(--muted)">No open positions are currently reported for this account.</td></tr>
 
           </tbody>
 
@@ -1311,7 +1312,7 @@ tr:hover td{
 
           <tbody id="pending-orders-table-body">
 
-            <tr><td colspan="7" style="text-align:center;color:var(--muted);padding:24px">No pending orders. System operating under HARD DISARMED safety controls.</td></tr>
+            <tr><td colspan="7" style="text-align:center;color:var(--muted);padding:24px">No pending orders are currently reported for this account.</td></tr>
 
           </tbody>
 
@@ -1337,7 +1338,7 @@ tr:hover td{
 
           <h2 class="card-title">Broker Deal History (All Trades)</h2>
 
-          <div class="card-meta">Confirmed broker deal executions from MT5 terminal history</div>
+          <div class="card-meta">Broker-reported activity from connected account history</div>
 
         </div>
 
@@ -1375,7 +1376,7 @@ tr:hover td{
 
           <tbody id="trades-table-body">
 
-            <tr><td colspan="9" style="text-align:center;padding:24px;color:var(--muted)">No trade records found in database. System operating under HARD DISARMED safety controls.</td></tr>
+            <tr><td colspan="9" style="text-align:center;padding:24px;color:var(--muted)">No trade records are available for the selected period.</td></tr>
 
           </tbody>
 
@@ -1431,11 +1432,11 @@ tr:hover td{
 
           <h2 class="card-title">Reconciled Closed Trades (Broker Confirmed)</h2>
 
-          <div class="card-meta">Complete historical trading activity reconstructed directly from MT5 broker deals and orders</div>
+          <div class="card-meta">Historical activity reported by connected broker accounts</div>
 
         </div>
 
-        <span class="mode-badge mode-badge-demo">DEMO EXECUTION &bull; VANTAGEMARKETS</span>
+        <span class="mode-badge mode-badge-demo">DEMO ACCOUNT</span>
 
       </div>
 
@@ -1526,8 +1527,8 @@ tr:hover td{
     <div class="card" style="margin-bottom: 1.5rem;">
       <div class="card-header">
         <div>
-          <h2 class="card-title">Institutional Market Intelligence &amp; Depth</h2>
-          <div class="card-meta">Real-time OTC Liquidity, GDELT Global Macro, CFTC Institutional Futures Positioning &amp; Shadow Mode Analysis</div>
+          <h2 class="card-title">Market intelligence and liquidity</h2>
+          <div class="card-meta">Broker liquidity, global news and institutional positioning information</div>
         </div>
         <div style="display:flex; gap:0.5rem; align-items:center;">
           <span class="badge" style="background: rgba(16,185,129,0.15); color: #10b981; border: 1px solid rgba(16,185,129,0.3); font-size: 0.75rem; padding: 0.25rem 0.6rem; border-radius: 4px;">SHADOW MODE ACTIVE</span>
@@ -1540,7 +1541,7 @@ tr:hover td{
           <!-- Card 1: MT5 DOM -->
           <div class="stat-card" style="padding: 1.1rem; border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; background: rgba(15,23,42,0.6);">
             <div style="display:flex; justify-content:space-between; align-items:center;">
-              <span style="font-size: 0.75rem; text-transform: uppercase; color: #94a3b8; font-weight: 700;">MT5 Broker DOM</span>
+              <span style="font-size: 0.75rem; text-transform: uppercase; color: #94a3b8; font-weight: 700;">Broker market depth</span>
               <span id="intel-badge-dom" class="badge" style="background: rgba(16,185,129,0.15); color: #10b981; font-size: 0.7rem; font-weight: 700;">CONNECTED</span>
             </div>
             <div style="margin: 0.5rem 0; font-size: 0.85rem; color: #f8fafc; font-weight: 600;">Top-of-Book Spread &amp; Price</div>
@@ -1555,7 +1556,7 @@ tr:hover td{
           <!-- Card 2: GDELT News -->
           <div class="stat-card" style="padding: 1.1rem; border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; background: rgba(15,23,42,0.6);">
             <div style="display:flex; justify-content:space-between; align-items:center;">
-              <span style="font-size: 0.75rem; text-transform: uppercase; color: #94a3b8; font-weight: 700;">GDELT Project News</span>
+              <span style="font-size: 0.75rem; text-transform: uppercase; color: #94a3b8; font-weight: 700;">Global market news</span>
               <span id="intel-badge-gdelt" class="badge" style="background: rgba(16,185,129,0.15); color: #10b981; font-size: 0.7rem; font-weight: 700;">CONNECTED</span>
             </div>
             <div style="margin: 0.5rem 0; font-size: 0.85rem; color: #f8fafc; font-weight: 600;">Macroeconomic &amp; Geopolitical News</div>
@@ -1570,7 +1571,7 @@ tr:hover td{
           <!-- Card 3: CFTC COT -->
           <div class="stat-card" style="padding: 1.1rem; border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; background: rgba(15,23,42,0.6);">
             <div style="display:flex; justify-content:space-between; align-items:center;">
-              <span style="font-size: 0.75rem; text-transform: uppercase; color: #94a3b8; font-weight: 700;">CFTC Institutional COT</span>
+              <span style="font-size: 0.75rem; text-transform: uppercase; color: #94a3b8; font-weight: 700;">Institutional futures positioning</span>
               <span id="intel-badge-cftc" class="badge" style="background: rgba(16,185,129,0.15); color: #10b981; font-size: 0.7rem; font-weight: 700;">CONNECTED</span>
             </div>
             <div style="margin: 0.5rem 0; font-size: 0.85rem; color: #f8fafc; font-weight: 600;">Futures Institutional Positioning</div>
@@ -1585,7 +1586,7 @@ tr:hover td{
           <!-- Card 4: NewsData.io -->
           <div class="stat-card" style="padding: 1.1rem; border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; background: rgba(15,23,42,0.6);">
             <div style="display:flex; justify-content:space-between; align-items:center;">
-              <span style="font-size: 0.75rem; text-transform: uppercase; color: #94a3b8; font-weight: 700;">NewsData.io Research</span>
+              <span style="font-size: 0.75rem; text-transform: uppercase; color: #94a3b8; font-weight: 700;">Additional news coverage</span>
               <span id="intel-badge-newsdata" class="badge" style="background: rgba(148,163,184,0.15); color: #94a3b8; font-size: 0.7rem; font-weight: 700;">NOT_CONFIGURED</span>
             </div>
             <div style="margin: 0.5rem 0; font-size: 0.85rem; color: #f8fafc; font-weight: 600;">Delayed Research Feed</div>
@@ -1621,8 +1622,8 @@ tr:hover td{
         </div>
 
         <!-- Institutional Positioning (CFTC COT) Table -->
-        <h3 style="font-size: 1rem; margin-bottom: 0.5rem; color: #f8fafc;">CFTC Institutional Futures Positioning (Weekly Report)</h3>
-        <p style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 1rem;">Published weekly by CFTC. Strictly labeled historical data; never used as a standalone entry signal.</p>
+        <h3 style="font-size: 1rem; margin-bottom: 0.5rem; color: #f8fafc;">Institutional futures positioning (weekly report)</h3>
+        <p style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 1rem;">Published as a weekly historical summary; it is not a standalone trading signal.</p>
         <div class="table-responsive" style="margin-bottom: 2rem;">
           <table class="table" style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
             <thead>
@@ -1645,7 +1646,7 @@ tr:hover td{
 
         <!-- Market Depth & OTC Liquidity Table -->
         <h3 style="font-size: 1rem; margin-bottom: 0.5rem; color: #f8fafc;">Broker Market Depth &amp; Liquidity Conditions</h3>
-        <p style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 1rem;">Direct MT5 broker telemetry. Distinguishes broker OTC synthetic top-of-book from exchange order books.</p>
+        <p style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 1rem;">Broker-provided pricing and liquidity information. Availability and depth vary by broker and instrument.</p>
         <div class="table-responsive" style="margin-bottom: 2rem;">
           <table class="table" style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
             <thead>
@@ -1667,7 +1668,7 @@ tr:hover td{
 
         <!-- Financial & Geopolitical News Feed -->
         <h3 style="font-size: 1rem; margin-bottom: 0.5rem; color: #f8fafc;">Financial, Economic &amp; Geopolitical News Intelligence</h3>
-        <p style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 1rem;">Curated headlines from GDELT Project DOC API and research feeds. Deduplicated and ranked by relevance.</p>
+        <p style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 1rem;">Financial, economic and geopolitical headlines from market research sources.</p>
         <div class="table-responsive">
           <table class="table" style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
             <thead>
@@ -1807,9 +1808,9 @@ tr:hover td{
 
           <div>
 
-            <div style="font-weight:700;font-size:13px;color:var(--teal)">Execution Controller Disarmed</div>
+            <div style="font-weight:700;font-size:13px;color:var(--teal)">Read-only website access</div>
 
-            <div style="font-size:12px;color:var(--muted);margin-top:2px">Gates 1..15 enforce zero order mutations across all 20 accounts.</div>
+            <div style="font-size:12px;color:var(--muted);margin-top:2px">The website cannot submit, change or close orders.</div>
 
           </div>
 
@@ -1835,9 +1836,9 @@ tr:hover td{
 
         <div>
 
-          <h2 class="card-title">Subsystem Infrastructure Health</h2>
+          <h2 class="card-title">Service status and account protection</h2>
 
-          <div class="card-meta">Real-time telemetry gateway and database verification</div>
+          <div class="card-meta">Account data availability and security checks</div>
 
         </div>
 
@@ -1847,41 +1848,41 @@ tr:hover td{
 
         <div style="background:#091410;padding:16px;border-radius:12px;border:1px solid #1a382e">
 
-          <div style="font-size:11px;color:var(--muted)">Global Execution Controller</div>
+          <div style="font-size:11px;color:var(--muted)">Website order access</div>
 
-          <div style="font-size:18px;font-weight:750;color:var(--amber)">HARD DISARMED</div>
+          <div style="font-size:18px;font-weight:750;color:var(--amber)">Read-only</div>
 
-          <div style="font-size:11px;color:var(--teal)">Gates 1..15 Inhibit Enforced</div>
+          <div style="font-size:11px;color:var(--teal)">Order actions are not available on this website</div>
 
         </div>
 
         <div style="background:#091410;padding:16px;border-radius:12px;border:1px solid #1a382e">
 
-          <div style="font-size:11px;color:var(--muted)">Database Persistence</div>
+          <div style="font-size:11px;color:var(--muted)">Secure account information</div>
 
           <div style="font-size:18px;font-weight:750;color:var(--teal)" id="db-health-status">Verified OK</div>
 
-          <div style="font-size:11px;color:var(--muted)">Supabase Cloud (ap-south-1)</div>
+          <div style="font-size:11px;color:var(--muted)">Protected account data storage</div>
 
         </div>
 
         <div style="background:#091410;padding:16px;border-radius:12px;border:1px solid #1a382e">
 
-          <div style="font-size:11px;color:var(--muted)">Cryptographic Transport</div>
+          <div style="font-size:11px;color:var(--muted)">Protected data transfer</div>
 
-          <div style="font-size:18px;font-weight:750;color:var(--teal)">HMAC-SHA256 Signed</div>
+          <div style="font-size:18px;font-weight:750;color:var(--teal)">Encrypted and verified</div>
 
-          <div style="font-size:11px;color:var(--muted)">Replay Protection Active</div>
+          <div style="font-size:11px;color:var(--muted)">Data integrity checks active</div>
 
         </div>
 
         <div style="background:#091410;padding:16px;border-radius:12px;border:1px solid #1a382e">
 
-          <div style="font-size:11px;color:var(--muted)">Edge Gateway Routing</div>
+          <div style="font-size:11px;color:var(--muted)">Website availability</div>
 
-          <div style="font-size:18px;font-weight:750;color:var(--teal)">Vercel Edge Gateway</div>
+          <div style="font-size:18px;font-weight:750;color:var(--teal)">Available</div>
 
-          <div style="font-size:11px;color:var(--muted)">/api/trades &amp; /api/auth-config</div>
+          <div style="font-size:11px;color:var(--muted)">Secure account and trading information services</div>
 
         </div>
 
@@ -1941,7 +1942,7 @@ tr:hover td{
 
               <td><span style="color:var(--teal)">INFO</span></td>
 
-              <td>Phase 77AQ comprehensive readiness verification active.</td>
+              <td>Account access and information checks are active.</td>
 
             </tr>
 
@@ -1987,19 +1988,19 @@ tr:hover td{
 
           <div style="margin-bottom:8px"><strong>Role:</strong> <span id="prof-role">AUTHENTICATED_USER</span></div>
 
-          <div><strong>Session Token:</strong> Validated Supabase Session JWT</div>
+          <div><strong>Session Token:</strong> Authenticated account session</div>
 
         </div>
 
         <div style="background:#091410;padding:18px;border-radius:12px;border:1px solid #1a382e">
 
-          <h3 style="margin:0 0 12px;font-size:14px;color:var(--teal)">Telemetry Thresholds</h3>
+          <h3 style="margin:0 0 12px;font-size:14px;color:var(--teal)">Account update details</h3>
 
-          <div style="margin-bottom:8px"><strong>Polling Interval:</strong> 5 Seconds</div>
+          <div style="margin-bottom:8px"><strong>Refresh interval:</strong> Automatic</div>
 
-          <div style="margin-bottom:8px"><strong>Freshness Window:</strong> 30 Seconds (Agreement)</div>
+          <div style="margin-bottom:8px"><strong>Data freshness:</strong> Check the last update time</div>
 
-          <div style="margin-bottom:8px"><strong>Active Broker Pilot:</strong> VantageMarkets-Demo (#26179878)</div>
+          <div style="margin-bottom:8px"><strong>Connected account:</strong> Demonstration account</div>
 
           <div><strong>Documentation:</strong> <a href="/getting-started.html">Getting Started Guide ↗</a></div>
 
@@ -2766,7 +2767,7 @@ tr:hover td{
 
           <span class="mode-badge ${mode.badgeClass}" id="acc003-mode-badge">${escapeHtml(mode.label)}</span>
 
-          <span class="prov-badge ${isCache ? 'prov-badge-cache' : 'prov-badge-verified'}" id="acc003-prov-badge">${isCache ? 'PREFLIGHT BOOTSTRAP CACHE' : 'VERIFIED STREAM'}</span>
+          <span class="prov-badge ${isCache ? 'prov-badge-cache' : 'prov-badge-verified'}" id="acc003-prov-badge">${isCache ? 'Previous saved update' : 'VERIFIED STREAM'}</span>
 
         `;
 
@@ -2896,7 +2897,7 @@ tr:hover td{
 
               <td><span class="prov-badge ${accProvClass}">${escapeHtml(accProv)}</span></td>
 
-              <td>${isAcc003 && acc.demo_trading_enabled ? '<span style="color:var(--teal);font-weight:700">DEMO ARMED (DEMO ONLY)</span>' : '<span style="color:var(--amber);font-weight:650">DISABLED / HARD DISARMED</span>'}</td>
+              <td>${isAcc003 && acc.demo_trading_enabled ? '<span style="color:var(--teal);font-weight:700">DEMO ARMED (DEMO ONLY)</span>' : '<span style="color:var(--amber);font-weight:650">DISABLED / Read-only</span>'}</td>
 
               <td><button class="btn-sm inspect-btn" data-id="${escapeHtml(acc.account_id)}" type="button">Inspect</button></td>
 
@@ -2934,7 +2935,7 @@ tr:hover td{
 
         if (positions.length === 0) {
 
-          posBody.innerHTML = '<tr><td colspan="10" style="text-align:center;padding:24px;color:var(--muted)">0 open positions. System operating under HARD DISARMED safety controls.</td></tr>';
+          posBody.innerHTML = '<tr><td colspan="10" style="text-align:center;padding:24px;color:var(--muted)">0 open positions. System operating under Read-only safety controls.</td></tr>';
 
         } else {
 
@@ -2988,7 +2989,7 @@ tr:hover td{
 
         if (deals.length === 0) {
 
-          dealsBody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:24px;color:var(--muted)">No trade records found in database. System operating under HARD DISARMED safety controls.</td></tr>';
+          dealsBody.innerHTML = '<tr><td colspan="9" style="text-align:center;padding:24px;color:var(--muted)">No trade records are available for the selected period.</td></tr>';
 
         } else {
 
@@ -3331,7 +3332,7 @@ tr:hover td{
           }
         }
 
-        // 3. Market Anomaly Filter
+        // 3. Unusual market activity
         const anomModel = aiMeta.models.anomaly_filter;
         if (anomModel) {
           const anomBadge = document.getElementById('anomaly-model-badge');
@@ -3482,7 +3483,7 @@ tr:hover td{
 
       <div style="margin-bottom:10px"><strong>Account Connection Status:</strong> <span class="status-badge ${acc.status === 'CONNECTED_VERIFIED' ? 'status-badge-live' : 'status-badge-disconnected'}">${escapeHtml(acc.connection_status || acc.status || 'AWAITING_CREDENTIALS')}</span></div>
 
-      <div style="margin-bottom:10px"><strong>Trading Execution Gate:</strong> <span style="color:var(--amber);font-weight:700">DISABLED (HARD DISARMED)</span></div>
+      <div style="margin-bottom:10px"><strong>Trading Execution Gate:</strong> <span style="color:var(--amber);font-weight:700">DISABLED (Read-only)</span></div>
 
       <div><strong>Data Provenance:</strong> ${escapeHtml(provStr)}</div>
 
