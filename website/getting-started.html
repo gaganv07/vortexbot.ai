@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#050b09">
-<meta name="description" content="Step-by-step setup guide for VORTEX AI: MT5 installation, broker compatibility, demo testing, and secure read-only monitoring architecture.">
+<meta name="description" content="A practical guide to accessing the VORTEX AI dashboard, reviewing connected trading accounts and understanding data freshness.">
 <meta property="og:title" content="Getting Started · VORTEX AI">
-<meta property="og:description" content="Comprehensive onboarding guide for connecting MetaTrader 5 and monitoring algorithmic fleet telemetry.">
+<meta property="og:description" content="Understand account access, connected trading information and read-only dashboard features.">
 <meta property="og:image" content="/vortex-ai-logo.webp?v=20261028-1">
 <meta property="og:type" content="website">
 <link rel="canonical" href="https://vortexbot.ai/getting-started.html">
@@ -219,6 +219,7 @@ footer{
 </style>
 <link rel="stylesheet" href="/assistant.css?v=1">
 <link rel="stylesheet" href="/mobile-fixes.css?v=2">
+<link rel="stylesheet" href="/design-system.css?v=1">
 </head>
 <body>
 
@@ -254,248 +255,67 @@ footer{
   <a class="mobile-nav-link" href="/#risk">Risk Disclosure <span>→</span></a>
   <a class="mobile-nav-link mobile-nav-cta" href="/login.html">Sign In to Dashboard ↗</a>
   <div class="mobile-menu-footer">
-    <div><strong>VORTEX AI Platform</strong> · v2.4.0 Preview</div>
-    <div>Execution Controller: <strong>HARD DISARMED</strong></div>
+    <div><strong>VORTEX AI</strong> · Trading intelligence</div>
+    <div>Secure account access · Read-only website</div>
   </div>
 </div>
 
 <main>
   <div class="wrap">
-    <div class="eyebrow">Comprehensive Onboarding & Architecture Guide</div>
-    <h1>Getting Started with VORTEX AI</h1>
-    <p class="lead">Follow this technical guide to understand how VORTEX AI interacts with MetaTrader 5, verify broker compatibility, inspect telemetry freshness, and safely monitor automated multi-account operations.</p>
+    <div class="eyebrow">Getting started</div>
+    <h1>Start with a clear account view</h1>
+    <p class="lead">Follow these steps to access your VORTEX AI dashboard and understand the information shown for your connected trading accounts.</p>
 
-    <!-- STEP 1 -->
-    <article class="step-card" id="step-1">
-      <div class="step-header">
-        <div class="step-num">1</div>
-        <h2 class="step-title">Platform Architecture Overview</h2>
-      </div>
-      <p class="step-desc">VORTEX AI provides transparent, read-only telemetry monitoring for institutional and quantitative MetaTrader 5 fleet operations.</p>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));gap:16px;margin:20px 0">
-        <div style="background:#091410;padding:16px;border-radius:12px;border:1px solid #1a382e">
-          <h3 style="margin:0 0 8px;font-size:14px;color:var(--teal)">What It Monitors</h3>
-          <p style="margin:0;font-size:13px;color:var(--muted)">Broker-confirmed account balances, equity, margin levels, open positions, closed trade history, and system heartbeat.</p>
-        </div>
-        <div style="background:#091410;padding:16px;border-radius:12px;border:1px solid #1a382e">
-          <h3 style="margin:0 0 8px;font-size:14px;color:var(--teal)">Local MT5 vs Website</h3>
-          <p style="margin:0;font-size:13px;color:var(--muted)">The trading bot runs on a dedicated Windows workstation alongside MetaTrader 5. The website is an isolated edge gateway that displays read-only snapshots.</p>
-        </div>
-        <div style="background:#091410;padding:16px;border-radius:12px;border:1px solid #1a382e">
-          <h3 style="margin:0 0 8px;font-size:14px;color:var(--teal)">Website Login vs MT5</h3>
-          <p style="margin:0;font-size:13px;color:var(--muted)">Logging into the VORTEX AI website grants access to view fleet telemetry. It is completely decoupled from your broker credentials.</p>
-        </div>
-      </div>
-      <div class="callout">
-        <strong>Read-Only Guarantee:</strong> The VORTEX AI website contains zero execution code. It is mathematically impossible for a website visitor or operator to submit, modify, or close broker orders from the dashboard.
-      </div>
-    </article>
+    <div class="cards">
+      <article class="step-card">
+        <div class="step-number">01</div>
+        <h2 class="step-title">Prepare your broker account</h2>
+        <p class="step-desc">Make sure your broker account is active and connected through the broker’s own trading platform. Confirm that prices and account information are updating there.</p>
+      </article>
+      <article class="step-card">
+        <div class="step-number">02</div>
+        <h2 class="step-title">Request website access</h2>
+        <p class="step-desc">Use an authorized VORTEX AI account. If you do not yet have access, contact the support team through the official channels.</p>
+      </article>
+      <article class="step-card">
+        <div class="step-number">03</div>
+        <h2 class="step-title">Sign in securely</h2>
+        <p class="step-desc">Open the <a href="/login.html">sign-in page</a> and use an available authorized sign-in method. Website sign-in is separate from your broker account.</p>
+      </article>
+      <article class="step-card">
+        <div class="step-number">04</div>
+        <h2 class="step-title">Review account information</h2>
+        <p class="step-desc">Open the dashboard to review balance, equity, margin, account mode, open positions and trade history when fresh broker information is available.</p>
+      </article>
+      <article class="step-card">
+        <div class="step-number">05</div>
+        <h2 class="step-title">Check freshness and context</h2>
+        <p class="step-desc">Review each account’s connection state and last update time. Market information is provided for context only and may be delayed or incomplete.</p>
+      </article>
+      <article class="step-card">
+        <div class="step-number">06</div>
+        <h2 class="step-title">Keep credentials private</h2>
+        <p class="step-desc">Never enter your broker trading password, investor password or one-time sign-in code into the VORTEX AI website or send it to support.</p>
+      </article>
+    </div>
 
-    <!-- STEP 2 -->
-    <article class="step-card" id="step-2">
-      <div class="step-header">
-        <div class="step-num">2</div>
-        <h2 class="step-title">MetaTrader 5 Installation</h2>
+    <section class="access" style="margin-top:28px">
+      <div>
+        <h2>Ready to open your dashboard?</h2>
+        <p>Dashboard access is available to authorized users. Displayed account data depends on a valid connection and a recent broker update.</p>
       </div>
-      <p class="step-desc">VORTEX AI requires an authentic MetaTrader 5 terminal running on your local Windows PC or server.</p>
-      <ol style="color:var(--muted);font-size:13.5px;padding-left:20px;line-height:1.8">
-        <li><strong>Obtain MT5:</strong> Download MetaTrader 5 from your verified broker or directly from <a href="https://www.metatrader5.com/en/download" target="_blank" rel="noopener noreferrer">MetaQuotes Official Distribution ↗</a>.</li>
-        <li><strong>Install Terminal:</strong> Complete the installation wizard. For multi-account fleets, install terminals in isolated directories (e.g. <code>C:\MT5_Terminals\account_003</code>) using the <code>/portable</code> flag.</li>
-        <li><strong>Demo Account Login:</strong> Launch MT5, click <em>File → Open an Account</em>, search for your broker server (e.g., <code>VantageMarkets-Demo</code>), and register or log in with your demo credentials.</li>
-        <li><strong>Confirm Market Data:</strong> Check the Market Watch window. Verify live green tick data for instruments such as EURUSD, XAUUSD, and BTCUSD.</li>
-      </ol>
-      <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:16px">
-        <a class="btn primary" href="https://www.metatrader5.com/en/download" target="_blank" rel="noopener noreferrer">Download MetaTrader 5 Official ↗</a>
-        <a class="btn" href="/#mobile">Mobile MT5 Guides ↓</a>
-      </div>
-    </article>
+      <a class="btn primary" href="/login.html">Sign in to VORTEX AI</a>
+    </section>
 
-    <!-- STEP 3 -->
-    <article class="step-card" id="step-3">
-      <div class="step-header">
-        <div class="step-num">3</div>
-        <h2 class="step-title">Broker Compatibility Matrix</h2>
-      </div>
-      <p class="step-desc">Compatibility depends on MT5 terminal availability, execution protocol (Hedging vs Netting), and broker data-feed availability. We list only verified evidence:</p>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Broker / Entity</th>
-              <th>Server Type</th>
-              <th>Platform</th>
-              <th>Compatibility Status</th>
-              <th>Verified Instruments</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>Vantage Markets</strong></td>
-              <td><code>VantageMarkets-Demo</code></td>
-              <td>MT5 Standard Hedging</td>
-              <td><span class="status-badge status-badge-connected">● Verified Compatible</span></td>
-              <td>EURUSD, GBPUSD, USDJPY, XAUUSD, BTCUSD</td>
-            </tr>
-            <tr>
-              <td><strong>IC Markets</strong></td>
-              <td><code>ICMarketsSC-Demo</code></td>
-              <td>MT5 Raw Spread</td>
-              <td><span class="status-badge status-badge-stale">⚠ In Testing</span></td>
-              <td>Major FX, Metals, Indices</td>
-            </tr>
-            <tr>
-              <td><strong>Pepperstone</strong></td>
-              <td><code>Pepperstone-Demo</code></td>
-              <td>MT5 Razor</td>
-              <td><span class="status-badge status-badge-stale">⚠ In Testing</span></td>
-              <td>Major FX, Commodities</td>
-            </tr>
-            <tr>
-              <td><strong>Generic MT5 Broker</strong></td>
-              <td>Standard MT5 Server</td>
-              <td>MT5 Hedging</td>
-              <td><span class="status-badge status-badge-unavailable">○ Not Yet Verified</span></td>
-              <td>Requires individual preflight testing</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <p class="step-desc" style="font-size:12px"><em>Note: VORTEX AI does not provide broker services or financial custody. Compatibility does not constitute broker endorsement.</em></p>
-    </article>
-
-    <!-- STEP 4 -->
-    <article class="step-card" id="step-4">
-      <div class="step-header">
-        <div class="step-num">4</div>
-        <h2 class="step-title">Connecting an Account Securely</h2>
-      </div>
-      <p class="step-desc">How local account telemetry connects to the cloud dashboard without exposing sensitive broker passwords:</p>
-      <div class="callout danger">
-        <strong>CRITICAL SECURITY PRINCIPLE:</strong> Never enter or paste your MT5 broker trading password or master password into any website form, browser prompt, or third-party cloud service. VORTEX AI will NEVER ask for your broker password online.
-      </div>
-      <ul style="color:var(--muted);font-size:13.5px;padding-left:20px;line-height:1.8">
-        <li><strong>Local Workstation Storage:</strong> Broker login numbers and credentials are stored strictly on your local PC via Windows Credential Manager (<code>advapi32.dll</code>) or local <code>.env</code>.</li>
-        <li><strong>Local Publisher Daemon:</strong> A local background Python task (<code>app/vortex_dashboard.py</code>) reads account metadata (balance, equity, positions) via the official Python <code>MetaTrader5</code> bridge.</li>
-        <li><strong>HMAC-SHA256 Signed Ingestion:</strong> The publisher formats a sanitized JSON snapshot, signs it with a 64-character HMAC secret, and posts it over HTTPS to the secure Vercel Edge gateway.</li>
-        <li><strong>Cloud Isolation:</strong> The cloud gateway validates the cryptographic signature and timestamp before storing the snapshot in Supabase. Passwords are never sent or stored.</li>
+    <article class="step-card" style="margin-top:24px">
+      <h2>Important operating boundaries</h2>
+      <ul>
+        <li>The website provides read-only account visibility. It cannot place, modify or close trades.</li>
+        <li>Compatibility and data availability depend on your broker, account type and connected instruments.</li>
+        <li>Demo and live accounts must be clearly distinguished. Live trading involves risk of loss.</li>
+        <li>Never rely on delayed or unavailable account information as a current market quote.</li>
       </ul>
-    </article>
-
-    <!-- STEP 5 -->
-    <article class="step-card" id="step-5">
-      <div class="step-header">
-        <div class="step-num">5</div>
-        <h2 class="step-title">Demo Testing & Telemetry Verification</h2>
-      </div>
-      <p class="step-desc">Always begin with a verified demo trading account to confirm system telemetry before connecting any real capital.</p>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));gap:16px;margin:20px 0">
-        <div style="background:#091410;padding:16px;border-radius:12px;border:1px solid #1a382e">
-          <h3 style="margin:0 0 8px;font-size:14px">1. Check Feed Freshness</h3>
-          <p style="margin:0;font-size:13px;color:var(--muted)">Look for the <span class="status-badge status-badge-connected">● CONNECTED / FRESH</span> badge. If it shows <span class="status-badge status-badge-stale">⚠ STALE</span>, the publisher is stopped or lag exceeds 30s.</p>
-        </div>
-        <div style="background:#091410;padding:16px;border-radius:12px;border:1px solid #1a382e">
-          <h3 style="margin:0 0 8px;font-size:14px">2. Verify Account Mode</h3>
-          <p style="margin:0;font-size:13px;color:var(--muted)">Confirm the <span class="mode-badge mode-badge-demo">DEMO</span> badge is displayed. Never assume an account is demo based solely on server name.</p>
-        </div>
-        <div style="background:#091410;padding:16px;border-radius:12px;border:1px solid #1a382e">
-          <h3 style="margin:0 0 8px;font-size:14px">3. Inspect Provenance</h3>
-          <p style="margin:0;font-size:13px;color:var(--muted)">A <span class="prov-badge prov-badge-cache">STALE CACHE</span> badge means you are viewing preflight cached data, not a live streaming feed.</p>
-        </div>
-      </div>
-    </article>
-
-    <!-- STEP 6 -->
-    <article class="step-card" id="step-6">
-      <div class="step-header">
-        <div class="step-num">6</div>
-        <h2 class="step-title">Safe Account Setup & Execution Controls</h2>
-      </div>
-      <p class="step-desc">Understanding the four operational layers of the VORTEX AI platform:</p>
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>Layer</th>
-              <th>Function</th>
-              <th>Current Staging State</th>
-              <th>Security Restriction</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td><strong>1. Website Authentication</strong></td>
-              <td>Supabase Cloud SSO & Magic Link</td>
-              <td>Active (Staged Admin Pending)</td>
-              <td>Session token strictly verified server-side</td>
-            </tr>
-            <tr>
-              <td><strong>2. Account Monitoring</strong></td>
-              <td>20-Account Dashboard Fleet View</td>
-              <td>Active (Read-Only Mode)</td>
-              <td>Zero mutation endpoints; non-admin escalation returns 403</td>
-            </tr>
-            <tr>
-              <td><strong>3. Broker Connection</strong></td>
-              <td>Workstation MT5 Client Bridge</td>
-              <td>Demo Login #26179878 Active</td>
-              <td>Local terminal isolation; isolated folders per account</td>
-            </tr>
-            <tr>
-              <td><strong>4. Trading Execution</strong></td>
-              <td>Algorithmic Signal & Order Router</td>
-              <td><span class="exec-badge-disarmed">HARD DISARMED</span></td>
-              <td>All 20 accounts maintain <code>trading_enabled: false</code></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="callout warn">
-        <strong>Execution Inhibit Warning:</strong> The global execution controller is hard-disarmed. Never attempt to circumvent execution gates, simulate live trades with unverified capital, or modify production safety settings.
-      </div>
-    </article>
-
-    <!-- STEP 7 -->
-    <article class="step-card" id="step-7">
-      <div class="step-header">
-        <div class="step-num">7</div>
-        <h2 class="step-title">Troubleshooting Common Issues</h2>
-      </div>
-      <p class="step-desc">Quick diagnostic solutions based on verified system implementation:</p>
-
-      <details>
-        <summary>MT5 terminal not installed or path not found</summary>
-        <p>Ensure MetaTrader 5 64-bit is installed at <code>C:\Program Files\MetaTrader 5\terminal64.exe</code> or inside the account's configured portable terminal directory (e.g. <code>C:\MT5_Terminals\account_003</code>). Verify the path in <code>accounts.json</code>.</p>
-      </details>
-
-      <details>
-        <summary>Broker login failure (AUTH_FAILED_ERROR_6)</summary>
-        <p>Error code 6 signifies invalid login credentials or wrong broker server. Verify that your MT5 account number, password, and exact broker server name (e.g. <code>VantageMarkets-Demo</code>) match your broker account confirmation email.</p>
-      </details>
-
-      <details>
-        <summary>Account shows DISCONNECTED or UNAVAILABLE</summary>
-        <p>Verify that the MetaTrader 5 desktop application is logged in and market quotes are updating in the bottom-right connection status bar. If MT5 is offline, restart your internet connection or check broker maintenance hours.</p>
-      </details>
-
-      <details>
-        <summary>Feed shows STALE or STALE CACHE</summary>
-        <p>The dashboard marks any snapshot older than 30 seconds as STALE. If the publisher background process is paused (such as during preflight safety audits), the dashboard transparently flags the data as static preflight cache.</p>
-      </details>
-
-      <details>
-        <summary>Account mode shows UNKNOWN</summary>
-        <p>The system refuses to guess account mode from balances. If the broker MT5 session does not populate the authoritative <code>trade_mode</code> property, UNKNOWN is safely returned until full metadata is received.</p>
-      </details>
-
-      <details>
-        <summary>API Authentication Failure (HTTP 401)</summary>
-        <p>Your session JWT has expired or is invalid. Sign out and sign in again via <a href="/login.html">Sign In</a> using your authorized operator email or Cloud SSO link.</p>
-      </details>
-
-      <details>
-        <summary>Cloud Telemetry Unavailable (HTTP 503)</summary>
-        <p>The Supabase staging database or Vercel edge gateway is undergoing migration or maintenance. Check the <a href="/status.html">Status Page</a> for active infrastructure health.</p>
-      </details>
+      <p>For account access or compatibility questions, contact <a href="https://wa.me/919148034459" target="_blank" rel="noopener noreferrer">WhatsApp support</a> or <a href="https://www.instagram.com/vortexbot.ai/" target="_blank" rel="noopener noreferrer">Instagram @vortexbot.ai</a>.</p>
     </article>
   </div>
 </main>
