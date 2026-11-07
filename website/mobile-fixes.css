@@ -178,61 +178,59 @@
     width: 100%;
     max-width: 100%;
     min-width: 0;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    grid-template-areas:
-      "alerts support"
-      "operator operator"
-      "menu menu";
+    grid-template-columns: minmax(0, 1fr) 44px;
+    grid-template-areas: "operator menu";
     align-items: center;
     gap: 8px;
   }
 
-  .header-actions .btn-notif {
-    grid-area: alerts;
-    min-width: 0;
-    justify-content: center;
-  }
-
+  /* Alerts remain available in the Notifications tab; Support remains in the drawer. */
+  .header-actions .btn-notif,
   .header-actions > a.btn-sm {
-    grid-area: support;
-    min-width: 0;
-    justify-content: center;
+    display: none !important;
   }
 
   .header-actions .user-menu {
     grid-area: operator;
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     align-items: center;
     justify-content: space-between;
     gap: 8px;
     width: 100%;
     max-width: 100%;
     min-width: 0;
+    padding: 4px 8px;
   }
 
   .header-actions .user-name {
-    flex: 1 1 120px;
+    flex: 1 1 auto;
     min-width: 0;
     max-width: 100%;
-    overflow-wrap: anywhere;
-    white-space: normal;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 
   .header-actions .role-badge {
-    flex: 0 1 auto;
-    max-width: 100%;
-    white-space: normal;
+    display: none !important;
   }
 
   .header-actions .user-menu .btn-sm {
     flex: 0 0 auto;
     max-width: 100%;
+    white-space: nowrap;
   }
 
   .header-actions .nav-toggle {
     grid-area: menu;
     justify-self: end;
+  }
+
+  /* Dashboard header has a brand row, operator row and swipeable tab row. */
+  body:has(.header-top) #mobile-menu {
+    top: 164px;
+    max-height: calc(100dvh - 164px);
   }
 
   .nav-tabs {
