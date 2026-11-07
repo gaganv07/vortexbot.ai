@@ -229,8 +229,8 @@
 
   /* Dashboard header has a brand row, operator row and swipeable tab row. */
   body.dashboard-page #mobile-menu {
-    top: 164px;
-    max-height: calc(100dvh - 164px);
+    top: var(--mobile-menu-top, 164px);
+    max-height: calc(100dvh - var(--mobile-menu-top, 164px) - env(safe-area-inset-bottom));
   }
 
   .nav-tabs {
@@ -475,5 +475,165 @@
   .modal-card,
   .modal-dialog {
     max-height: calc(100dvh - 16px);
+  }
+}
+
+
+/* Mobile overlap hardening: rules run after page styles; desktop is untouched. */
+@media (max-width: 850px) {
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { width:100%; min-width:320px; max-width:100%; overflow-x:clip; }
+  .wrap, main, main > *, main .wrap, header, footer,
+  .card, .faq-card, .step-card, .legal-card, .panel, .guide,
+  .callout, .contact-card, .access, .brand-card {
+    min-width:0; max-width:100%;
+  }
+  img, svg, video, canvas, iframe { max-width:100%; }
+  input, select, textarea, button { min-width:0; max-width:100%; }
+  .mobile-menu {
+    top:var(--mobile-menu-top, 76px);
+    bottom:0; left:0; right:0; width:100%; max-width:100vw;
+    max-height:calc(100dvh - var(--mobile-menu-top, 76px) - env(safe-area-inset-bottom));
+    padding-left:max(12px,env(safe-area-inset-left));
+    padding-right:max(12px,env(safe-area-inset-right));
+    padding-bottom:max(20px,env(safe-area-inset-bottom));
+    overflow-x:clip; overflow-y:auto; overscroll-behavior:contain;
+    -webkit-overflow-scrolling:touch;
+  }
+  .mobile-nav-link {
+    display:flex; align-items:center; justify-content:space-between;
+    gap:10px; width:100%; min-height:48px; padding:12px 14px;
+    white-space:normal; overflow-wrap:anywhere;
+  }
+  .mobile-nav-link > span { flex:0 0 auto; }
+
+  /* Inline repeat(auto-fit,minmax(240px/280px,...)) grids were wider than
+     the phone content box. Collapse them before they cause page overflow. */
+  main [style*="grid-template-columns"] {
+    grid-template-columns:minmax(0,1fr) !important;
+    min-width:0 !important; max-width:100%;
+  }
+  main [style*="display:grid"], main [style*="display: grid"] {
+    min-width:0; max-width:100%;
+  }
+  .cards, .split, .access, .security-grid, .kpi-grid {
+    grid-template-columns:minmax(0,1fr) !important; min-width:0;
+  }
+  .card, .faq-card, .step-card, .legal-card, .guide, .brand-card,
+  .contact-card, .access, .callout {
+    width:100%; min-width:0; overflow-wrap:anywhere;
+  }
+  .card-header, .overall-status, .banner, .error-box,
+  .contact-card, .access { min-width:0; }
+  .card-header > *, .overall-status > *, .banner > *,
+  .error-box > *, .contact-card > *, .access > * {
+    min-width:0; max-width:100%;
+  }
+  .table-wrap {
+    display:block; width:100%; max-width:100%; min-width:0;
+    overflow-x:auto; overflow-y:hidden; -webkit-overflow-scrolling:touch;
+    overscroll-behavior-x:contain; scrollbar-width:thin;
+  }
+  .table-wrap table { width:max-content; min-width:100%; max-width:none; }
+  .table-wrap th, .table-wrap td { white-space:nowrap; }
+  form, fieldset, .field, .providers, .form-row, .form-group {
+    min-width:0; max-width:100%;
+  }
+  input, select, textarea { width:100%; font-size:16px; }
+  .actions { min-width:0; max-width:100%; flex-wrap:wrap; }
+  .actions > *, .contact-action > * { min-width:0; max-width:100%; }
+  pre, code, p, li, a, button, label, summary { overflow-wrap:anywhere; }
+
+  .modal-overlay {
+    align-items:flex-start; justify-content:center;
+    padding:max(8px,env(safe-area-inset-top)) 8px max(8px,env(safe-area-inset-bottom));
+    overflow-y:auto; -webkit-overflow-scrolling:touch;
+  }
+  .modal-content, .modal-card, .modal-dialog {
+    width:100%; max-width:620px; min-width:0;
+    max-height:calc(100dvh - 16px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+    overflow-x:clip; overflow-y:auto;
+  }
+
+  /* Chat and back-to-top controls stay in opposite bottom corners. */
+  #vortex-help-launcher {
+    left:max(12px,env(safe-area-inset-left)); right:auto;
+    bottom:max(12px,env(safe-area-inset-bottom));
+    max-width:calc(100vw - 24px);
+  }
+  #vortex-help-panel {
+    left:8px; right:8px; width:auto; max-width:none;
+    bottom:calc(68px + env(safe-area-inset-bottom));
+    height:min(620px,calc(100dvh - 88px - env(safe-area-inset-bottom)));
+    max-height:calc(100dvh - 88px - env(safe-area-inset-bottom));
+    min-height:min(320px,calc(100dvh - 88px - env(safe-area-inset-bottom)));
+    overflow:hidden;
+  }
+  .vh-messages { min-height:0; overflow-y:auto; overscroll-behavior:contain; }
+  .vh-suggestions, .vh-composer, .vh-form { min-width:0; max-width:100%; }
+  .vh-composer input, .vh-form input { width:100%; min-width:0; }
+}
+
+@media (max-width: 600px) {
+  .wrap { width:calc(100% - 24px); }
+  main { padding-top:26px; padding-bottom:38px; }
+  .hero { grid-template-columns:minmax(0,1fr) !important; gap:22px; padding-top:28px; padding-bottom:34px; }
+  .hero > *, .hero .brand-card { width:100%; min-width:0; max-width:100%; }
+  .hero .actions { display:grid; grid-template-columns:minmax(0,1fr); gap:10px; }
+  .hero .actions > a, .hero .actions > button {
+    width:100%; min-height:46px; justify-content:center;
+    white-space:normal; text-align:center;
+  }
+  .panel { width:100%; padding:24px 18px; border-radius:16px; }
+  .faq-card, .step-card, .legal-card, .card { padding:16px; border-radius:14px; }
+
+  .header-top { align-items:flex-start; gap:10px; }
+  .header-top > .brand { flex:1 1 100%; }
+  .header-actions {
+    display:grid; grid-template-columns:minmax(0,1fr) 44px;
+    grid-template-areas:"operator menu"; width:100%; min-width:0; gap:8px;
+  }
+  .header-actions .user-menu {
+    grid-area:operator; display:flex; flex-wrap:nowrap; align-items:center;
+    justify-content:flex-start; width:100%; min-width:0; gap:8px; padding:4px 8px;
+  }
+  .header-actions .user-name {
+    flex:1 1 auto; min-width:0; max-width:100%;
+    overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+  }
+  .header-actions .role-badge { display:none !important; }
+  .header-actions .user-menu .btn-sm {
+    flex:0 0 auto; width:auto; min-width:76px; min-height:40px; white-space:nowrap;
+  }
+  .header-actions .nav-toggle { grid-area:menu; justify-self:end; }
+  .nav-tabs {
+    width:100%; max-width:100%; min-width:0; overflow-x:auto; overflow-y:hidden;
+    -webkit-overflow-scrolling:touch; overscroll-behavior-x:contain; scrollbar-width:thin;
+  }
+  .foot { align-items:flex-start; flex-direction:column; }
+  .footlinks { display:flex; flex-wrap:wrap; gap:10px 14px; width:100%; max-width:100%; }
+  .footlinks a { max-width:100%; }
+}
+@media (max-width: 380px) {
+  .wrap { width:calc(100% - 20px); }
+  .panel { padding:20px 14px; }
+  .header-actions .user-menu { gap:6px; padding:4px 6px; }
+  .header-actions .user-menu .btn-sm { min-width:72px; padding-left:8px; padding-right:8px; }
+  .header-actions .user-name { font-size:11px; }
+  .vh-composer, .vh-form { gap:6px; padding-left:8px; padding-right:8px; }
+  .vh-composer button, .vh-form button { min-width:58px; padding-left:9px; padding-right:9px; }
+}
+@media (max-width: 850px) and (max-height: 500px) {
+  #vortex-help-panel {
+    height:calc(100dvh - 78px - env(safe-area-inset-bottom));
+    max-height:calc(100dvh - 78px - env(safe-area-inset-bottom));
+    min-height:0; bottom:calc(62px + env(safe-area-inset-bottom));
+  }
+  .vh-messages { min-height:56px; }
+  .mobile-menu {
+    max-height:calc(100dvh - var(--mobile-menu-top,76px) - env(safe-area-inset-bottom));
+  }
+  .modal-content, .modal-card, .modal-dialog {
+    max-height:calc(100dvh - 16px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
   }
 }
