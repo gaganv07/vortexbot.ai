@@ -157,6 +157,7 @@ footer{
 </style>
 <link rel="stylesheet" href="/assistant.css?v=1">
 <link rel="stylesheet" href="/mobile-fixes.css?v=2">
+<link rel="stylesheet" href="/design-system.css?v=1">
 </head>
 <body>
 
@@ -192,70 +193,60 @@ footer{
   <a class="mobile-nav-link" href="/#risk">Risk Disclosure <span>→</span></a>
   <a class="mobile-nav-link mobile-nav-cta" href="/login.html">Sign In to Dashboard ↗</a>
   <div class="mobile-menu-footer">
-    <div><strong>VORTEX AI Platform</strong> · v2.4.0 Preview</div>
-    <div>Execution Controller: <strong>HARD DISARMED</strong></div>
+    <div><strong>VORTEX AI</strong> · Trading intelligence</div>
+    <div>Secure account access · Read-only website</div>
   </div>
 </div>
 
 <main>
   <div class="wrap">
-    <div class="eyebrow">Frequently Asked Questions</div>
-    <h1>Clear Answers About VORTEX AI</h1>
-    <p class="lead">Everything you need to know about our institutional monitoring architecture, MetaTrader 5 bridge, telemetry freshness rules, and safety controls.</p>
-
+    <div class="eyebrow">Customer information</div>
+    <h1>Frequently asked questions</h1>
+    <p class="lead">Straightforward answers about account access, connected trading information, market context and the limits of the VORTEX AI website.</p>
     <article class="faq-card">
       <details open>
-        <summary>1. What is VORTEX AI?</summary>
-        <p>VORTEX AI is a read-only monitoring and operations console built for multi-account algorithmic trading fleets on MetaTrader 5. It aggregates verified broker metrics—including account equity, margin, active positions, and trade history—into an intuitive, secure web dashboard.</p>
+        <summary>What is VORTEX AI?</summary>
+        <p>VORTEX AI provides a central view of connected trading accounts. Authorized users can review account balances, margin information, open positions, completed trades, market context and account connection status.</p>
       </details>
-
       <details>
-        <summary>2. How does it work?</summary>
-        <p>A background Python daemon on your dedicated Windows trading machine reads data directly from local MetaTrader 5 terminals via the official MT5 Python API. It creates a cryptographic snapshot, signs it using HMAC-SHA256, and securely transmits it to our edge serverless gateway, which stores it in an isolated Supabase database for the web dashboard to display.</p>
+        <summary>What information appears in the dashboard?</summary>
+        <p>The dashboard displays information received from connected broker accounts, including balance, equity, margin, account mode, open positions and trade history. Some market information may also be shown when the relevant data is available.</p>
       </details>
-
       <details>
-        <summary>3. Which MT5 brokers are supported?</summary>
-        <p>Any broker offering MetaTrader 5 with standard hedging account mode is technically supported. In our staging testbed, <strong>Vantage Markets</strong> (server <code>VantageMarkets-Demo</code>) has been independently verified compatible. IC Markets and Pepperstone are currently in testing. We list only brokers with empirical verification.</p>
+        <summary>Does the VORTEX AI website place or close trades?</summary>
+        <p>No. The website is read-only. It does not submit, change or close trading orders. It is designed to display account information and market context.</p>
       </details>
-
       <details>
-        <summary>4. Is a demo account supported?</summary>
-        <p>Yes, demo accounts are not only supported but strongly encouraged. Our active pilot runs on Vantage demo account <code>#26179878</code>. The dashboard explicitly marks demo accounts with a blue <span class="mode-badge mode-badge-demo">DEMO</span> badge so there is never any confusion with real capital.</p>
+        <summary>How does account information reach the dashboard?</summary>
+        <p>Your trading account remains connected through your broker’s own trading platform. VORTEX AI receives account information through a separate connection and displays it after it has been checked. The website never needs your broker trading password.</p>
       </details>
-
       <details>
-        <summary>5. What does "STALE" feed mean?</summary>
-        <p>A feed is classified as <span class="status-badge status-badge-stale">⚠ STALE</span> if the serverless gateway has not received a verified broker snapshot within the last 30 seconds (or if the dashboard is reading a static preflight cache). Unlike traditional platforms that mask disconnections, VORTEX AI immediately alerts operators when telemetry is not current.</p>
+        <summary>Why does an account show delayed or unavailable information?</summary>
+        <p>Account information may be delayed when the broker connection is interrupted, the trading platform is offline, or fresh data has not been received. Check the account status and last update time. Do not treat an old value as a live quote.</p>
       </details>
-
       <details>
-        <summary>6. What does "REAL" account mode mean?</summary>
-        <p>The <span class="mode-badge mode-badge-real">REAL</span> badge indicates that the broker-reported MT5 <code>trade_mode</code> is set to live real-money execution. The system reads this metadata directly from MT5 API properties and never assumes real mode based on account balance or server naming.</p>
+        <summary>What is the difference between demo and live accounts?</summary>
+        <p>The dashboard identifies the account mode reported by the broker. Demo activity uses simulated funds; a live account involves real capital and carries financial risk. Always check the account-mode label before interpreting any figures.</p>
       </details>
-
       <details>
-        <summary>7. Is automated trading execution currently enabled?</summary>
-        <p><strong>No.</strong> Automated trading execution is strictly <strong>HARD DISARMED</strong> across the entire system. In <code>accounts.json</code>, all 20 configured accounts maintain <code>trading_enabled: false</code>. The website is physically and logically incapable of placing or altering orders.</p>
+        <summary>Which brokers and trading accounts are supported?</summary>
+        <p>Compatibility depends on the broker, account type, available instruments and data connection. Support may vary. Contact VORTEX AI before relying on a broker connection that has not been confirmed for your account.</p>
       </details>
-
       <details>
-        <summary>8. How do I access the dashboard?</summary>
-        <p>Access requires sign-in via the <a href="/login.html">Sign In page</a> using an authorized operator email or Cloud SSO link. Authenticated users receive a read-only fleet overview of all 20 accounts. Public anonymous visits without a valid JWT are rejected with HTTP 401.</p>
+        <summary>How do I access my dashboard?</summary>
+        <p>Go to the <a href="/login.html">sign-in page</a> and use an authorized VORTEX AI account. Access is restricted to approved users. If your account has not been authorized, contact the support team.</p>
       </details>
-
       <details>
-        <summary>9. Why is an account shown as DISCONNECTED or AWAITING CREDENTIALS?</summary>
-        <p>An account appears disconnected if its local MT5 terminal process is closed, if broker authentication fails (such as <code>AUTH_FAILED_ERROR_6</code>), or if login credentials have not yet been provisioned in the local environment. Unconnected slots (e.g. accounts 004 through 020) are honestly labeled <code>AWAITING_CREDENTIALS</code> rather than showing simulated values.</p>
+        <summary>Does VORTEX AI need my broker password?</summary>
+        <p>No. Never enter or send your broker trading password, investor password, one-time sign-in code or private account credentials through the VORTEX AI website or support channels.</p>
       </details>
-
       <details>
-        <summary>10. How are account permissions assigned?</summary>
-        <p>Permissions are governed by role-based access control (RBAC) in our Supabase database. Standard authenticated users receive global read-only visibility across the 20 accounts. Elevated administrative roles (such as <code>ADMIN</code> or <code>SUPER_ADMIN</code>) require verified database profiles linked to confirmed email identities.</p>
+        <summary>Does market intelligence provide trading advice?</summary>
+        <p>No. Market information is provided for context and research only. It may be delayed, incomplete or unavailable for some instruments. It is not a recommendation to buy or sell and should not replace independent risk assessment.</p>
       </details>
-          <details>
-        <summary>11. How do I contact customer support?</summary>
-        <p>For operational assistance, dashboard access questions, or platform telemetry inquiries, you can contact our official customer support team directly at <a href="mailto:supportvortexbot@gmail.com" style="color:var(--teal);font-weight:650;user-select:all">supportvortexbot@gmail.com</a>. When emailing, please include your registered operator email to expedite verification.</p>
+      <details>
+        <summary>How can I contact customer support?</summary>
+        <p>Use our official <a href="https://wa.me/919148034459" target="_blank" rel="noopener noreferrer">WhatsApp support channel</a> or <a href="https://www.instagram.com/vortexbot.ai/" target="_blank" rel="noopener noreferrer">Instagram account</a>. Never send passwords or sign-in codes.</p>
       </details>
     </article>
   </div>
