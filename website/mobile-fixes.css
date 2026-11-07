@@ -228,9 +228,9 @@
   }
 
   /* Dashboard header has a brand row, operator row and swipeable tab row. */
-  body:has(.header-top) #mobile-menu {
-    top: 164px;
-    max-height: calc(100dvh - 164px);
+  body.dashboard-page #mobile-menu {
+    top: 216px;
+    max-height: calc(100dvh - 216px);
   }
 
   .nav-tabs {
