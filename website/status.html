@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="theme-color" content="#050b09">
-<meta name="description" content="Official VORTEX AI platform status, release readiness matrix, and infrastructure verification log.">
+<meta name="description" content="VORTEX AI service information: website access, broker-data availability, account freshness and read-only limits.">
 <meta property="og:title" content="System Status & Readiness Matrix · VORTEX AI">
-<meta property="og:description" content="Transparent release state: read-only telemetry, isolated preview deployment, and hard-disarmed execution controls.">
+<meta property="og:description" content="Understand account availability, connected information and the read-only website experience.">
 <meta property="og:image" content="/vortex-ai-logo.webp?v=20261028-1">
 <meta property="og:type" content="website">
 <link rel="canonical" href="https://vortexbot.ai/status.html">
@@ -191,6 +191,7 @@ footer{
 </style>
 <link rel="stylesheet" href="/assistant.css?v=1">
 <link rel="stylesheet" href="/mobile-fixes.css?v=2">
+<link rel="stylesheet" href="/design-system.css?v=1">
 </head>
 <body>
 
@@ -226,123 +227,68 @@ footer{
   <a class="mobile-nav-link" href="/#risk">Risk Disclosure <span>→</span></a>
   <a class="mobile-nav-link mobile-nav-cta" href="/login.html">Sign In to Dashboard ↗</a>
   <div class="mobile-menu-footer">
-    <div><strong>VORTEX AI Platform</strong> · v2.4.0 Preview</div>
-    <div>Execution Controller: <strong>HARD DISARMED</strong></div>
+    <div><strong>VORTEX AI</strong> · Trading intelligence</div>
+    <div>Secure account access · Read-only website</div>
   </div>
 </div>
 
 <main>
   <div class="wrap">
-    <div class="eyebrow">Operational Readiness & Verification</div>
-    <h1>Platform Release Status</h1>
-    <p class="lead">VORTEX AI operates in a controlled staging and preview environment. We do not misrepresent testing environments as production, nor do we claim general availability prematurely.</p>
+    <div class="eyebrow">Service information</div>
+    <h1>Platform status</h1>
+    <p class="lead">A clear summary of account access, information availability and the limits of the VORTEX AI website.</p>
 
-    <!-- OVERALL STATUS BANNER -->
-    <div class="overall-status">
+    <section class="overall-status">
       <div>
-        <div style="font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-weight:750">Overall Platform Release State</div>
-        <div style="font-size:22px;font-weight:800;color:var(--text);margin-top:4px">LIMITED ACCESS / PREVIEW</div>
-        <div style="font-size:12px;color:var(--muted);margin-top:4px">Build Version: <strong>v2.4.0</strong> · Last Verified: <strong>November 1, 2026</strong></div>
+        <div style="font-size:12px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-weight:700">Website availability</div>
+        <div style="font-size:24px;font-weight:750;color:var(--text);margin-top:5px">Available to authorized users</div>
+        <div style="font-size:13px;color:var(--muted);margin-top:5px">Sign-in is required to view private account information.</div>
       </div>
-      <div class="status-pill-lg">
-        <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--teal)"></span>
-        <span>Preview Ready (Read-Only)</span>
-      </div>
-    </div>
+      <div class="status-pill-lg"><span class="status-dot"></span><span>Account access available</span></div>
+    </section>
 
-    <!-- PRODUCT READINESS MATRIX -->
     <article class="card">
-      <h2>Product Readiness Matrix</h2>
-      <p style="color:var(--muted);font-size:13.5px;margin:0 0 16px">Independent verification of each platform subsystem across infrastructure, telemetry, and access boundaries:</p>
+      <h2>Service overview</h2>
+      <p style="color:var(--muted);font-size:14px;margin:0 0 18px">Availability of individual account information depends on the connection to the broker and the time of the most recent update.</p>
       <div class="table-wrap">
         <table>
-          <thead>
-            <tr>
-              <th>Subsystem / Feature</th>
-              <th>Release Stage</th>
-              <th>Verified Operational State</th>
-              <th>Technical Notes & Guarantees</th>
-            </tr>
-          </thead>
+          <thead><tr><th>Area</th><th>Current behaviour</th><th>What users should know</th></tr></thead>
           <tbody>
-            <tr>
-              <td><strong>Website & Dashboard</strong></td>
-              <td><span class="stage-badge stage-preview">LIMITED ACCESS / PREVIEW</span></td>
-              <td>Hosted Vercel Preview (SSL/TLS Active)</td>
-              <td>Edge gateway with zero-trust API authentication. Strict CSRF/CORS/No-Store headers.</td>
-            </tr>
-            <tr>
-              <td><strong>User Authentication</strong></td>
-              <td><span class="stage-badge stage-preview">LIMITED ACCESS / PREVIEW</span></td>
-              <td>Verified Login Roundtrip Active</td>
-              <td>Verified only to the extent demonstrated by an actual login roundtrip. Supabase Auth with server-validated JWT sessions. No private credentials or email addresses exposed.</td>
-            </tr>
-            <tr>
-              <td><strong>20-Account Dashboard &amp; Capacity</strong></td>
-              <td><span class="stage-badge stage-preview">LIMITED ACCESS / PREVIEW</span></td>
-              <td>20 Registered Account Entries (001–020)</td>
-              <td>Registry capacity configured for 20 institutional slots. Multi-account matrix synchronized. Does not claim all 20 accounts are connected.</td>
-            </tr>
-            <tr>
-              <td><strong>Read-Only Visibility</strong></td>
-              <td><span class="stage-badge stage-preview">LIMITED ACCESS / PREVIEW</span></td>
-              <td>Global Read-Only Scope Active</td>
-              <td>Authenticated users receive read-only fleet data (<code>is_admin: false</code>). Non-admin administrative escalation returns 403.</td>
-            </tr>
-            <tr>
-              <td><strong>Broker Telemetry</strong></td>
-              <td><span class="stage-badge stage-testing">TESTING</span></td>
-              <td>1 Active DEMO Account Connected</td>
-              <td>Currently exactly one active DEMO account (account_003) publishes verified live broker telemetry. Other accounts are not yet publishing verified telemetry.</td>
-            </tr>
-            <tr>
-              <td><strong>Open Positions</strong></td>
-              <td><span class="stage-badge stage-preview">LIMITED ACCESS / PREVIEW</span></td>
-              <td>0 Open Positions (Verified)</td>
-              <td>Live broker query of connected terminal confirms current verified open positions count: 0.</td>
-            </tr>
-            <tr>
-              <td><strong>Administrative Controls</strong></td>
-              <td><span class="stage-badge stage-preview">LIMITED ACCESS / PREVIEW</span></td>
-              <td>Admin Profile Active & Verified</td>
-              <td>Staging Admin onboarding active and verified. RBAC enforces ADMIN role with authorized scope 001–020. Private administrator email address is protected and not displayed.</td>
-            </tr>
-            <tr>
-              <td><strong>Automated Trading Execution</strong></td>
-              <td><span class="stage-badge stage-disabled">DISABLED / HARD DISARMED</span></td>
-              <td>Execution Gates 1..15 Locked</td>
-              <td>Global LIVE execution remains HARD DISARMED (real capital strictly protected). DEMO execution separately controlled &amp; restricted exclusively to <code>account_003</code> (VantageMarkets-Demo, Login: 26179878, 0.25% risk cap). Order &amp; market data based on genuine MT5 observations. Remaining 19 fleet accounts retain <code>trading_enabled: false</code>.</td>
-            </tr>
+            <tr><td><strong>Website access</strong></td><td><span class="stage-badge stage-preview">Available</span></td><td>Private account information is visible after authorized sign-in.</td></tr>
+            <tr><td><strong>Account information</strong></td><td><span class="stage-badge stage-preview">Connection dependent</span></td><td>Balance, margin and positions appear when a recent broker update is available.</td></tr>
+            <tr><td><strong>Trade history</strong></td><td><span class="stage-badge stage-preview">Connection dependent</span></td><td>Displayed records reflect the information received from the connected account.</td></tr>
+            <tr><td><strong>Market information</strong></td><td><span class="stage-badge stage-preview">Coverage varies</span></td><td>Availability and freshness can differ by instrument and information source.</td></tr>
+            <tr><td><strong>Trading actions</strong></td><td><span class="stage-badge stage-disabled">Not available on website</span></td><td>The website cannot place, modify or close orders.</td></tr>
           </tbody>
         </table>
       </div>
     </article>
 
-    <!-- RELEASE CLASSIFICATION EXPLANATIONS -->
     <article class="card">
-      <h2>Release Classification Framework</h2>
-      <div style="display:grid;grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));gap:16px;margin-top:16px">
-        <div style="background:#091410;padding:16px;border-radius:12px;border:1px solid #1a382e">
-          <div class="stage-badge stage-dev" style="margin-bottom:8px">IN DEVELOPMENT</div>
-          <p style="margin:0;font-size:12.5px;color:var(--muted)">Active code authoring. Schema and endpoints subject to modification. Not deployed to staging.</p>
+      <h2>Understanding account status</h2>
+      <div class="security-grid">
+        <div class="sec-card">
+          <h3>Connected</h3>
+          <p>Recent account information has been received. Check the displayed update time before relying on a value.</p>
         </div>
-        <div style="background:#091410;padding:16px;border-radius:12px;border:1px solid #1a382e">
-          <div class="stage-badge stage-testing" style="margin-bottom:8px">TESTING</div>
-          <p style="margin:0;font-size:12.5px;color:var(--muted)">Deployed in isolated staging sandbox. Subject to automated regression suites and preflight verification.</p>
+        <div class="sec-card">
+          <h3>Delayed</h3>
+          <p>The latest information may be older than expected. Treat it as a previous update, not a live quote.</p>
         </div>
-        <div style="background:#091410;padding:16px;border-radius:12px;border:1px solid #1a382e">
-          <div class="stage-badge stage-preview" style="margin-bottom:8px">LIMITED ACCESS / PREVIEW</div>
-          <p style="margin:0;font-size:12.5px;color:var(--muted)">Hosted on Vercel Preview with live cloud database. Available to authorized operators for validation.</p>
+        <div class="sec-card">
+          <h3>Unavailable</h3>
+          <p>No current account information is available. Check the broker connection and contact support if the issue continues.</p>
         </div>
-        <div style="background:#091410;padding:16px;border-radius:12px;border:1px solid #1a382e">
-          <div class="stage-badge" style="background:#0d3326;color:#00e6ad;border:1px solid #17654c;margin-bottom:8px">GENERALLY AVAILABLE</div>
-          <p style="margin:0;font-size:12.5px;color:var(--muted)">Production certified. Scaled multi-region deployment with live public operator onboarding.</p>
-        </div>
-      </div>
-      <div class="callout warn" style="margin-top:20px">
-        <strong>Important Staging Notice:</strong> VORTEX AI is currently categorized as <strong>LIMITED ACCESS / PREVIEW</strong>. Commercial live-money trading execution is strictly prohibited under this release stage.
       </div>
     </article>
+
+    <div class="callout">
+      <strong>Important:</strong> The dashboard is for account visibility and market context. It is not a trading terminal, does not provide personalized investment advice and cannot guarantee data availability or trading outcomes.
+    </div>
+    <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap">
+      <a class="btn primary" href="/login.html">Sign in to your dashboard</a>
+      <a class="btn" href="/faq.html">Read frequently asked questions</a>
+    </div>
   </div>
 </main>
 
