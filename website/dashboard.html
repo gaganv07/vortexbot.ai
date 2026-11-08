@@ -795,7 +795,7 @@ tr:hover td{
 
           <span>Alerts</span>
 
-          <span class="notif-badge" id="notif-badge-count">2</span>
+          <span class="notif-badge" id="notif-badge-count">0</span>
 
         </button>
 
@@ -937,11 +937,11 @@ tr:hover td{
 
       <div class="kpi-card">
 
-        <div class="kpi-label">Registered Accounts</div>
+        <div class="kpi-label">Assigned accounts</div>
 
-        <div class="kpi-value" id="kpi-total-accounts">20</div>
+        <div class="kpi-value" id="kpi-total-accounts">—</div>
 
-        <div class="kpi-sub">Total Registered Capacity (001–020)</div>
+        <div class="kpi-sub">Accounts available to your sign-in</div>
 
       </div>
 
@@ -957,21 +957,21 @@ tr:hover td{
 
       <div class="kpi-card">
 
-        <div class="kpi-label">Verified DEMO Balance</div>
+        <div class="kpi-label">Total account balance</div>
 
         <div class="kpi-value" id="kpi-total-balance">—</div>
 
-        <div class="kpi-sub" id="kpi-balance-sub">Account currency: USD</div>
+        <div class="kpi-sub" id="kpi-balance-sub">Latest available account information</div>
 
       </div>
 
       <div class="kpi-card">
 
-        <div class="kpi-label">Verified DEMO Equity</div>
+        <div class="kpi-label">Total account equity</div>
 
         <div class="kpi-value" id="kpi-total-equity">—</div>
 
-        <div class="kpi-sub" id="kpi-equity-sub">Verified Broker Equity</div>
+        <div class="kpi-sub" id="kpi-equity-sub">Latest available account information</div>
 
       </div>
 
@@ -979,7 +979,7 @@ tr:hover td{
 
 
 
-    <!-- PRIMARY ACTIVE ACCOUNT CARD (ACCOUNT 003) -->
+    <!-- PRIMARY ACCOUNT SUMMARY -->
 
     <div class="card">
 
@@ -987,9 +987,9 @@ tr:hover td{
 
         <div>
 
-          <h2 class="card-title">Connected demonstration account</h2>
+          <h2 class="card-title">Primary account summary</h2>
 
-          <div class="card-meta">Main connected trading account</div>
+          <div class="card-meta">Account details and latest available information</div>
 
         </div>
 
@@ -997,7 +997,7 @@ tr:hover td{
 
           <span class="status-badge status-badge-stale" id="acc003-feed-badge">Data delayed</span>
 
-          <span class="mode-badge mode-badge-demo" id="acc003-mode-badge">DEMO</span>
+          <span class="mode-badge mode-badge-unknown" id="acc003-mode-badge">Checking</span>
 
           <span class="prov-badge prov-badge-cache" id="acc003-prov-badge">Previous saved update</span>
 
@@ -1011,17 +1011,17 @@ tr:hover td{
 
         <div>
 
-          <span style="font-size:11px;color:var(--muted)">Broker account</span>
+          <span style="font-size:11px;color:var(--muted)">Account access</span>
 
-          <div style="font-size:16px;font-weight:700">Protected</div>
+          <div style="font-size:16px;font-weight:700">Authorized sign-in</div>
 
         </div>
 
         <div>
 
-          <span style="font-size:11px;color:var(--muted)">Connection</span>
+          <span style="font-size:11px;color:var(--muted)">Connection status</span>
 
-          <div style="font-size:16px;font-weight:700">Broker account connected</div>
+          <div style="font-size:16px;font-weight:700">See status above</div>
 
         </div>
 
@@ -1029,15 +1029,15 @@ tr:hover td{
 
           <span style="font-size:11px;color:var(--muted)">Account Mode</span>
 
-          <div style="font-size:16px;font-weight:700;color:var(--cyan)" id="acc003-mode-text">DEMO (Broker-Verified Metadata)</div>
+          <div style="font-size:16px;font-weight:700;color:var(--cyan)" id="acc003-mode-text">Checking account mode</div>
 
         </div>
 
         <div>
 
-          <span style="font-size:11px;color:var(--muted)">Last Successful Broker Update</span>
+          <span style="font-size:11px;color:var(--muted)">Latest account update</span>
 
-          <div style="font-size:13px;font-weight:700" id="acc003-update-time">No verified broker update recorded</div>
+          <div style="font-size:13px;font-weight:700" id="acc003-update-time">No recent update recorded</div>
 
           <div style="font-size:11px;color:var(--muted)" id="acc003-relative-time">—</div>
 
@@ -1047,7 +1047,7 @@ tr:hover td{
 
           <span style="font-size:11px;color:var(--muted)">Balance / Equity</span>
 
-          <div style="font-size:16px;font-weight:700" id="acc003-balance-equity">$252.01 / $252.01</div>
+          <div style="font-size:16px;font-weight:700" id="acc003-balance-equity">— / —</div>
 
         </div>
 
@@ -1075,17 +1075,17 @@ tr:hover td{
           <h2 class="card-title">Market analysis and conditions</h2>
           <div class="card-meta">A summary of current market direction, conditions and data quality</div>
         </div>
-        <span class="role-badge role-badge-admin" id="ai-ensemble-global-status">OPERATIONAL</span>
+        <span class="role-badge role-badge-readonly" id="ai-ensemble-global-status">Checking</span>
       </div>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px;padding:16px">
         <!-- 1. Supervised ML -->
         <div style="background:#091410;padding:14px;border-radius:12px;border:1px solid #1a382e">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
             <span style="font-size:12px;font-weight:750;color:var(--text)">Price direction</span>
-            <span class="role-badge role-badge-admin" id="ml-model-badge" style="font-size:9px">OPERATIONAL</span>
+            <span class="role-badge role-badge-admin" id="ml-model-badge" style="font-size:9px">Checking</span>
           </div>
           <div style="font-size:11px;color:var(--muted)">Analysis type: <strong>Price direction</strong></div>
-          <div style="font-size:11px;color:var(--teal);margin-top:2px">Signal quality: <strong id="ml-brier-score">0.2244 (Calibrated)</strong></div>
+          <div style="font-size:11px;color:var(--teal);margin-top:2px">Signal quality: <strong id="ml-brier-score">—</strong></div>
           <div style="font-size:11px;color:var(--muted);margin-top:4px">Assessments: <strong id="ml-inference-count" style="color:var(--cyan)">0 updates</strong></div>
           <div style="font-size:10px;color:var(--muted);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Latest: <span id="ml-last-inference">Awaiting update...</span></div>
           <div style="font-size:11px;color:var(--text);margin-top:4px">Current assessment: <strong id="ml-last-pred" style="color:var(--amber)">—</strong></div>
@@ -1094,9 +1094,9 @@ tr:hover td{
         <div style="background:#091410;padding:14px;border-radius:12px;border:1px solid #1a382e">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
             <span style="font-size:12px;font-weight:750;color:var(--text)">Market conditions</span>
-            <span class="role-badge role-badge-admin" id="regime-model-badge" style="font-size:9px">ACTIVE</span>
+            <span class="role-badge role-badge-admin" id="regime-model-badge" style="font-size:9px">Checking</span>
           </div>
-          <div style="font-size:11px;color:var(--muted)">Conditions: <strong id="current-market-regime" style="color:var(--cyan)">NORMAL</strong></div>
+          <div style="font-size:11px;color:var(--muted)">Conditions: <strong id="current-market-regime" style="color:var(--cyan)">Not available</strong></div>
           <div style="font-size:11px;color:var(--teal);margin-top:2px">Factors: <strong>Trend, volatility and structure</strong></div>
           <div style="font-size:11px;color:var(--muted);margin-top:4px">Updates: <strong id="regime-inference-count" style="color:var(--cyan)">0 updates</strong></div>
           <div style="font-size:10px;color:var(--muted);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Latest: <span id="regime-last-inference">Awaiting update...</span></div>
@@ -1105,9 +1105,9 @@ tr:hover td{
         <div style="background:#091410;padding:14px;border-radius:12px;border:1px solid #1a382e">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
             <span style="font-size:12px;font-weight:750;color:var(--text)">Unusual market activity</span>
-            <span class="role-badge role-badge-admin" id="anomaly-model-badge" style="font-size:9px">ACTIVE</span>
+            <span class="role-badge role-badge-admin" id="anomaly-model-badge" style="font-size:9px">Checking</span>
           </div>
-          <div style="font-size:11px;color:var(--muted)">Market status: <strong id="anomaly-state" style="color:var(--teal)">CLEAN</strong></div>
+          <div style="font-size:11px;color:var(--muted)">Market status: <strong id="anomaly-state" style="color:var(--teal)">Not available</strong></div>
           <div style="font-size:11px;color:var(--muted);margin-top:2px">Updates: <strong>Spread and price movement</strong></div>
           <div style="font-size:11px;color:var(--muted);margin-top:4px">Updates: <strong id="anomaly-inference-count" style="color:var(--cyan)">0 updates</strong></div>
           <div style="font-size:10px;color:var(--muted);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Latest: <span id="anomaly-last-inference">Awaiting update...</span></div>
@@ -1116,21 +1116,21 @@ tr:hover td{
         <div style="background:#091410;padding:14px;border-radius:12px;border:1px solid #1a382e">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
             <span style="font-size:12px;font-weight:750;color:var(--text)">Combined market assessment</span>
-            <span class="role-badge role-badge-admin" id="ensemble-model-badge" style="font-size:9px">CONSENSUS</span>
+            <span class="role-badge role-badge-admin" id="ensemble-model-badge" style="font-size:9px">Checking</span>
           </div>
           <div style="font-size:11px;color:var(--muted)">Updates: <strong id="ensemble-total-updates" style="color:var(--cyan)">0</strong></div>
-          <div style="font-size:11px;color:var(--muted);margin-top:2px">Assessments: <strong id="ensemble-decisions-count" style="color:var(--text)">Aligned: 0 | Divergent: 0</strong></div>
+          <div style="font-size:11px;color:var(--muted);margin-top:2px">Assessments: <strong id="ensemble-decisions-count" style="color:var(--text)">—</strong></div>
           <div style="font-size:11px;color:var(--amber);margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Latest: <span id="ensemble-last-reason">Awaiting update...</span></div>
         </div>
         <!-- 5. Demo account risk limits -->
         <div style="background:#091410;padding:14px;border-radius:12px;border:1px solid #1a382e">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
             <span style="font-size:12px;font-weight:750;color:var(--text)">Demo account risk limits</span>
-            <span class="role-badge role-badge-admin" style="font-size:9px">ENFORCED</span>
+            <span class="role-badge role-badge-readonly" style="font-size:9px">Not displayed</span>
           </div>
-          <div style="font-size:11px;color:var(--muted)">Risk / Trade: <strong>0.25% Max</strong></div>
-          <div style="font-size:11px;color:var(--muted);margin-top:2px">Daily Drawdown: <strong>1.00% Limit</strong></div>
-          <div style="font-size:11px;color:var(--amber);margin-top:4px">Max Positions: <strong>2 Simultaneous</strong></div>
+          <div style="font-size:11px;color:var(--muted)">Risk per trade: <strong>Not displayed</strong></div>
+          <div style="font-size:11px;color:var(--muted);margin-top:2px">Daily drawdown: <strong>Not displayed</strong></div>
+          <div style="font-size:11px;color:var(--amber);margin-top:4px">Position limit: <strong>Not displayed</strong></div>
         </div>
       </div>
     </div>
@@ -1148,7 +1148,7 @@ tr:hover td{
 
           <h2 class="card-title">Connected accounts</h2>
 
-          <div class="card-meta">Account mode, balances and connection status</div>
+          <div class="card-meta">Account mode, balances and update status</div>
 
         </div>
 
@@ -1252,7 +1252,7 @@ tr:hover td{
 
           <tbody id="positions-table-body">
 
-            <tr><td colspan="10" style="text-align:center;padding:24px;color:var(--muted)">No open positions are currently reported for this account.</td></tr>
+            <tr><td colspan="10" style="text-align:center;padding:24px;color:var(--muted)">No open positions were included in the latest account update.</td></tr>
 
           </tbody>
 
@@ -1706,9 +1706,9 @@ tr:hover td{
 
           <div style="font-size:11px;color:var(--muted)">Win Rate</div>
 
-          <div style="font-size:24px;font-weight:750;color:var(--teal)" id="perf-win-rate">0.0%</div>
+          <div style="font-size:24px;font-weight:750;color:var(--teal)" id="perf-win-rate">—</div>
 
-          <div style="font-size:11px;color:var(--muted)">Demo historical executions</div>
+          <div style="font-size:11px;color:var(--muted)">Available closed trade records</div>
 
         </div>
 
@@ -1716,7 +1716,7 @@ tr:hover td{
 
           <div style="font-size:11px;color:var(--muted)">Profit Factor</div>
 
-          <div style="font-size:24px;font-weight:750" id="perf-profit-factor">0.00</div>
+          <div style="font-size:24px;font-weight:750" id="perf-profit-factor">—</div>
 
           <div style="font-size:11px;color:var(--muted)">Gross profit / loss ratio</div>
 
@@ -1726,7 +1726,7 @@ tr:hover td{
 
           <div style="font-size:11px;color:var(--muted)">Total Realized P&amp;L</div>
 
-          <div style="font-size:24px;font-weight:750" id="perf-total-pnl">$0.00</div>
+          <div style="font-size:24px;font-weight:750" id="perf-total-pnl">—</div>
 
           <div style="font-size:11px;color:var(--muted)">Reconciled net equity delta</div>
 
@@ -1760,9 +1760,9 @@ tr:hover td{
 
           <div style="font-size:11px;color:var(--muted)">Max Portfolio Exposure</div>
 
-          <div style="font-size:20px;font-weight:750;color:var(--teal)">100.00% Limit</div>
+          <div style="font-size:20px;font-weight:750;color:var(--muted)">Not displayed</div>
 
-          <div style="font-size:11px;color:var(--muted);margin-top:4px">Global cap across fleet</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:4px">Risk settings are not shown in this view.</div>
 
         </div>
 
@@ -1770,9 +1770,9 @@ tr:hover td{
 
           <div style="font-size:11px;color:var(--muted)">Daily Loss Limit</div>
 
-          <div style="font-size:20px;font-weight:750;color:var(--amber)">3.00% Soft / 4.00% Hard</div>
+          <div style="font-size:20px;font-weight:750;color:var(--muted)">Not displayed</div>
 
-          <div style="font-size:11px;color:var(--muted);margin-top:4px">Automatic lock on breach</div>
+          <div style="font-size:11px;color:var(--muted);margin-top:4px">Confirm current limits through your authorized account.</div>
 
         </div>
 
@@ -1804,13 +1804,13 @@ tr:hover td{
 
           <div>
 
-            <div style="font-weight:700;font-size:13px;color:var(--teal)">Read-only website access</div>
+            <div style="font-weight:700;font-size:13px;color:var(--teal)">Website permission</div>
 
             <div style="font-size:12px;color:var(--muted);margin-top:2px">The website cannot submit, change or close orders.</div>
 
           </div>
 
-          <span style="font-size:10px;color:var(--muted)">Active Guard</span>
+          <span style="font-size:10px;color:var(--muted)">Information</span>
 
         </div>
 
@@ -1856,9 +1856,9 @@ tr:hover td{
 
           <div style="font-size:11px;color:var(--muted)">Secure account information</div>
 
-          <div style="font-size:18px;font-weight:750;color:var(--teal)" id="db-health-status">Verified OK</div>
+          <div style="font-size:18px;font-weight:750;color:var(--muted)" id="db-health-status">Not checked</div>
 
-          <div style="font-size:11px;color:var(--muted)">Protected account data storage</div>
+          <div style="font-size:11px;color:var(--muted)">Private information requires authorized sign-in</div>
 
         </div>
 
@@ -1866,19 +1866,19 @@ tr:hover td{
 
           <div style="font-size:11px;color:var(--muted)">Protected data transfer</div>
 
-          <div style="font-size:18px;font-weight:750;color:var(--teal)">Encrypted and verified</div>
+          <div style="font-size:18px;font-weight:750;color:var(--muted)">HTTPS connection</div>
 
-          <div style="font-size:11px;color:var(--muted)">Data integrity checks active</div>
+          <div style="font-size:11px;color:var(--muted)">Keep your sign-in details private</div>
 
         </div>
 
         <div style="background:#091410;padding:16px;border-radius:12px;border:1px solid #1a382e">
 
-          <div style="font-size:11px;color:var(--muted)">Website availability</div>
+          <div style="font-size:11px;color:var(--muted)">Account information</div>
 
-          <div style="font-size:18px;font-weight:750;color:var(--teal)">Available</div>
+          <div style="font-size:18px;font-weight:750;color:var(--muted)">Connection dependent</div>
 
-          <div style="font-size:11px;color:var(--muted)">Secure account and trading information services</div>
+          <div style="font-size:11px;color:var(--muted)">Check the latest update time in the dashboard.</div>
 
         </div>
 
@@ -1898,9 +1898,9 @@ tr:hover td{
 
       <div class="card-header">
 
-        <h2 class="card-title">System Audit Log</h2>
+        <h2 class="card-title">Activity information</h2>
 
-        <span class="card-meta">Recorded security and operational events</span>
+        <span class="card-meta">Recent activity records, when available</span>
 
       </div>
 
@@ -1928,19 +1928,7 @@ tr:hover td{
 
           <tbody id="audit-table-body">
 
-            <tr>
-
-              <td>1</td>
-
-              <td><span style="font-size:11px;color:var(--muted)">2026-11-01T06:00:00Z</span></td>
-
-              <td><code>SYSTEM_AUDIT_VERIFIED</code></td>
-
-              <td><span style="color:var(--teal)">INFO</span></td>
-
-              <td>Account access and information checks are active.</td>
-
-            </tr>
+            <tr><td colspan="5" style="text-align:center;padding:24px;color:var(--muted)">No activity records are currently available in this view.</td></tr>
 
           </tbody>
 
@@ -1964,9 +1952,9 @@ tr:hover td{
 
         <div>
 
-          <h2 class="card-title">Operator Profile &amp; Session Parameters</h2>
+          <h2 class="card-title">Profile and access</h2>
 
-          <div class="card-meta">Verified identity and access scopes</div>
+          <div class="card-meta">Your sign-in details and website permissions</div>
 
         </div>
 
@@ -1976,15 +1964,15 @@ tr:hover td{
 
         <div style="background:#091410;padding:18px;border-radius:12px;border:1px solid #1a382e">
 
-          <h3 style="margin:0 0 12px;font-size:14px;color:var(--teal)">Operator Identity</h3>
+          <h3 style="margin:0 0 12px;font-size:14px;color:var(--teal)">Your account</h3>
 
           <div style="margin-bottom:8px"><strong>Email:</strong> <span id="prof-email">Authenticated Operator</span></div>
 
-          <div style="margin-bottom:8px"><strong>Access Mode:</strong> <span id="prof-mode">READ_ONLY</span></div>
+          <div style="margin-bottom:8px"><strong>Website permissions:</strong> <span id="prof-mode">Read-only</span></div>
 
-          <div style="margin-bottom:8px"><strong>Role:</strong> <span id="prof-role">AUTHENTICATED_USER</span></div>
+          <div style="margin-bottom:8px"><strong>Account role:</strong> <span id="prof-role">Authorized user</span></div>
 
-          <div><strong>Session Token:</strong> Authenticated account session</div>
+          
 
         </div>
 
@@ -1996,7 +1984,7 @@ tr:hover td{
 
           <div style="margin-bottom:8px"><strong>Data freshness:</strong> Check the last update time</div>
 
-          <div style="margin-bottom:8px"><strong>Connected account:</strong> Demonstration account</div>
+          <div style="margin-bottom:8px"><strong>Account information:</strong> See Overview and Accounts.</div>
 
           <div><strong>Documentation:</strong> <a href="/getting-started.html">Getting Started Guide ↗</a></div>
 
@@ -2022,7 +2010,7 @@ tr:hover td{
   <footer style="margin-top:40px;padding:24px 0;border-top:1px solid #17372d;color:#80978e;font-size:12px">
     <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px">
       <div>
-        <span>© 2026 VORTEX AI · Operations Console</span>
+        <span>© 2026 VORTEX AI · Trading dashboard</span>
         <span style="margin-left:14px;color:#94aca2">Customer support: WhatsApp and Instagram</span>
       </div>
       <div style="display:flex;gap:16px;flex-wrap:wrap">
@@ -2598,7 +2586,7 @@ tr:hover td{
 
       }
 
-      if (document.getElementById('prof-role')) document.getElementById('prof-role').textContent = effectiveRole;
+      if (document.getElementById('prof-role')) document.getElementById('prof-role').textContent = friendlyRole;
 
       if (document.getElementById('prof-scope')) {
 
@@ -2612,7 +2600,7 @@ tr:hover td{
 
       if (document.getElementById('prof-mode')) {
 
-        document.getElementById('prof-mode').textContent = 'READ_ONLY (Execution Disarmed)';
+        document.getElementById('prof-mode').textContent = 'Read-only website access';
 
       }
 
@@ -2682,9 +2670,9 @@ tr:hover td{
 
       // 1. Registered Fleet Capacity
 
-      const registeredCap = accounts.length || fleet.registered_capacity || fleet.total_accounts || 20;
+      const registeredCap = accounts.length || fleet.registered_capacity || fleet.total_accounts || 0;
 
-      document.getElementById('kpi-total-accounts').textContent = String(registeredCap);
+      document.getElementById('kpi-total-accounts').textContent = registeredCap > 0 ? String(registeredCap) : '—';
 
 
 
@@ -2788,26 +2776,28 @@ tr:hover td{
 
         acc003Badges.innerHTML = `
 
-          <span class="status-badge ${freshness.badgeClass}" id="acc003-feed-badge">${freshness.icon} ${escapeHtml(freshness.label)}</span>
+          <span class="status-badge ${freshness.badgeClass}" id="acc003-feed-badge">${freshness.icon} ${escapeHtml(friendlyStatus(freshness.label))}</span>
 
           <span class="mode-badge ${mode.badgeClass}" id="acc003-mode-badge">${escapeHtml(mode.label)}</span>
 
-          <span class="prov-badge ${isCache ? 'prov-badge-cache' : 'prov-badge-verified'}" id="acc003-prov-badge">${isCache ? 'Previous saved update' : 'VERIFIED STREAM'}</span>
+          <span class="prov-badge ${isCache ? 'prov-badge-cache' : 'prov-badge-verified'}" id="acc003-prov-badge">${isCache ? 'Previous saved update' : 'Recent account update'}</span>
 
         `;
 
       }
 
-      document.getElementById('acc003-mode-text').textContent = `${mode.label} (Broker-Verified Metadata)`;
+      document.getElementById('acc003-mode-text').textContent = mode.mode === 'UNKNOWN' ? 'Not available' : `${mode.label === 'DEMO' ? 'Demo' : 'Live'} · Broker-reported`; 
 
       document.getElementById('acc003-update-time').textContent = timeInfo.utc;
 
       document.getElementById('acc003-relative-time').textContent = timeInfo.relative;
       const balEqEl = document.getElementById('acc003-balance-equity');
-      if (balEqEl && primaryAcc) {
-        const b = (typeof primaryAcc.balance === 'number') ? primaryAcc.balance : (fleet.total_balance || 0);
-        const e = (typeof primaryAcc.equity === 'number') ? primaryAcc.equity : (fleet.total_equity || 0);
-        balEqEl.textContent = `$${Number(b).toFixed(2)} / $${Number(e).toFixed(2)}`;
+      if (balEqEl && primaryAcc && (Number.isFinite(Number(primaryAcc.balance)) || Number.isFinite(Number(primaryAcc.equity)))) {
+        const b = Number.isFinite(Number(primaryAcc.balance)) ? `${Number(primaryAcc.balance).toFixed(2)}` : '—';
+        const e = Number.isFinite(Number(primaryAcc.equity)) ? `${Number(primaryAcc.equity).toFixed(2)}` : '—';
+        balEqEl.textContent = `${b} / ${e}`;
+      } else if (balEqEl) {
+        balEqEl.textContent = '— / —';
       }
 
 
@@ -2822,7 +2812,7 @@ tr:hover td{
 
         if (accounts.length === 0) {
 
-          tbody.innerHTML = '<tr><td colspan="10" style="text-align:center;padding:24px;color:var(--muted)">No accounts found in fleet registry.</td></tr>';
+          tbody.innerHTML = '<tr><td colspan="8" style="text-align:center;padding:24px;color:var(--muted)">No accounts are currently available for this sign-in.</td></tr>';
 
         } else {
 
@@ -2929,7 +2919,7 @@ tr:hover td{
 
         if (positions.length === 0) {
 
-          posBody.innerHTML = '<tr><td colspan="10" style="text-align:center;padding:24px;color:var(--muted)">0 open positions. System operating under Read-only safety controls.</td></tr>';
+          posBody.innerHTML = '<tr><td colspan="10" style="text-align:center;padding:24px;color:var(--muted)">No open positions were included in the latest account update.</td></tr>';
 
         } else {
 
@@ -3174,12 +3164,12 @@ tr:hover td{
 
         // Also update performance tab if present
         const winRateEl = document.getElementById('perf-win-rate');
-        if (winRateEl) winRateEl.textContent = `${winRate.toFixed(1)}% (${winCount}/${filtered.length})`;
+        if (winRateEl) winRateEl.textContent = filtered.length ? `${winRate.toFixed(1)}% (${winCount}/${filtered.length})` : '—';
         const pfEl = document.getElementById('perf-profit-factor');
-        if (pfEl) pfEl.textContent = profitFactor.toFixed(2);
+        if (pfEl) pfEl.textContent = filtered.length ? profitFactor.toFixed(2) : '—';
         const totalPnlEl = document.getElementById('perf-total-pnl');
         if (totalPnlEl) {
-          totalPnlEl.textContent = `$${totalNet.toFixed(2)}`;
+          totalPnlEl.textContent = filtered.length ? `${totalNet.toFixed(2)}` : '—';
           totalPnlEl.style.color = totalNet >= 0 ? 'var(--teal)' : 'var(--red)';
         }
 
@@ -3222,6 +3212,8 @@ tr:hover td{
         closedBody.innerHTML = '';
 
         if (filtered.length === 0) {
+          const avgCard = document.getElementById('closed-avg-win-loss');
+          if (avgCard) avgCard.textContent = '—';
           closedBody.innerHTML = '<tr><td colspan="13" style="text-align:center;padding:24px;color:var(--muted)">No reconciled closed trades match the selected filters.</td></tr>';
           return;
         }
@@ -3279,7 +3271,7 @@ tr:hover td{
             brierEl.textContent = `${supModel.brier_score} (Calibrated)`;
           }
           const mlBadge = document.getElementById('ml-model-badge');
-          if (mlBadge) mlBadge.textContent = supModel.model_health || supModel.status || 'OPERATIONAL';
+          if (mlBadge) mlBadge.textContent = friendlyStatus(supModel.model_health || supModel.status || 'UNKNOWN');
 
           const mlCountEl = document.getElementById('ml-inference-count');
           if (mlCountEl) {
@@ -3307,10 +3299,10 @@ tr:hover td{
         if (regModel) {
           const regEl = document.getElementById('current-market-regime');
           const regVal = regModel.current_regime || regModel.last_regime || 'NORMAL';
-          if (regEl) regEl.textContent = regVal;
+          if (regEl) regEl.textContent = regVal === 'NORMAL' ? 'Normal' : regVal.replace(/_/g, ' ').toLowerCase();
 
           const regBadge = document.getElementById('regime-model-badge');
-          if (regBadge) regBadge.textContent = regModel.model_health || regModel.status || 'ACTIVE';
+          if (regBadge) regBadge.textContent = friendlyStatus(regModel.model_health || regModel.status || 'UNKNOWN');
 
           const regCountEl = document.getElementById('regime-inference-count');
           if (regCountEl) {
@@ -3330,7 +3322,7 @@ tr:hover td{
         const anomModel = aiMeta.models.anomaly_filter;
         if (anomModel) {
           const anomBadge = document.getElementById('anomaly-model-badge');
-          if (anomBadge) anomBadge.textContent = anomModel.model_health || anomModel.status || 'ACTIVE';
+          if (anomBadge) anomBadge.textContent = friendlyStatus(anomModel.model_health || anomModel.status || 'UNKNOWN');
 
           const anomCountEl = document.getElementById('anomaly-inference-count');
           if (anomCountEl) {
@@ -3350,11 +3342,11 @@ tr:hover td{
         const ensModel = aiMeta.models.ensemble_decision_engine;
         if (ensModel) {
           const totalEl = document.getElementById('ensemble-total-updates');
-          if (totalEl) totalEl.textContent = `${ensModel.total_evaluations || 0} evaluations`;
+          if (totalEl) totalEl.textContent = `${ensModel.total_evaluations || 0} updates`;
 
           const decCountEl = document.getElementById('ensemble-decisions-count');
           if (decCountEl) {
-            decCountEl.textContent = `Appr: ${ensModel.approved_count || 0} | Rej: ${ensModel.rejected_count || 0}`;
+            decCountEl.textContent = `Aligned: ${ensModel.approved_count || 0} | Divergent: ${ensModel.rejected_count || 0}`;
           }
 
           const decReasonEl = document.getElementById('ensemble-last-reason');
