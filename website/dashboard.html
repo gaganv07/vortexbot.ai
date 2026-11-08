@@ -791,7 +791,7 @@ tr:hover td{
 
         </div>
 
-        <button class="btn-sm btn-notif" id="btn-open-notifs" title="Operational Notifications" type="button">
+        <button class="btn-sm btn-notif" id="btn-open-notifs" title="Notifications" type="button">
 
           <span>Alerts</span>
 
@@ -803,9 +803,9 @@ tr:hover td{
 
         <div class="user-menu">
 
-          <span class="user-name" id="user-display" title="Click to view Operator Profile">Operator</span>
+          <span class="user-name" id="user-display" title="Open profile and access details">Account</span>
 
-          <span class="role-badge role-badge-readonly" id="role-display">READ_ONLY</span>
+          <span class="role-badge role-badge-readonly" id="role-display">Read-only user</span>
 
           <button class="btn-sm" id="btn-logout" type="button">Sign Out</button>
 
@@ -1125,7 +1125,7 @@ tr:hover td{
         <!-- 5. Demo account risk limits -->
         <div style="background:#091410;padding:14px;border-radius:12px;border:1px solid #1a382e">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-            <span style="font-size:12px;font-weight:750;color:var(--text)">Demo account risk limits</span>
+            <span style="font-size:12px;font-weight:750;color:var(--text)">Risk limits</span>
             <span class="role-badge role-badge-readonly" style="font-size:9px">Not displayed</span>
           </div>
           <div style="font-size:11px;color:var(--muted)">Risk per trade: <strong>Not displayed</strong></div>
@@ -1603,9 +1603,9 @@ tr:hover td{
             <thead>
               <tr style="border-bottom: 1px solid rgba(255,255,255,0.1); text-align: left; color: #94a3b8;">
                 <th style="padding: 0.5rem;">Instrument</th>
-                <th style="padding: 0.5rem;">Strategy Direction</th>
-                <th style="padding: 0.5rem;">Strategy Score</th>
-                <th style="padding: 0.5rem;">Intel Sentiment</th>
+                <th style="padding: 0.5rem;">Assessment direction</th>
+                <th style="padding: 0.5rem;">Assessment score</th>
+                <th style="padding: 0.5rem;">Market sentiment</th>
                 <th style="padding: 0.5rem;">Alignment Status</th>
                 <th style="padding: 0.5rem;">Confidence</th>
                 <th style="padding: 0.5rem;">Analysis Notes</th>
@@ -1966,7 +1966,7 @@ tr:hover td{
 
           <h3 style="margin:0 0 12px;font-size:14px;color:var(--teal)">Your account</h3>
 
-          <div style="margin-bottom:8px"><strong>Email:</strong> <span id="prof-email">Authenticated Operator</span></div>
+          <div style="margin-bottom:8px"><strong>Email:</strong> <span id="prof-email">Not loaded</span></div>
 
           <div style="margin-bottom:8px"><strong>Website permissions:</strong> <span id="prof-mode">Read-only</span></div>
 
@@ -3372,7 +3372,7 @@ tr:hover td{
 
       pollBackoffMs = Math.min(Math.round(pollBackoffMs * 1.5), 30000);
 
-      syncIndicator.textContent = `Sync failed: ${err.message} (Retry in ${Math.round(pollBackoffMs / 1000)}s)`;
+      syncIndicator.textContent = `Account information could not be refreshed. Retrying in ${Math.round(pollBackoffMs / 1000)} seconds.`;
 
 
 
