@@ -4,13 +4,13 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#050b09">
-<meta name="description" content="VORTEX AI — Transparent read-only monitoring and operations console for an automated institutional MT5 trading fleet.">
-<meta property="og:title" content="VORTEX AI | Markets Move. We Adapt.">
-<meta property="og:description" content="Institutional read-only telemetry monitoring for multi-account MetaTrader 5 trading fleets. Execution hard disarmed.">
+<meta name="description" content="VORTEX AI provides secure, read-only visibility into connected trading accounts, account information and market context.">
+<meta property="og:title" content="VORTEX AI | Clear trading data. Better decisions.">
+<meta property="og:description" content="Review broker-reported account balances, equity, positions, trade history and market context in one read-only dashboard.">
 <meta property="og:image" content="/vortex-ai-logo.webp?v=20261028-1">
 <meta property="og:type" content="website">
 <link rel="canonical" href="https://vortexbot.ai/">
-<title>VORTEX AI | Markets Move. We Adapt.</title>
+<title>VORTEX AI | Clear trading data. Better decisions.</title>
 <link rel="stylesheet" href="/nav.css">
 <link rel="stylesheet" href="/status-indicators.css">
 <style>
@@ -320,150 +320,149 @@ footer{
     <div>
       <div class="status-badge-hero">
         <span class="status-dot"></span>
-        <span>Preview Release v2.4.0 · Execution Hard Disarmed</span>
+        <span>Read-only account visibility</span>
       </div>
-      <div class="eyebrow">8 pairs · Algorithmic fleet monitoring</div>
-      <h1>Markets move.<br><span class="highlight">We adapt.</span></h1>
-      <p class="lead">VORTEX AI provides institutional read-only monitoring for algorithmic MetaTrader 5 trading fleets: broker-confirmed balances, margin health, telemetry freshness, and system connection integrity.</p>
+      <div class="eyebrow">Multi-account trading visibility</div>
+      <h1>Clear trading data.<br><span class="highlight">Better decisions.</span></h1>
+      <p class="lead">VORTEX AI brings connected trading account information into one clear view. Review broker-reported balances, equity, open positions, completed trades, market context and account update status.</p>
       <div class="actions">
-        <a class="btn primary" href="/login.html">Sign in to view fleet →</a>
-        <a class="btn" href="/getting-started.html">Getting Started Guide</a>
-        <a class="btn" href="/status.html">System Status</a>
+        <a class="btn primary" href="/login.html">Sign in to your dashboard →</a>
+        <a class="btn" href="/getting-started.html">Getting started</a>
+        <a class="btn" href="/status.html">Service status</a>
       </div>
-      <p class="fine">Fleet access requires authentication. This website is a strictly read-only monitoring console and cannot submit, modify, or close orders.</p>
+      <p class="fine">Dashboard access is limited to authorized users. The website is read-only and cannot place, change or close trading orders.</p>
     </div>
-    <aside class="brand-card">
-      <img src="/vortex-ai-logo.webp?v=20261028-1" alt="VORTEX AI — Markets Move. We Adapt.">
-      <div class="tag">Zero-Trust Telemetry Architecture</div>
+    <aside class="brand-card brand-card-summary" aria-label="VORTEX AI service overview">
+      <div class="tag">VORTEX AI · Account overview</div>
+      <div class="brand-card-metrics">
+        <div><span>Account information</span><strong>Broker-reported</strong></div>
+        <div><span>Access</span><strong>Authorized users</strong></div>
+        <div><span>Website permissions</span><strong>Read-only</strong></div>
+      </div>
+      <p>One place to review connected account information and the time of the latest available update.</p>
     </aside>
   </div>
 
-  <!-- PLATFORM FEATURES -->
   <section id="features">
     <div class="wrap" id="platform">
       <div class="heading">
-        <h2>Trading visibility, with honest telemetry status</h2>
-        <p>The private dashboard displays broker-verified data only. It separates DEMO from REAL modes, marks stale feeds, and never presents simulated signals as live broker fills.</p>
+        <h2>Trading visibility, with clear data status</h2>
+        <p>The dashboard distinguishes current, delayed and unavailable information so you can assess what is being displayed before relying on it.</p>
       </div>
       <div class="cards">
-        <article class="card"><div class="icon">↗</div><h3>Open positions</h3><p>Side, symbol, volume, entry, current price, stop-loss, take-profit and floating P&amp;L when fresh broker data is verified.</p></article>
-        <article class="card"><div class="icon">◷</div><h3>Closed trades</h3><p>Confirmed exit details, realized P&amp;L, entry/exit time and reconciliation status, separated from demo/live data.</p></article>
-        <article class="card"><div class="icon">⌁</div><h3>Live system health</h3><p>Bot connection state, last successful update and visible warnings for stale or uncertain data.</p></article>
+        <article class="card"><div class="icon">↗</div><h3>Open positions</h3><p>Review position side, instrument, volume, entry and current prices, protective levels and floating profit or loss when recent broker information is available.</p></article>
+        <article class="card"><div class="icon">◷</div><h3>Trade history</h3><p>Review completed trade records, execution details and realized profit or loss, with demo and live account modes clearly distinguished.</p></article>
+        <article class="card"><div class="icon">⌁</div><h3>Account status</h3><p>See connection state and the latest update time. Delayed or unavailable information is identified rather than presented as current.</p></article>
       </div>
 
       <div class="heading" style="margin-top:42px">
-        <h2>Market intelligence &amp; execution controls</h2>
-        <p>VORTEX AI combines live tick and price data with rule-based analysis and risk controls. Data availability depends on the MT5 broker, instrument and active terminal connection.</p>
+        <h2>Market context and account insight</h2>
+        <p>Additional market information may be available alongside account details. Coverage varies by instrument and source, and some information may be delayed or unavailable.</p>
       </div>
       <div class="cards">
-        <article class="card"><div class="icon">≋</div><h3>Depth of Market (DOM)</h3><p>Uses broker-provided bid/ask levels when available: order-book imbalance, liquidity concentration, walls, thin zones and price-ladder pressure. When Level II data is unavailable, a tick-based fallback estimates pressure; it is not a real order book.</p></article>
-        <article class="card"><div class="icon">⇄</div><h3>Order-flow analytics</h3><p>Tick imbalance, price velocity and acceleration, rolling cumulative-delta approximation, estimated aggressive buy/sell pressure and participation-rate analysis.</p></article>
-        <article class="card"><div class="icon">⌁</div><h3>Market microstructure</h3><p>Detects structure breaks (BOS), change of character (CHoCH), potential liquidity grabs, failed breakouts, absorption patterns, Fair Value Gaps and momentum exhaustion.</p></article>
-        <article class="card"><div class="icon">◷</div><h3>Multi-timeframe &amp; volume</h3><p>Uses M1, M5, M15 and H1 market data, EMA trend alignment, ATR volatility checks, relative-volume changes, spikes and directional-volume estimates.</p></article>
-        <article class="card"><div class="icon">◇</div><h3>Risk management</h3><p>ATR-based stop-loss/take-profit distances, configured risk-per-trade sizing, exposure checks, drawdown/circuit-breaker controls, trailing stops, breakeven and time-stop management.</p></article>
-        <article class="card"><div class="icon">✓</div><h3>Execution &amp; reconciliation</h3><p>Tracks broker execution results, slippage/latency metrics and position reconciliation. The website is read-only and displays broker-confirmed data only when the secure feed is connected.</p></article>
+        <article class="card"><div class="icon">≋</div><h3>Market depth</h3><p>Review broker-provided bid and ask information when available. Where detailed order-book data is not supplied, the dashboard identifies that limitation.</p></article>
+        <article class="card"><div class="icon">⇄</div><h3>Price and market activity</h3><p>View selected price movement, spread and market-condition information to add context to connected account data.</p></article>
+        <article class="card"><div class="icon">◉</div><h3>Market news</h3><p>Access selected financial and economic updates when coverage is available. News is informational and is not a trading recommendation.</p></article>
+        <article class="card"><div class="icon">◷</div><h3>Futures positioning</h3><p>Review periodic positioning information as broader market context. Historical reports should not be interpreted as live order flow.</p></article>
+        <article class="card"><div class="icon">◇</div><h3>Risk visibility</h3><p>Review the account figures and risk information made available through the connected account. Figures may change after the displayed update time.</p></article>
+        <article class="card"><div class="icon">✓</div><h3>Read-only access</h3><p>The website provides account visibility only. Trading permissions and order management remain separate from the website.</p></article>
       </div>
     </div>
   </section>
 
-  <!-- TRUST & SECURITY SECTION -->
   <section id="security">
     <div class="wrap">
       <div class="heading">
-        <h2>Trust, Security &amp; Data Hygiene</h2>
-        <p>Derived directly from our software architecture, database constraints, and cryptographic transport guarantees:</p>
+        <h2>Clear access and security boundaries</h2>
+        <p>Account access, data visibility and trading permissions are kept distinct.</p>
       </div>
       <div class="security-grid">
         <div class="sec-card">
-          <h3>No Web Broker Passwords</h3>
-          <p>MetaTrader 5 broker credentials remain strictly on your local PC in Windows Credential Manager. You never enter broker passwords into this website.</p>
+          <h3>Broker credentials stay private</h3>
+          <p>This website does not ask for your broker trading password or investor password. Never send those credentials through support channels.</p>
         </div>
         <div class="sec-card">
-          <h3>HMAC-SHA256 Signed Ingestion</h3>
-          <p>All telemetry packets sent from local MT5 daemons require cryptographic timestamping and SHA-256 signatures with nonce replay protection.</p>
+          <h3>Authorized website access</h3>
+          <p>Private account information is available only after sign-in with an approved website account. Keep your sign-in link and account access private.</p>
         </div>
         <div class="sec-card">
-          <h3>Cloud SSO &amp; Strict RBAC</h3>
-          <p>Authentication utilizes Supabase Cloud SSO with HS256 JWT validation. Non-admin users are strictly restricted to read-only fleet visibility.</p>
+          <h3>Read-only website</h3>
+          <p>The website cannot submit, modify or close trades. Viewing information here does not change permissions on your broker account.</p>
         </div>
         <div class="sec-card">
-          <h3>Hard Disarmed Safety</h3>
-          <p>The global execution controller is hard-disarmed. All 20 accounts maintain <code>trading_enabled: false</code> to guarantee zero unintended trade entries.</p>
+          <h3>Visible data freshness</h3>
+          <p>Account connection and update status are shown in the dashboard. Check the update time and confirm important figures with your broker.</p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ACCESS SECTION -->
   <section id="access">
     <div class="wrap">
       <div class="access">
         <div>
-          <h2>Sign in to view the trading dashboard</h2>
-          <p>Authorized operators can inspect real-time fleet health, 20-account telemetry, margin levels, and trade history in a secure environment.</p>
+          <h2>Your connected account information, in one place</h2>
+          <p>Authorized users can review assigned accounts, account mode, balances, equity, available positions and trade history when recent information is received.</p>
         </div>
-        <a class="btn primary" href="/login.html">Go to secure sign-in →</a>
+        <a class="btn primary" href="/login.html">Open secure sign-in →</a>
       </div>
     </div>
   </section>
 
-  <!-- ACCESS ACROSS DEVICES -->
   <section id="mobile">
     <div class="wrap">
       <div class="heading">
-        <h2>Access your information wherever you work</h2>
-        <p>Use a supported browser on desktop, tablet or phone. Your broker account remains separate from your VORTEX AI website sign-in.</p>
+        <h2>Access your information across devices</h2>
+        <p>Use a browser on desktop, tablet or phone. Your website sign-in is separate from your broker account.</p>
       </div>
       <div class="split">
         <article class="guide">
-          <h3>Connect your trading account</h3>
+          <h3>Keep your broker account connected</h3>
           <ol>
-            <li>Keep your broker account connected through your broker’s own trading platform.</li>
+            <li>Use your broker’s own trading platform to manage the trading account.</li>
             <li>Confirm that account information is updating at the source.</li>
             <li>Never share your broker password through this website or support channels.</li>
           </ol>
         </article>
         <article class="guide">
-          <h3>View your dashboard</h3>
+          <h3>Review your dashboard</h3>
           <ol>
             <li>Sign in with an authorized VORTEX AI website account.</li>
-            <li>Open the dashboard on your preferred device.</li>
-            <li>Check the account status and last update time before relying on displayed information.</li>
+            <li>Open the dashboard from your preferred device.</li>
+            <li>Check the account status and latest update time before relying on displayed information.</li>
           </ol>
         </article>
       </div>
     </div>
   </section>
 
-  <!-- RISK DISCLOSURE -->
   <section id="risk">
     <div class="wrap">
       <div class="heading">
-        <h2>Mandatory Risk Disclosure</h2>
-        <p>Automated trading and leveraged financial instruments involve substantial risk of loss.</p>
+        <h2>Trading risk disclosure</h2>
+        <p>Trading leveraged financial instruments involves substantial risk of loss.</p>
       </div>
       <div class="callout">
-        <strong>Important Risk Notice:</strong> Trading foreign exchange, CFDs and other leveraged financial products carries substantial risk and may not be suitable for every investor. Leverage can amplify losses as well as gains. Past performance, demo results and simulated testing do not guarantee future outcomes. VORTEX AI provides information and monitoring, not personalized investment advice. The website is read-only and cannot submit, modify or close trades. Review our <a href="/terms.html" style="text-decoration:underline">Terms of Service</a> and <a href="/privacy.html" style="text-decoration:underline">Privacy Notice</a>.
+        <strong>Important risk notice:</strong> Foreign exchange, contracts for difference and other leveraged products may not be suitable for every investor. Leverage can amplify losses as well as gains, and you may lose some or all of your invested capital. Past performance, demo results and simulated testing do not guarantee future outcomes. VORTEX AI provides information and monitoring, not personalized investment advice. The website is read-only and cannot submit, modify or close trades. Review our <a href="/terms.html" style="text-decoration:underline">Terms of Service</a> and <a href="/privacy.html" style="text-decoration:underline">Privacy Notice</a>.
       </div>
     </div>
   </section>
-  <!-- CUSTOMER SUPPORT & CONTACT -->
+
   <section id="contact">
     <div class="wrap">
       <div class="heading">
         <h2>Customer support</h2>
-        <p>Questions about account access, platform information or customer support</p>
+        <p>For help with account access, website information or service questions, contact us through an official channel.</p>
       </div>
       <div class="contact-card">
         <div class="contact-icon" aria-hidden="true">
           <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="2" y="4" width="20" height="16" rx="2"></rect>
-            <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
+            <path d="M21 11.5a8.5 8.5 0 0 1-8.5 8.5 9 9 0 0 1-4-.9L3 21l1.9-5.5a9 9 0 0 1-.9-4A8.5 8.5 0 0 1 12.5 3H13a8.5 8.5 0 0 1 8 8z"></path>
           </svg>
         </div>
         <div class="contact-body">
-          <h3 class="contact-title">Official Customer Support</h3>
-          <p class="contact-desc">Contact the VORTEX AI support team through our official WhatsApp or Instagram channel. Do not share passwords, sign-in codes or private account credentials.</p>
+          <h3 class="contact-title">Official customer support</h3>
+          <p class="contact-desc">Contact the VORTEX AI support team through WhatsApp or Instagram. Do not share passwords, sign-in codes or private account credentials.</p>
           <div class="contact-action">
             <a class="email-link" href="https://wa.me/919148034459" target="_blank" rel="noopener noreferrer">WhatsApp support</a>
             <a class="btn" href="https://www.instagram.com/vortexbot.ai/" target="_blank" rel="noopener noreferrer">Instagram @vortexbot.ai</a>
@@ -472,7 +471,6 @@ footer{
       </div>
     </div>
   </section>
-
 </main>
 
 <footer>
