@@ -947,7 +947,7 @@ tr:hover td{
 
       <div class="kpi-card">
 
-        <div class="kpi-label">Connected Accounts</div>
+        <div class="kpi-label">Recently updated accounts</div>
 
         <div class="kpi-value val-green" id="kpi-connected-accounts">—</div>
 
@@ -1538,13 +1538,13 @@ tr:hover td{
           <div class="stat-card" style="padding: 1.1rem; border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; background: rgba(15,23,42,0.6);">
             <div style="display:flex; justify-content:space-between; align-items:center;">
               <span style="font-size: 0.75rem; text-transform: uppercase; color: #94a3b8; font-weight: 700;">Broker market depth</span>
-              <span id="intel-badge-dom" class="badge" style="background: rgba(16,185,129,0.15); color: #10b981; font-size: 0.7rem; font-weight: 700;">CONNECTED</span>
+              <span id="intel-badge-dom" class="badge" style="background: rgba(148,163,184,0.15); color: #94a3b8; font-size: 0.7rem; font-weight: 700;">Checking</span>
             </div>
             <div style="margin: 0.5rem 0; font-size: 0.85rem; color: #f8fafc; font-weight: 600;">Top-of-Book Spread &amp; Price</div>
             <div style="font-size: 0.75rem; color: #94a3b8; display: flex; flex-direction: column; gap: 0.2rem;">
-              <div>Records: <span id="intel-records-dom" style="color: #f1f5f9; font-weight: 600;">8 symbols monitored</span></div>
-              <div>Freshness: <span id="intel-fresh-dom" class="badge" style="font-size: 0.65rem; background: rgba(59,130,246,0.15); color: #3b82f6;">REAL-TIME</span></div>
-              <div>Latest Update: <span id="intel-update-dom" style="color: #cbd5e1;">Streaming</span></div>
+              <div>Records: <span id="intel-records-dom" style="color: #f1f5f9; font-weight: 600;">—</span></div>
+              <div>Freshness: <span id="intel-fresh-dom" class="badge" style="font-size: 0.65rem; background: rgba(148,163,184,0.15); color: #94a3b8;">Checking</span></div>
+              <div>Latest Update: <span id="intel-update-dom" style="color: #cbd5e1;">No update received</span></div>
               <div id="intel-err-dom" style="color: #64748b; font-size: 0.7rem; margin-top: 0.2rem;">Detailed order-book data is not available for this instrument.</div>
             </div>
           </div>
@@ -1553,13 +1553,13 @@ tr:hover td{
           <div class="stat-card" style="padding: 1.1rem; border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; background: rgba(15,23,42,0.6);">
             <div style="display:flex; justify-content:space-between; align-items:center;">
               <span style="font-size: 0.75rem; text-transform: uppercase; color: #94a3b8; font-weight: 700;">Global market news</span>
-              <span id="intel-badge-gdelt" class="badge" style="background: rgba(16,185,129,0.15); color: #10b981; font-size: 0.7rem; font-weight: 700;">CONNECTED</span>
+              <span id="intel-badge-gdelt" class="badge" style="background: rgba(148,163,184,0.15); color: #94a3b8; font-size: 0.7rem; font-weight: 700;">Checking</span>
             </div>
             <div style="margin: 0.5rem 0; font-size: 0.85rem; color: #f8fafc; font-weight: 600;">Macroeconomic &amp; Geopolitical News</div>
             <div style="font-size: 0.75rem; color: #94a3b8; display: flex; flex-direction: column; gap: 0.2rem;">
-              <div>Records: <span id="intel-records-gdelt" style="color: #f1f5f9; font-weight: 600;">Curated live stream</span></div>
-              <div>Freshness: <span id="intel-fresh-gdelt" class="badge" style="font-size: 0.65rem; background: rgba(16,185,129,0.15); color: #10b981;">REAL-TIME</span></div>
-              <div>Latest Update: <span id="intel-update-gdelt" style="color: #cbd5e1;">Continuous (30m cache)</span></div>
+              <div>Records: <span id="intel-records-gdelt" style="color: #f1f5f9; font-weight: 600;">—</span></div>
+              <div>Freshness: <span id="intel-fresh-gdelt" class="badge" style="font-size: 0.65rem; background: rgba(148,163,184,0.15); color: #94a3b8;">Checking</span></div>
+              <div>Latest Update: <span id="intel-update-gdelt" style="color: #cbd5e1;">No update received</span></div>
               <div id="intel-err-gdelt" style="color: #64748b; font-size: 0.7rem; margin-top: 0.2rem;">News updates may be delayed.</div>
             </div>
           </div>
@@ -1568,13 +1568,13 @@ tr:hover td{
           <div class="stat-card" style="padding: 1.1rem; border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; background: rgba(15,23,42,0.6);">
             <div style="display:flex; justify-content:space-between; align-items:center;">
               <span style="font-size: 0.75rem; text-transform: uppercase; color: #94a3b8; font-weight: 700;">Institutional futures positioning</span>
-              <span id="intel-badge-cftc" class="badge" style="background: rgba(16,185,129,0.15); color: #10b981; font-size: 0.7rem; font-weight: 700;">CONNECTED</span>
+              <span id="intel-badge-cftc" class="badge" style="background: rgba(148,163,184,0.15); color: #94a3b8; font-size: 0.7rem; font-weight: 700;">Checking</span>
             </div>
             <div style="margin: 0.5rem 0; font-size: 0.85rem; color: #f8fafc; font-weight: 600;">Futures Institutional Positioning</div>
             <div style="font-size: 0.75rem; color: #94a3b8; display: flex; flex-direction: column; gap: 0.2rem;">
-              <div>Records: <span id="intel-records-cftc" style="color: #f1f5f9; font-weight: 600;">7 active contracts mapped</span></div>
-              <div>Freshness: <span id="intel-fresh-cftc" class="badge" style="font-size: 0.65rem; background: rgba(245,158,11,0.15); color: #f59e0b;">WEEKLY HISTORICAL</span></div>
-              <div>Latest Report: <span id="intel-update-cftc" style="color: #cbd5e1;">Published Friday 20:30 UTC</span></div>
+              <div>Records: <span id="intel-records-cftc" style="color: #f1f5f9; font-weight: 600;">—</span></div>
+              <div>Freshness: <span id="intel-fresh-cftc" class="badge" style="font-size: 0.65rem; background: rgba(148,163,184,0.15); color: #94a3b8;">Checking</span></div>
+              <div>Latest Report: <span id="intel-update-cftc" style="color: #cbd5e1;">No report loaded</span></div>
               <div id="intel-err-cftc" style="color: #64748b; font-size: 0.7rem; margin-top: 0.2rem;">Weekly historical market research</div>
             </div>
           </div>
@@ -1583,13 +1583,13 @@ tr:hover td{
           <div class="stat-card" style="padding: 1.1rem; border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; background: rgba(15,23,42,0.6);">
             <div style="display:flex; justify-content:space-between; align-items:center;">
               <span style="font-size: 0.75rem; text-transform: uppercase; color: #94a3b8; font-weight: 700;">Additional news coverage</span>
-              <span id="intel-badge-newsdata" class="badge" style="background: rgba(148,163,184,0.15); color: #94a3b8; font-size: 0.7rem; font-weight: 700;">NOT_CONFIGURED</span>
+              <span id="intel-badge-newsdata" class="badge" style="background: rgba(148,163,184,0.15); color: #94a3b8; font-size: 0.7rem; font-weight: 700;">Not available</span>
             </div>
             <div style="margin: 0.5rem 0; font-size: 0.85rem; color: #f8fafc; font-weight: 600;">Delayed Research Feed</div>
             <div style="font-size: 0.75rem; color: #94a3b8; display: flex; flex-direction: column; gap: 0.2rem;">
               <div>Records: <span id="intel-records-newsdata" style="color: #f1f5f9; font-weight: 600;">Not connected</span></div>
-              <div>Freshness: <span id="intel-fresh-newsdata" class="badge" style="font-size: 0.65rem; background: rgba(148,163,184,0.15); color: #94a3b8;">DELAYED</span></div>
-              <div>Quota: <span id="intel-quota-newsdata" style="color: #cbd5e1;">Optional coverage</span></div>
+              <div>Freshness: <span id="intel-fresh-newsdata" class="badge" style="font-size: 0.65rem; background: rgba(148,163,184,0.15); color: #94a3b8;">Not available</span></div>
+              <div>Availability: <span id="intel-quota-newsdata" style="color: #cbd5e1;">Optional coverage</span></div>
               <div id="intel-err-newsdata" style="color: #64748b; font-size: 0.7rem; margin-top: 0.2rem;">Additional coverage is not configured.</div>
             </div>
           </div>
@@ -1597,7 +1597,7 @@ tr:hover td{
       </div>
       <!-- Market assessment table -->
         <h3 style="font-size: 1rem; margin-bottom: 0.5rem; color: #f8fafc;">Market assessment overview</h3>
-        <p style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 1rem;">Compares internal strategy signals against external market sentiment for research and signal quality audit.</p>
+        <p style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 1rem;">Summarizes selected market information for context. Availability varies by instrument and update time.</p>
         <div class="table-responsive" style="margin-bottom: 2rem;">
           <table class="table" style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
             <thead>
@@ -1612,7 +1612,7 @@ tr:hover td{
               </tr>
             </thead>
             <tbody id="shadow-alignment-tbody">
-              <tr><td colspan="7" style="padding: 1rem; text-align: center; color: #64748b;">Awaiting live strategy cycle evaluations...</td></tr>
+              <tr><td colspan="7" style="padding: 1rem; text-align: center; color: #64748b;">No market assessments have been loaded yet.</td></tr>
             </tbody>
           </table>
         </div>
@@ -1678,7 +1678,7 @@ tr:hover td{
               </tr>
             </thead>
             <tbody id="market-news-tbody">
-              <tr><td colspan="6" style="padding: 1rem; text-align: center; color: #64748b;">Loading news events...</td></tr>
+              <tr><td colspan="6" style="padding: 1rem; text-align: center; color: #64748b;">Checking available market updates...</td></tr>
             </tbody>
           </table>
         </div>
@@ -1916,9 +1916,9 @@ tr:hover td{
 
               <th>Timestamp</th>
 
-              <th>Event Type</th>
+              <th>Activity</th>
 
-              <th>Severity</th>
+              <th>Type</th>
 
               <th>Message</th>
 
@@ -2100,7 +2100,9 @@ tr:hover td{
     const status = String(value || '').toUpperCase();
     if (/STALE|DELAYED|DEGRADED|RATE_LIMITED/.test(status)) return 'Delayed';
     if (/DISCONNECTED|AUTH_FAILED|UNAVAILABLE|NOT_SUPPORTED|ERROR/.test(status)) return 'Unavailable';
-    if (/NOT_CONFIGURED|UNCONFIGURED|AWAITING|UNKNOWN/.test(status)) return 'Not set up';
+    if (/UNKNOWN/.test(status)) return 'Checking';
+    if (/NOT_CONFIGURED|UNCONFIGURED|AWAITING/.test(status)) return 'Not set up';
+    if (/UNAVAILABLE|ERROR/.test(status)) return 'Unavailable';
     if (/CONNECTED|HEALTHY|VERIFIED|LIVE|CURRENT|REAL.?TIME|OPERATIONAL/.test(status)) return 'Current';
     return 'Checking';
   }
@@ -2823,6 +2825,7 @@ tr:hover td{
             const isAcc003 = (acc.account_id === 'account_003');
 
             const accMode = window.StatusUtils.evaluateAccountMode(acc);
+            const accModeLabel = accMode.mode === 'UNKNOWN' ? 'Not available' : (accMode.mode === 'DEMO' ? 'Demo' : 'Live');
 
 
 
@@ -2871,7 +2874,7 @@ tr:hover td{
 
               <td><strong>${escapeHtml(accountLabel(acc.account_id))}</strong></td>
 
-              <td><span class="mode-badge ${accMode.badgeClass}">${escapeHtml(accMode.label)}</span></td>
+              <td><span class="mode-badge ${accMode.badgeClass}">${escapeHtml(accModeLabel)}</span></td>
 
               <td>${escapeHtml(balanceDisplay)}</td>
 
@@ -3422,6 +3425,8 @@ tr:hover td{
 
 
     const modeInfo = window.StatusUtils.evaluateAccountMode(acc);
+    const modeLabel = modeInfo.mode === 'UNKNOWN' ? 'Not available' : (modeInfo.mode === 'DEMO' ? 'Demo' : 'Live');
+    const modeDescription = modeInfo.mode === 'UNKNOWN' ? 'Account mode information has not been received.' : modeInfo.description;
 
     document.getElementById('modal-title').textContent = `${accountLabel(acc.account_id)}`;
 
@@ -3448,7 +3453,7 @@ tr:hover td{
 
       <div style="margin-bottom:10px"><strong>Account:</strong> ${escapeHtml(accountLabel(acc.account_id))}</div>
 
-      <div style="margin-bottom:10px"><strong>Account mode:</strong> <span class="mode-badge ${modeInfo.badgeClass}">${escapeHtml(modeInfo.label)}</span> (${escapeHtml(modeInfo.description)})</div>
+      <div style="margin-bottom:10px"><strong>Account mode:</strong> <span class="mode-badge ${modeInfo.badgeClass}">${escapeHtml(modeLabel)}</span> (${escapeHtml(modeDescription)})</div>
 
       <div style="margin-bottom:10px"><strong>Balance / Equity:</strong> ${escapeHtml(balanceStr)} / ${escapeHtml(equityStr)}</div>
 
