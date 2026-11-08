@@ -487,3 +487,45 @@ body.dashboard-page [style*="border:1px solid rgba(255,255,255"] { border-color:
   .panel { padding:24px 18px !important; }
   .heading h2 { font-size:clamp(23px,6vw,30px) !important; }
 }
+
+
+/* Customer-facing landing summary panel */
+.brand-card-summary {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 330px;
+  padding: clamp(24px,3vw,38px);
+}
+.brand-card-summary .tag {
+  display: inline-flex;
+  align-self: flex-start;
+  margin-bottom: 18px;
+  padding: 7px 10px;
+  border-radius: 6px;
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: .08em;
+}
+.brand-card-metrics {
+  display: grid;
+  gap: 0;
+  border-top: 1px solid #E2E8F0;
+  border-bottom: 1px solid #E2E8F0;
+}
+.brand-card-metrics > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid #E2E8F0;
+}
+.brand-card-metrics > div:last-child { border-bottom: 0; }
+.brand-card-metrics span { color: #64748B; font-size: 12px; }
+.brand-card-metrics strong { color: #0F172A; font-size: 13px; font-weight: 700; text-align: right; }
+.brand-card-summary > p { margin: 18px 0 0; color: #64748B !important; font-size: 13px; line-height: 1.65; }
+@media (max-width: 600px) {
+  .brand-card-summary { min-height: 0; padding: 22px; }
+  .brand-card-metrics > div { padding: 13px 0; }
+}
