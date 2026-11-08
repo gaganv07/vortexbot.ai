@@ -19,7 +19,7 @@
           label: 'UNAVAILABLE',
           badgeClass: 'status-badge-unavailable',
           icon: '✕',
-          message: 'Telemetry gateway unavailable'
+          message: 'Account information is temporarily unavailable'
         };
       }
       if (!data) {
@@ -28,7 +28,7 @@
           label: 'DISCONNECTED',
           badgeClass: 'status-badge-disconnected',
           icon: '○',
-          message: 'No active telemetry stream received'
+          message: 'No recent account update has been received'
         };
       }
 
@@ -46,7 +46,7 @@
           label: 'DISCONNECTED',
           badgeClass: 'status-badge-disconnected',
           icon: '○',
-          message: 'No verified broker snapshot recorded'
+          message: 'No account update has been received'
         };
       }
 
@@ -63,8 +63,8 @@
           ageMs: Math.max(0, ageMs),
           isCache: isBootstrapCache,
           message: isBootstrapCache
-            ? 'Static preflight demo cache — MT5 publisher is not actively streaming'
-            : `Telemetry is stale (last update was ${Math.round(ageMs / 1000)}s ago)`
+            ? 'Showing a previous saved update. New account information has not been received.'
+            : `Account information is delayed (last update was ${Math.round(ageMs / 1000)} seconds ago)`
         };
       }
 
@@ -75,7 +75,7 @@
         badgeClass: 'status-badge-connected',
         icon: '●',
         ageMs: Math.max(0, ageMs),
-        message: 'Active broker-confirmed stream'
+        message: 'Recent account information received'
       };
     },
 
@@ -89,7 +89,7 @@
           mode: 'UNKNOWN',
           label: 'UNKNOWN',
           badgeClass: 'mode-badge-unknown',
-          description: 'Broker trade_mode metadata unavailable'
+          description: 'Account mode information is unavailable'
         };
       }
       const raw = String(account.trade_mode).toUpperCase().trim();
@@ -113,7 +113,7 @@
         mode: 'UNKNOWN',
         label: 'UNKNOWN',
         badgeClass: 'mode-badge-unknown',
-        description: 'Unrecognized trade_mode value: ' + raw
+        description: 'Account mode could not be verified: ' + raw
       };
     },
 
@@ -161,7 +161,7 @@
       }
 
       if (isCache) {
-        relativeStr += ' (Stale Preflight Cache)';
+        relativeStr += ' (Previous saved update)';
       }
 
       const pad = (n) => String(n).padStart(2, '0');
