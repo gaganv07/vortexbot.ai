@@ -1067,7 +1067,7 @@ tr:hover td{
 
 
 
-    <!-- AI/ML MULTI-MODEL ENSEMBLE STATUS -->
+    <!-- Market analysis and conditions -->
 
     <div class="card" style="margin-top:16px">
       <div class="card-header">
@@ -1081,16 +1081,16 @@ tr:hover td{
         <!-- 1. Supervised ML -->
         <div style="background:#091410;padding:14px;border-radius:12px;border:1px solid #1a382e">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
-            <span style="font-size:12px;font-weight:750;color:var(--text)">Supervised Classifier</span>
+            <span style="font-size:12px;font-weight:750;color:var(--text)">Price direction</span>
             <span class="role-badge role-badge-admin" id="ml-model-badge" style="font-size:9px">OPERATIONAL</span>
           </div>
           <div style="font-size:11px;color:var(--muted)">Analysis type: <strong>Price direction</strong></div>
           <div style="font-size:11px;color:var(--teal);margin-top:2px">Signal quality: <strong id="ml-brier-score">0.2244 (Calibrated)</strong></div>
-          <div style="font-size:11px;color:var(--muted);margin-top:4px">Evaluations: <strong id="ml-inference-count" style="color:var(--cyan)">0 evals</strong></div>
-          <div style="font-size:10px;color:var(--muted);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Last: <span id="ml-last-inference">Awaiting candidate...</span></div>
-          <div style="font-size:11px;color:var(--text);margin-top:4px">Current view: <strong id="ml-last-pred" style="color:var(--amber)">—</strong></div>
+          <div style="font-size:11px;color:var(--muted);margin-top:4px">Assessments: <strong id="ml-inference-count" style="color:var(--cyan)">0 updates</strong></div>
+          <div style="font-size:10px;color:var(--muted);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Latest: <span id="ml-last-inference">Awaiting update...</span></div>
+          <div style="font-size:11px;color:var(--text);margin-top:4px">Current assessment: <strong id="ml-last-pred" style="color:var(--amber)">—</strong></div>
         </div>
-        <!-- 2. Regime Classifier -->
+        <!-- 2. Market trend -->
         <div style="background:#091410;padding:14px;border-radius:12px;border:1px solid #1a382e">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
             <span style="font-size:12px;font-weight:750;color:var(--text)">Market conditions</span>
@@ -1098,29 +1098,29 @@ tr:hover td{
           </div>
           <div style="font-size:11px;color:var(--muted)">Conditions: <strong id="current-market-regime" style="color:var(--cyan)">NORMAL</strong></div>
           <div style="font-size:11px;color:var(--teal);margin-top:2px">Factors: <strong>Trend, volatility and structure</strong></div>
-          <div style="font-size:11px;color:var(--muted);margin-top:4px">Checks: <strong id="regime-inference-count" style="color:var(--cyan)">0 evals</strong></div>
-          <div style="font-size:10px;color:var(--muted);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Last: <span id="regime-last-inference">Awaiting candidate...</span></div>
+          <div style="font-size:11px;color:var(--muted);margin-top:4px">Updates: <strong id="regime-inference-count" style="color:var(--cyan)">0 updates</strong></div>
+          <div style="font-size:10px;color:var(--muted);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Latest: <span id="regime-last-inference">Awaiting update...</span></div>
         </div>
-        <!-- 3. Anomaly Filter -->
+        <!-- 3. Unusual price activity -->
         <div style="background:#091410;padding:14px;border-radius:12px;border:1px solid #1a382e">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
             <span style="font-size:12px;font-weight:750;color:var(--text)">Unusual market activity</span>
             <span class="role-badge role-badge-admin" id="anomaly-model-badge" style="font-size:9px">ACTIVE</span>
           </div>
           <div style="font-size:11px;color:var(--muted)">Market status: <strong id="anomaly-state" style="color:var(--teal)">CLEAN</strong></div>
-          <div style="font-size:11px;color:var(--muted);margin-top:2px">Checks: <strong>Spread and price movement</strong></div>
-          <div style="font-size:11px;color:var(--muted);margin-top:4px">Checks: <strong id="anomaly-inference-count" style="color:var(--cyan)">0 evals</strong></div>
-          <div style="font-size:10px;color:var(--muted);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Last: <span id="anomaly-last-inference">Awaiting candidate...</span></div>
+          <div style="font-size:11px;color:var(--muted);margin-top:2px">Updates: <strong>Spread and price movement</strong></div>
+          <div style="font-size:11px;color:var(--muted);margin-top:4px">Updates: <strong id="anomaly-inference-count" style="color:var(--cyan)">0 updates</strong></div>
+          <div style="font-size:10px;color:var(--muted);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Latest: <span id="anomaly-last-inference">Awaiting update...</span></div>
         </div>
-        <!-- 4. Consensus Ensemble -->
+        <!-- 4. Overall market view -->
         <div style="background:#091410;padding:14px;border-radius:12px;border:1px solid #1a382e">
           <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
             <span style="font-size:12px;font-weight:750;color:var(--text)">Combined market assessment</span>
             <span class="role-badge role-badge-admin" id="ensemble-model-badge" style="font-size:9px">CONSENSUS</span>
           </div>
-          <div style="font-size:11px;color:var(--muted)">Checks: <strong id="ensemble-total-evals" style="color:var(--cyan)">0</strong></div>
+          <div style="font-size:11px;color:var(--muted)">Updates: <strong id="ensemble-total-updates" style="color:var(--cyan)">0</strong></div>
           <div style="font-size:11px;color:var(--muted);margin-top:2px">Assessments: <strong id="ensemble-decisions-count" style="color:var(--text)">Aligned: 0 | Divergent: 0</strong></div>
-          <div style="font-size:11px;color:var(--amber);margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Last: <span id="ensemble-last-reason">Awaiting candidate...</span></div>
+          <div style="font-size:11px;color:var(--amber);margin-top:4px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">Latest: <span id="ensemble-last-reason">Awaiting update...</span></div>
         </div>
         <!-- 5. Demo account risk limits -->
         <div style="background:#091410;padding:14px;border-radius:12px;border:1px solid #1a382e">
@@ -1166,10 +1166,6 @@ tr:hover td{
 
               <th>Account</th>
 
-              <th>Account reference</th>
-
-              <th>Connection</th>
-
               <th>Mode</th>
 
               <th>Balance</th>
@@ -1190,7 +1186,7 @@ tr:hover td{
 
           <tbody id="accounts-table-body">
 
-            <tr><td colspan="10" style="text-align:center;padding:24px;color:var(--muted)">Loading fleet matrix...</td></tr>
+            <tr><td colspan="8" style="text-align:center;padding:24px;color:var(--muted)">Loading account information...</td></tr>
 
           </tbody>
 
@@ -1214,7 +1210,7 @@ tr:hover td{
 
         <div>
 
-          <h2 class="card-title">Active Broker Open Positions</h2>
+          <h2 class="card-title">Open positions</h2>
 
           <div class="card-meta">Positions reported by connected broker accounts</div>
 
@@ -1522,7 +1518,7 @@ tr:hover td{
 
 
   
-  <!-- TAB: MARKET INTELLIGENCE (PHASE 94) -->
+  <!-- TAB: MARKET INTELLIGENCE -->
   <section id="tab-intelligence" class="view-panel" hidden>
     <div class="card" style="margin-bottom: 1.5rem;">
       <div class="card-header">
@@ -1531,14 +1527,14 @@ tr:hover td{
           <div class="card-meta">Broker liquidity, global news and institutional positioning information</div>
         </div>
         <div style="display:flex; gap:0.5rem; align-items:center;">
-          <span class="badge" style="background: rgba(16,185,129,0.15); color: #10b981; border: 1px solid rgba(16,185,129,0.3); font-size: 0.75rem; padding: 0.25rem 0.6rem; border-radius: 4px;">SHADOW MODE ACTIVE</span>
+          <span class="badge" style="background: rgba(16,185,129,0.15); color: #10b981; border: 1px solid rgba(16,185,129,0.3); font-size: 0.75rem; padding: 0.25rem 0.6rem; border-radius: 4px;">MARKET ASSESSMENT</span>
           <span id="intel-last-updated" style="font-size: 0.75rem; color: #94a3b8;">Awaiting update</span>
         </div>
       </div>
       <div class="card-body">
         <!-- Provider Health Cards -->
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; margin-bottom: 1.5rem;">
-          <!-- Card 1: MT5 DOM -->
+          <!-- Card 1: Broker market depth -->
           <div class="stat-card" style="padding: 1.1rem; border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; background: rgba(15,23,42,0.6);">
             <div style="display:flex; justify-content:space-between; align-items:center;">
               <span style="font-size: 0.75rem; text-transform: uppercase; color: #94a3b8; font-weight: 700;">Broker market depth</span>
@@ -1549,11 +1545,11 @@ tr:hover td{
               <div>Records: <span id="intel-records-dom" style="color: #f1f5f9; font-weight: 600;">8 symbols monitored</span></div>
               <div>Freshness: <span id="intel-fresh-dom" class="badge" style="font-size: 0.65rem; background: rgba(59,130,246,0.15); color: #3b82f6;">REAL-TIME</span></div>
               <div>Latest Update: <span id="intel-update-dom" style="color: #cbd5e1;">Streaming</span></div>
-              <div id="intel-err-dom" style="color: #64748b; font-size: 0.7rem; margin-top: 0.2rem;">OTC CFD (L2 DOM disabled server-side by broker)</div>
+              <div id="intel-err-dom" style="color: #64748b; font-size: 0.7rem; margin-top: 0.2rem;">Detailed order-book data is not available for this instrument.</div>
             </div>
           </div>
 
-          <!-- Card 2: GDELT News -->
+          <!-- Card 2: Market news -->
           <div class="stat-card" style="padding: 1.1rem; border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; background: rgba(15,23,42,0.6);">
             <div style="display:flex; justify-content:space-between; align-items:center;">
               <span style="font-size: 0.75rem; text-transform: uppercase; color: #94a3b8; font-weight: 700;">Global market news</span>
@@ -1564,11 +1560,11 @@ tr:hover td{
               <div>Records: <span id="intel-records-gdelt" style="color: #f1f5f9; font-weight: 600;">Curated live stream</span></div>
               <div>Freshness: <span id="intel-fresh-gdelt" class="badge" style="font-size: 0.65rem; background: rgba(16,185,129,0.15); color: #10b981;">REAL-TIME</span></div>
               <div>Latest Update: <span id="intel-update-gdelt" style="color: #cbd5e1;">Continuous (30m cache)</span></div>
-              <div id="intel-err-gdelt" style="color: #64748b; font-size: 0.7rem; margin-top: 0.2rem;">Auto-rate-limit circuit breaker enabled</div>
+              <div id="intel-err-gdelt" style="color: #64748b; font-size: 0.7rem; margin-top: 0.2rem;">News updates may be delayed.</div>
             </div>
           </div>
 
-          <!-- Card 3: CFTC COT -->
+          <!-- Card 3: Futures positioning -->
           <div class="stat-card" style="padding: 1.1rem; border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; background: rgba(15,23,42,0.6);">
             <div style="display:flex; justify-content:space-between; align-items:center;">
               <span style="font-size: 0.75rem; text-transform: uppercase; color: #94a3b8; font-weight: 700;">Institutional futures positioning</span>
@@ -1579,11 +1575,11 @@ tr:hover td{
               <div>Records: <span id="intel-records-cftc" style="color: #f1f5f9; font-weight: 600;">7 active contracts mapped</span></div>
               <div>Freshness: <span id="intel-fresh-cftc" class="badge" style="font-size: 0.65rem; background: rgba(245,158,11,0.15); color: #f59e0b;">WEEKLY HISTORICAL</span></div>
               <div>Latest Report: <span id="intel-update-cftc" style="color: #cbd5e1;">Published Friday 20:30 UTC</span></div>
-              <div id="intel-err-cftc" style="color: #64748b; font-size: 0.7rem; margin-top: 0.2rem;">Public Reporting Environment (Socrata)</div>
+              <div id="intel-err-cftc" style="color: #64748b; font-size: 0.7rem; margin-top: 0.2rem;">Weekly historical market research</div>
             </div>
           </div>
 
-          <!-- Card 4: NewsData.io -->
+          <!-- Card 4: Additional market coverage -->
           <div class="stat-card" style="padding: 1.1rem; border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; background: rgba(15,23,42,0.6);">
             <div style="display:flex; justify-content:space-between; align-items:center;">
               <span style="font-size: 0.75rem; text-transform: uppercase; color: #94a3b8; font-weight: 700;">Additional news coverage</span>
@@ -1591,16 +1587,16 @@ tr:hover td{
             </div>
             <div style="margin: 0.5rem 0; font-size: 0.85rem; color: #f8fafc; font-weight: 600;">Delayed Research Feed</div>
             <div style="font-size: 0.75rem; color: #94a3b8; display: flex; flex-direction: column; gap: 0.2rem;">
-              <div>Records: <span id="intel-records-newsdata" style="color: #f1f5f9; font-weight: 600;">0 (Unconfigured)</span></div>
+              <div>Records: <span id="intel-records-newsdata" style="color: #f1f5f9; font-weight: 600;">Not connected</span></div>
               <div>Freshness: <span id="intel-fresh-newsdata" class="badge" style="font-size: 0.65rem; background: rgba(148,163,184,0.15); color: #94a3b8;">DELAYED</span></div>
-              <div>Quota: <span id="intel-quota-newsdata" style="color: #cbd5e1;">0/200 credits used</span></div>
-              <div id="intel-err-newsdata" style="color: #64748b; font-size: 0.7rem; margin-top: 0.2rem;">NEWSDATA_API_KEY omitted (No credit leakage)</div>
+              <div>Quota: <span id="intel-quota-newsdata" style="color: #cbd5e1;">Optional coverage</span></div>
+              <div id="intel-err-newsdata" style="color: #64748b; font-size: 0.7rem; margin-top: 0.2rem;">Additional coverage is not configured.</div>
             </div>
           </div>
         </div>
       </div>
-      <!-- Shadow Mode Strategy Alignment Table -->
-        <h3 style="font-size: 1rem; margin-bottom: 0.5rem; color: #f8fafc;">Shadow Intelligence Alignment Matrix (Non-Execution)</h3>
+      <!-- Market assessment table -->
+        <h3 style="font-size: 1rem; margin-bottom: 0.5rem; color: #f8fafc;">Market assessment overview</h3>
         <p style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 1rem;">Compares internal strategy signals against external market sentiment for research and signal quality audit.</p>
         <div class="table-responsive" style="margin-bottom: 2rem;">
           <table class="table" style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
@@ -1639,7 +1635,7 @@ tr:hover td{
               </tr>
             </thead>
             <tbody id="cftc-positioning-tbody">
-              <tr><td colspan="8" style="padding: 1rem; text-align: center; color: #64748b;">Loading CFTC institutional positioning...</td></tr>
+              <tr><td colspan="8" style="padding: 1rem; text-align: center; color: #64748b;">Loading weekly positioning information...</td></tr>
             </tbody>
           </table>
         </div>
@@ -1652,28 +1648,28 @@ tr:hover td{
             <thead>
               <tr style="border-bottom: 1px solid rgba(255,255,255,0.1); text-align: left; color: #94a3b8;">
                 <th style="padding: 0.5rem;">Instrument</th>
-                <th style="padding: 0.5rem;">DOM Status</th>
-                <th style="padding: 0.5rem;">Provider Type</th>
+                <th style="padding: 0.5rem;">Market depth</th>
+                <th style="padding: 0.5rem;">Data category</th>
                 <th style="padding: 0.5rem;">Spread (pts)</th>
                 <th style="padding: 0.5rem;">Spread Cost (USD)</th>
                 <th style="padding: 0.5rem;">Imbalance Ratio</th>
-                <th style="padding: 0.5rem;">Source Details</th>
+                <th style="padding: 0.5rem;">Notes</th>
               </tr>
             </thead>
             <tbody id="market-depth-tbody">
-              <tr><td colspan="7" style="padding: 1rem; text-align: center; color: #64748b;">Loading broker liquidity metrics...</td></tr>
+              <tr><td colspan="7" style="padding: 1rem; text-align: center; color: #64748b;">Loading broker market information...</td></tr>
             </tbody>
           </table>
         </div>
 
         <!-- Financial & Geopolitical News Feed -->
-        <h3 style="font-size: 1rem; margin-bottom: 0.5rem; color: #f8fafc;">Financial, Economic &amp; Geopolitical News Intelligence</h3>
-        <p style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 1rem;">Financial, economic and geopolitical headlines from market research sources.</p>
+        <h3 style="font-size: 1rem; margin-bottom: 0.5rem; color: #f8fafc;">Market news and economic updates</h3>
+        <p style="font-size: 0.8rem; color: #94a3b8; margin-bottom: 1rem;">News and research updates related to financial markets.</p>
         <div class="table-responsive">
           <table class="table" style="width: 100%; border-collapse: collapse; font-size: 0.85rem;">
             <thead>
               <tr style="border-bottom: 1px solid rgba(255,255,255,0.1); text-align: left; color: #94a3b8;">
-                <th style="padding: 0.5rem;">Provider</th>
+                <th style="padding: 0.5rem;">Data category</th>
                 <th style="padding: 0.5rem;">Instrument</th>
                 <th style="padding: 0.5rem;">Category</th>
                 <th style="padding: 0.5rem;">Headline</th>
@@ -1700,7 +1696,7 @@ tr:hover td{
 
         <h2 class="card-title">Performance Analytics</h2>
 
-        <span class="card-meta">Automated metric calculation</span>
+        <span class="card-meta">Calculated from available trade history</span>
 
       </div>
 
@@ -1752,9 +1748,9 @@ tr:hover td{
 
       <div class="card-header">
 
-        <h2 class="card-title">Risk Exposure &amp; Circuit Breakers</h2>
+        <h2 class="card-title">Risk overview</h2>
 
-        <span class="card-meta">Automated risk-engine parameters</span>
+        <span class="card-meta">Risk information for connected accounts</span>
 
       </div>
 
@@ -2008,15 +2004,11 @@ tr:hover td{
 
         <div style="background:#091410;padding:18px;border-radius:12px;border:1px solid #1a382e">
 
-          <h3 style="margin:0 0 12px;font-size:14px;color:var(--teal)">Customer Support &amp; Assistance</h3>
+          <h3 style="margin:0 0 12px;font-size:14px;color:var(--teal)">Customer support</h3>
 
-          <div style="margin-bottom:8px"><strong>Official Desk:</strong> <a href="mailto:supportvortexbot@gmail.com" style="color:var(--teal);text-decoration:none;font-weight:650;user-select:all">supportvortexbot@gmail.com</a></div>
+          <p style="margin:0 0 12px">For account access and website questions, contact us through an official support channel. Never share passwords or sign-in codes.</p>
 
-          <div style="margin-bottom:8px"><strong>Inquiries:</strong> Account Provisioning, Telemetry Logs &amp; Platform Support</div>
-
-          <div style="margin-bottom:8px"><strong>Response Queue:</strong> Verified Operator Priority (24/7 Mon–Fri)</div>
-
-          <div><strong>Direct Link:</strong> <a href="mailto:supportvortexbot@gmail.com" style="display:inline-flex;align-items:center;gap:6px;background:#12241e;border:1px solid #244b3e;padding:6px 12px;border-radius:6px;color:#00e6ad;text-decoration:none;font-size:12px;margin-top:4px">Email Support Desk ✉</a></div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap"><a href="https://wa.me/919148034459" target="_blank" rel="noopener noreferrer">WhatsApp support</a><a href="https://www.instagram.com/vortexbot.ai/" target="_blank" rel="noopener noreferrer">Instagram</a></div>
 
         </div>
 
@@ -2031,14 +2023,14 @@ tr:hover td{
     <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px">
       <div>
         <span>© 2026 VORTEX AI · Operations Console</span>
-        <span style="margin-left:14px;color:#94aca2">Customer Support: <a href="mailto:supportvortexbot@gmail.com" style="color:var(--teal);text-decoration:none;font-weight:600;user-select:all">supportvortexbot@gmail.com</a></span>
+        <span style="margin-left:14px;color:#94aca2">Customer support: WhatsApp and Instagram</span>
       </div>
       <div style="display:flex;gap:16px;flex-wrap:wrap">
         <a href="/" style="color:#80978e;text-decoration:none">Home</a>
         <a href="/getting-started.html" style="color:#80978e;text-decoration:none">Getting Started</a>
         <a href="/status.html" style="color:#80978e;text-decoration:none">Status</a>
         <a href="/faq.html" style="color:#80978e;text-decoration:none">FAQ</a>
-        <a href="mailto:supportvortexbot@gmail.com" style="color:var(--teal);text-decoration:none">Email Support</a>
+        <a href="https://wa.me/919148034459" target="_blank" rel="noopener noreferrer" style="color:var(--teal);text-decoration:none">WhatsApp support</a>
       </div>
     </div>
   </footer>
@@ -2109,7 +2101,40 @@ tr:hover td{
 
 
 
-  // 2. Authoritative Supabase Authentication & Session Handoff
+  function accountLabel(value) {
+    const raw = String(value || '');
+    if (raw.toLowerCase() === 'primary') return 'Primary account';
+    const match = raw.match(/(\d+)$/);
+    return match ? 'Account ' + match[1].padStart(3, '0') : 'Account';
+  }
+
+  function friendlyStatus(value) {
+    const status = String(value || '').toUpperCase();
+    if (/STALE|DELAYED|DEGRADED|RATE_LIMITED/.test(status)) return 'Delayed';
+    if (/DISCONNECTED|AUTH_FAILED|UNAVAILABLE|NOT_SUPPORTED|ERROR/.test(status)) return 'Unavailable';
+    if (/NOT_CONFIGURED|UNCONFIGURED|AWAITING|UNKNOWN/.test(status)) return 'Not set up';
+    if (/CONNECTED|HEALTHY|VERIFIED|LIVE|CURRENT|REAL.?TIME|OPERATIONAL/.test(status)) return 'Current';
+    return 'Checking';
+  }
+
+  function friendlyDataStatus(value) {
+    const status = String(value || '').toUpperCase();
+    if (/CACHE|HISTORICAL|PREVIOUS/.test(status)) return 'Previous update';
+    if (/STALE|DELAYED|DEGRADED|RATE_LIMITED/.test(status)) return 'Delayed';
+    if (/NOT_CONFIGURED|UNCONFIGURED|AWAITING|AUTH_FAILED|DISCONNECTED/.test(status)) return 'Not available';
+    if (/VERIFIED|CONNECTED|HEALTHY|LIVE|CURRENT/.test(status)) return 'Current';
+    return 'Checking';
+  }
+
+  function friendlySourceLabel(value) {
+    const source = String(value || '').toUpperCase();
+    if (/MT5|BROKER/.test(source)) return 'Broker data';
+    if (/GDELT|NEWSDATA|NEWS/.test(source)) return 'Market news';
+    if (/CFTC|COT|FUTURE/.test(source)) return 'Futures positioning';
+    return 'Market data';
+  }
+
+  // 2. Account authentication and session handoff
 
   let session = null;
 
@@ -2143,7 +2168,7 @@ tr:hover td{
 
 
 
-  // 3. Logout Handler (Clean Supabase signOut)
+  // 3. Sign-out handler
 
   async function logout() {
 
@@ -2362,7 +2387,7 @@ tr:hover td{
       const el = document.getElementById(elId);
       if (!el) return;
       const s = (status || 'UNKNOWN').toUpperCase();
-      el.textContent = s;
+      el.textContent = friendlyStatus(s);
       if (s === 'CONNECTED' || s === 'HEALTHY' || s === 'OPERATIONAL') {
         el.style.background = 'rgba(16,185,129,0.15)';
         el.style.color = '#10b981';
@@ -2388,7 +2413,7 @@ tr:hover td{
       const st = ph.MT5_DOM.status === 'HEALTHY' ? 'CONNECTED' : (ph.MT5_DOM.status || 'CONNECTED');
       setBadge('intel-badge-dom', st);
       const errEl = document.getElementById('intel-err-dom');
-      if (errEl) errEl.textContent = ph.MT5_DOM.error_or_rate_limit || ph.MT5_DOM.message || 'OTC CFD (L2 DOM disabled server-side by broker)';
+      if (errEl) errEl.textContent = 'Detailed order-book data is not available for this instrument.';
       const recEl = document.getElementById('intel-records-dom');
       if (recEl && intel.market_depth) recEl.textContent = Object.keys(intel.market_depth).length + ' symbols active';
       const upEl = document.getElementById('intel-update-dom');
@@ -2400,7 +2425,7 @@ tr:hover td{
       const st = ph.GDELT_DOC_API.circuit_breaker_tripped ? 'DEGRADED' : (ph.GDELT_DOC_API.status === 'HEALTHY' ? 'CONNECTED' : ph.GDELT_DOC_API.status);
       setBadge('intel-badge-gdelt', st);
       const errEl = document.getElementById('intel-err-gdelt');
-      if (errEl) errEl.textContent = ph.GDELT_DOC_API.circuit_breaker_tripped ? ('Rate limited; cool down until ' + (ph.GDELT_DOC_API.cooldown_until || 'active')) : (ph.GDELT_DOC_API.message || 'Auto-rate-limit circuit breaker enabled');
+      if (errEl) errEl.textContent = 'Market news updates may be delayed.';
       const recEl = document.getElementById('intel-records-gdelt');
       if (recEl && Array.isArray(intel.recent_headlines)) recEl.textContent = intel.recent_headlines.length + ' articles cached';
       const upEl = document.getElementById('intel-update-gdelt');
@@ -2412,7 +2437,7 @@ tr:hover td{
       const st = ph.CFTC_PUBLIC_API.status === 'HEALTHY' ? 'CONNECTED' : ph.CFTC_PUBLIC_API.status;
       setBadge('intel-badge-cftc', st);
       const errEl = document.getElementById('intel-err-cftc');
-      if (errEl) errEl.textContent = ph.CFTC_PUBLIC_API.message || 'Public Reporting Environment (Socrata)';
+      if (errEl) errEl.textContent = 'Weekly positioning information is provided as historical research.';
       const recEl = document.getElementById('intel-records-cftc');
       if (recEl && intel.institutional_positioning) recEl.textContent = Object.keys(intel.institutional_positioning).length + ' contracts mapped';
       const upEl = document.getElementById('intel-update-cftc');
@@ -2424,9 +2449,9 @@ tr:hover td{
       const st = (ph.NEWSDATA_IO.status === 'UNCONFIGURED' || !ph.NEWSDATA_IO.quota_limit) ? 'NOT_CONFIGURED' : ph.NEWSDATA_IO.status;
       setBadge('intel-badge-newsdata', st);
       const quotaEl = document.getElementById('intel-quota-newsdata');
-      if (quotaEl) quotaEl.textContent = (ph.NEWSDATA_IO.quota_used || 0) + '/' + (ph.NEWSDATA_IO.quota_limit || 200) + ' credits used';
+      if (quotaEl) quotaEl.textContent = 'Optional coverage';
       const errEl = document.getElementById('intel-err-newsdata');
-      if (errEl) errEl.textContent = ph.NEWSDATA_IO.message || 'NEWSDATA_API_KEY omitted (No credit leakage)';
+      if (errEl) errEl.textContent = 'Additional market coverage is not currently available.';
     }
 
     // Shadow Mode Alignment Table
@@ -2487,16 +2512,16 @@ tr:hover td{
         depthTbody.innerHTML = keys.map(k => {
           const d = intel.market_depth[k];
           const domBadge = d.depth_available
-            ? '<span class="badge" style="background:rgba(16,185,129,0.15); color:#10b981;">L2 ACTIVE</span>'
-            : '<span class="badge" style="background:rgba(148,163,184,0.15); color:#94a3b8;">OTC TOP-OF-BOOK</span>';
+            ? '<span class="badge" style="background:rgba(16,185,129,0.15); color:#10b981;">Depth available</span>'
+            : '<span class="badge" style="background:rgba(148,163,184,0.15); color:#94a3b8;">Broker prices</span>';
           return '<tr style="border-bottom:1px solid rgba(255,255,255,0.05);">' +
             '<td style="padding:0.5rem; font-weight:600;">' + (d.symbol || k) + '</td>' +
             '<td style="padding:0.5rem;">' + domBadge + '</td>' +
-            '<td style="padding:0.5rem; font-size:0.75rem;">' + (d.provider || 'MT5') + '</td>' +
+            '<td style="padding:0.5rem; font-size:0.75rem;">' + friendlySourceLabel(d.provider || 'BROKER') + '</td>' +
             '<td style="padding:0.5rem;">' + (d.spread_points || 0) + '</td>' +
             '<td style="padding:0.5rem;">$' + (d.spread_cost_usd || 0).toFixed(2) + '</td>' +
             '<td style="padding:0.5rem;">' + (d.imbalance_ratio || 1.0).toFixed(2) + '</td>' +
-            '<td style="padding:0.5rem; font-size:0.75rem; color:#64748b;">' + (d.source_notes || '') + '</td>' +
+            '<td style="padding:0.5rem; font-size:0.75rem; color:#64748b;">' + 'Broker-provided market information' + '</td>' +
             '</tr>';
         }).join('');
       }
@@ -2510,12 +2535,12 @@ tr:hover td{
         if (n.sentiment_score > 0.1) sentColor = '#10b981';
         if (n.sentiment_score < -0.1) sentColor = '#ef4444';
         return '<tr style="border-bottom:1px solid rgba(255,255,255,0.05);">' +
-          '<td style="padding:0.5rem; font-size:0.75rem; color:#94a3b8;">' + (n.provider || 'GDELT') + '</td>' +
+          '<td style="padding:0.5rem; font-size:0.75rem; color:#94a3b8;">' + friendlySourceLabel(n.provider || 'NEWS') + '</td>' +
           '<td style="padding:0.5rem; font-weight:600;">' + (n.instrument || 'MACRO') + '</td>' +
           '<td style="padding:0.5rem; font-size:0.75rem;">' + (n.event_category || 'GENERAL') + '</td>' +
           '<td style="padding:0.5rem;"><a href="' + (n.source_url || '#') + '" target="_blank" rel="noopener noreferrer" style="color:#60a5fa; text-decoration:none;">' + (n.headline || '') + '</a></td>' +
           '<td style="padding:0.5rem; font-weight:600; color:' + sentColor + ';">' + ((n.sentiment_score || 0) > 0 ? '+' : '') + (n.sentiment_score || 0).toFixed(2) + '</td>' +
-          '<td style="padding:0.5rem;"><span class="badge" style="font-size:0.65rem; background:rgba(59,130,246,0.15); color:#3b82f6;">' + (n.freshness_status || 'REAL_TIME') + '</span></td>' +
+          '<td style="padding:0.5rem;"><span class="badge" style="font-size:0.65rem; background:rgba(59,130,246,0.15); color:#3b82f6;">' + friendlyStatus(n.freshness_status || 'REAL_TIME') + '</span></td>' +
           '</tr>';
       }).join('');
     }
@@ -2593,7 +2618,7 @@ tr:hover td{
 
 
 
-      // B. Evaluate Feed Freshness & Data Provenance
+      // B. Evaluate Feed Freshness & Data status
 
       const freshness = window.StatusUtils.evaluateFeedFreshness(data, null);
 
@@ -2619,9 +2644,9 @@ tr:hover td{
 
             <div>
 
-              <strong>Feed Freshness: STALE (${escapeHtml(freshness.message)})</strong>
+              <strong>Account information delayed</strong>
 
-              <div style="font-size:12px;margin-top:2px">Last verified broker update was ${escapeHtml(timeInfo.relative)} (${escapeHtml(timeInfo.utc)}). Live MT5 publisher is offline or stopped. Displaying static preflight demo cache.</div>
+              <div style="font-size:12px;margin-top:2px">Last account update: ${escapeHtml(timeInfo.relative)} ago (${escapeHtml(timeInfo.utc)}). Values may be out of date until a new broker update is received.</div>
 
             </div>
 
@@ -2639,9 +2664,9 @@ tr:hover td{
 
             <div>
 
-              <strong>Feed Disconnected: No active broker snapshot received</strong>
+              <strong>Account connection unavailable</strong>
 
-              <div style="font-size:12px;margin-top:2px">Serverless edge gateway is reachable but no MT5 telemetry stream is recorded in storage.</div>
+              <div style="font-size:12px;margin-top:2px">A recent account update has not been received. Check the connected account and try refreshing again.</div>
 
             </div>
 
@@ -2679,7 +2704,7 @@ tr:hover td{
 
         connSub.textContent = verifiedConnectedCount > 0
 
-          ? 'account_003 (Other: Awaiting Telemetry)'
+          ? 'Account 003 is connected; other accounts may be awaiting an update'
 
           : 'No active broker feed';
 
@@ -2697,7 +2722,7 @@ tr:hover td{
 
         totalBalEl.textContent = `$${fleet.total_balance.toFixed(2)}`;
 
-        if (totalBalSub) totalBalSub.textContent = 'Verified Live Telemetry (Other: Awaiting Telemetry)';
+        if (totalBalSub) totalBalSub.textContent = 'Recent account information received';
 
       } else if (fleet.total_balance === 0) {
 
@@ -2715,7 +2740,7 @@ tr:hover td{
 
           : 'Unavailable';
 
-        if (totalBalSub) totalBalSub.textContent = `Historical Cache: ${cacheBal}`;
+        if (totalBalSub) totalBalSub.textContent = `Previous saved update: ${cacheBal}`;
 
       }
 
@@ -2749,7 +2774,7 @@ tr:hover td{
 
           : 'Unavailable';
 
-        if (totalEqSub) totalEqSub.textContent = `Historical Cache: ${cacheEq}`;
+        if (totalEqSub) totalEqSub.textContent = `Previous saved update: ${cacheEq}`;
 
       }
 
@@ -2825,25 +2850,10 @@ tr:hover td{
 
 
 
-            let accProv = acc.status || 'AWAITING_CREDENTIALS';
-
-            let accProvClass = 'prov-badge-cache';
-
-            if (isAcc003) {
-
-              accProv = isCache ? 'PREFLIGHT CACHE' : 'VERIFIED STREAM';
-
-              accProvClass = isCache ? 'prov-badge-cache' : 'prov-badge-verified';
-
-            } else if (acc.status === 'AUTH_FAILED_ERROR_6') {
-
-              accProv = 'AUTH_FAILED_ERROR_6';
-
-            } else if (acc.status === 'AWAITING_CREDENTIALS') {
-
-              accProv = 'AWAITING_CREDENTIALS';
-
-            }
+            const accProvClass = isAcc003 && !isCache ? 'prov-badge-verified' : 'prov-badge-cache';
+            const accDataStatus = isAcc003
+              ? friendlyDataStatus(isCache ? 'PREVIOUS CACHE' : 'VERIFIED')
+              : friendlyDataStatus(acc.status);
 
 
 
@@ -2867,25 +2877,9 @@ tr:hover td{
 
 
 
-            // Broker Server: never default to VantageMarkets-Demo if absent
-
-            const serverDisplay = (acc.server && acc.server.trim()) ? acc.server.trim() : 'Not configured';
-
-
-
-            // Login
-
-            const loginDisplay = (acc.login && Number(acc.login) > 0) ? '#' + acc.login : '—';
-
-
-
             tr.innerHTML = `
 
-              <td><strong>${escapeHtml(acc.account_id)}</strong></td>
-
-              <td>${escapeHtml(loginDisplay)}</td>
-
-              <td>${escapeHtml(serverDisplay)}</td>
+              <td><strong>${escapeHtml(accountLabel(acc.account_id))}</strong></td>
 
               <td><span class="mode-badge ${accMode.badgeClass}">${escapeHtml(accMode.label)}</span></td>
 
@@ -2893,13 +2887,13 @@ tr:hover td{
 
               <td>${escapeHtml(equityDisplay)}</td>
 
-              <td><span class="status-badge ${accFeedClass}" style="font-size:10px">${escapeHtml(accFeedText)}</span></td>
+              <td><span class="status-badge ${accFeedClass}" style="font-size:10px">${escapeHtml(friendlyStatus(isAcc003 ? accFeedText : acc.status))}</span></td>
 
-              <td><span class="prov-badge ${accProvClass}">${escapeHtml(accProv)}</span></td>
+              <td><span class="prov-badge ${accProvClass}">${escapeHtml(accDataStatus)}</span></td>
 
-              <td>${isAcc003 && acc.demo_trading_enabled ? '<span style="color:var(--teal);font-weight:700">DEMO ARMED (DEMO ONLY)</span>' : '<span style="color:var(--amber);font-weight:650">DISABLED / Read-only</span>'}</td>
+              <td><span class="exec-badge-disarmed">Read-only</span></td>
 
-              <td><button class="btn-sm inspect-btn" data-id="${escapeHtml(acc.account_id)}" type="button">Inspect</button></td>
+              <td><button class="btn-sm inspect-btn" data-id="${escapeHtml(acc.account_id)}" type="button">View</button></td>
 
             `;
 
@@ -2949,7 +2943,7 @@ tr:hover td{
 
               <td><code>${escapeHtml(p.ticket || '—')}</code></td>
 
-              <td>${escapeHtml(p.account_id || 'primary')}</td>
+              <td>${escapeHtml(accountLabel(p.account_id || 'primary'))}</td>
 
               <td><strong>${escapeHtml(p.symbol)}</strong></td>
 
@@ -3008,7 +3002,7 @@ tr:hover td{
 
               <td><code>${escapeHtml(d.ticket || '—')}</code></td>
 
-              <td>${escapeHtml(d.account_id || 'account_003')}</td>
+              <td>${escapeHtml(accountLabel(d.account_id || 'account_003'))}</td>
 
               <td><strong>${escapeHtml(d.symbol)}</strong></td>
 
@@ -3291,7 +3285,7 @@ tr:hover td{
           if (mlCountEl) {
             const infCount = supModel.model_inference_count !== undefined ? supModel.model_inference_count : (supModel.inference_count || 0);
             const succCount = supModel.model_inference_success_count || infCount;
-            mlCountEl.textContent = `${infCount} evals (${succCount} ok)`;
+            mlCountEl.textContent = `${infCount} updates (${succCount} ok)`;
           }
 
           const mlLastEl = document.getElementById('ml-last-inference');
@@ -3321,7 +3315,7 @@ tr:hover td{
           const regCountEl = document.getElementById('regime-inference-count');
           if (regCountEl) {
             const count = regModel.model_inference_count !== undefined ? regModel.model_inference_count : (regModel.inference_count || 0);
-            regCountEl.textContent = `${count} evals`;
+            regCountEl.textContent = `${count} updates`;
           }
 
           const regLastEl = document.getElementById('regime-last-inference');
@@ -3341,7 +3335,7 @@ tr:hover td{
           const anomCountEl = document.getElementById('anomaly-inference-count');
           if (anomCountEl) {
             const count = anomModel.model_inference_count !== undefined ? anomModel.model_inference_count : (anomModel.inference_count || 0);
-            anomCountEl.textContent = `${count} evals`;
+            anomCountEl.textContent = `${count} updates`;
           }
 
           const anomLastEl = document.getElementById('anomaly-last-inference');
@@ -3355,7 +3349,7 @@ tr:hover td{
         // 4. Ensemble Decision Engine
         const ensModel = aiMeta.models.ensemble_decision_engine;
         if (ensModel) {
-          const totalEl = document.getElementById('ensemble-total-evals');
+          const totalEl = document.getElementById('ensemble-total-updates');
           if (totalEl) totalEl.textContent = `${ensModel.total_evaluations || 0} evaluations`;
 
           const decCountEl = document.getElementById('ensemble-decisions-count');
@@ -3393,9 +3387,9 @@ tr:hover td{
 
           <div>
 
-            <strong>Gateway Telemetry Error:</strong> ${escapeHtml(err.message)}
+            <strong>Account information could not be refreshed.</strong>
 
-            <div style="font-size:12px;margin-top:2px">Unable to reach Vercel Preview telemetry edge. Attempting automatic reconnection...</div>
+            <div style="font-size:12px;margin-top:2px">Trying to reconnect. You can also select Retry to request an update.</div>
 
           </div>
 
@@ -3437,7 +3431,7 @@ tr:hover td{
 
     const modeInfo = window.StatusUtils.evaluateAccountMode(acc);
 
-    document.getElementById('modal-title').textContent = `Fleet Inspection: ${acc.account_id}`;
+    document.getElementById('modal-title').textContent = `${accountLabel(acc.account_id)}`;
 
 
 
@@ -3453,39 +3447,24 @@ tr:hover td{
 
       : '—';
 
-    const serverStr = (acc.server && acc.server.trim()) ? acc.server.trim() : 'Not configured';
-
-    const loginStr = (acc.login && Number(acc.login) > 0) ? '#' + acc.login : 'Unprovisioned Demo Placeholder';
-
-    const provStr = (acc.account_id === 'account_003')
-
-      ? 'Broker Demo Telemetry'
-
-      : (acc.status === 'AUTH_FAILED_ERROR_6' ? 'Historical Auth Error (Preflight)' : 'Unprovisioned Placeholder');
-
-
+    const connectionStatus = friendlyStatus(acc.connection_status || acc.status || 'UNKNOWN');
+    const accountUpdate = acc.broker_captured_at
+      ? new Date(acc.broker_captured_at).toLocaleString()
+      : 'No recent update recorded';
 
     document.getElementById('modal-content').innerHTML = `
 
-      <div style="margin-bottom:10px"><strong>Account Identifier:</strong> <code>${escapeHtml(acc.account_id)}</code></div>
+      <div style="margin-bottom:10px"><strong>Account:</strong> ${escapeHtml(accountLabel(acc.account_id))}</div>
 
-      <div style="margin-bottom:10px"><strong>Broker Login:</strong> ${escapeHtml(loginStr)}</div>
-
-      <div style="margin-bottom:10px"><strong>Broker Server:</strong> ${escapeHtml(serverStr)}</div>
-
-      <div style="margin-bottom:10px"><strong>Authoritative Trade Mode:</strong> <span class="mode-badge ${modeInfo.badgeClass}">${escapeHtml(modeInfo.label)}</span> (${escapeHtml(modeInfo.description)})</div>
+      <div style="margin-bottom:10px"><strong>Account mode:</strong> <span class="mode-badge ${modeInfo.badgeClass}">${escapeHtml(modeInfo.label)}</span> (${escapeHtml(modeInfo.description)})</div>
 
       <div style="margin-bottom:10px"><strong>Balance / Equity:</strong> ${escapeHtml(balanceStr)} / ${escapeHtml(equityStr)}</div>
 
-      <div style="margin-bottom:10px"><strong>Broker Observation Time (UTC):</strong> <code>${escapeHtml(acc.broker_captured_at || 'UNAVAILABLE')}</code></div>
+      <div style="margin-bottom:10px"><strong>Connection:</strong> ${escapeHtml(connectionStatus)}</div>
 
-      <div style="margin-bottom:10px"><strong>Telemetry Source:</strong> <code>${escapeHtml(acc.telemetry_source || 'UNAVAILABLE')}</code></div>
+      <div style="margin-bottom:10px"><strong>Last account update:</strong> ${escapeHtml(accountUpdate)}</div>
 
-      <div style="margin-bottom:10px"><strong>Account Connection Status:</strong> <span class="status-badge ${acc.status === 'CONNECTED_VERIFIED' ? 'status-badge-live' : 'status-badge-disconnected'}">${escapeHtml(acc.connection_status || acc.status || 'AWAITING_CREDENTIALS')}</span></div>
-
-      <div style="margin-bottom:10px"><strong>Trading Execution Gate:</strong> <span style="color:var(--amber);font-weight:700">DISABLED (Read-only)</span></div>
-
-      <div><strong>Data Provenance:</strong> ${escapeHtml(provStr)}</div>
+      <div style="margin-bottom:10px"><strong>Website access:</strong> Read-only. Trading actions are not available here.</div>
 
     `;
 
