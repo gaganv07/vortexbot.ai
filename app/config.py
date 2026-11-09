@@ -380,11 +380,11 @@ class LiquidityConfig:
 
 @dataclass
 class VortextLiveFeedConfig:
-    enabled:            bool  = field(default_factory=lambda: _b("VORTEXT_DASHBOARD_SYNC_ENABLED", False))
-    ingest_url:         str   = field(default_factory=lambda: _s("VORTEXT_DASHBOARD_INGEST_URL", ""))
-    bot_hmac_secret:    str   = field(default_factory=lambda: _s("VORTEXT_BOT_HMAC_SECRET", ""))
-    bot_id:             str   = field(default_factory=lambda: _s("VORTEXT_BOT_ID", "vortext-fleet"))
-    publish_interval_s: float = field(default_factory=lambda: _f("VORTEXT_PUBLISH_INTERVAL_SECONDS", 5.0))
+    enabled:            bool  = field(default_factory=lambda: _b("VORTEX_DASHBOARD_SYNC_ENABLED", False))
+    ingest_url:         str   = field(default_factory=lambda: _s("VORTEX_DASHBOARD_INGEST_URL", ""))
+    bot_hmac_secret:    str   = field(default_factory=lambda: _s("VORTEX_BOT_HMAC_SECRET", _s("VORTEXT_BOT_HMAC_SECRET", "")))
+    bot_id:             str   = field(default_factory=lambda: _s("VORTEX_BOT_ID", "vortext-fleet"))
+    publish_interval_s: float = field(default_factory=lambda: _f("VORTEX_PUBLISH_INTERVAL_SECONDS", 5.0))
 
 
 # ── Root Settings ─────────────────────────────────────────────────────────────
