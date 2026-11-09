@@ -411,15 +411,15 @@ class VortextDashboardPublisher:
     def __init__(self, account_manager: Any = None, mt5_client: Any = None) -> None:
         self.account_manager = account_manager
         self.mt5_client = mt5_client
-        self.endpoint = os.getenv("VORTEX_DASHBOARD_INGEST_URL", "").strip()
+        self.endpoint = os.getenv("VORTEX_DASHBOARD_INGEST_URL", os.getenv("VORTEXT_DASHBOARD_INGEST_URL", "")).strip()
         self.secret = os.getenv("VORTEX_BOT_HMAC_SECRET", os.getenv("VORTEXT_BOT_HMAC_SECRET", "")).strip()
-        self.bot_id = os.getenv("VORTEX_BOT_ID", "vortext-fleet").strip() or "vortext-fleet"
+        self.bot_id = os.getenv("VORTEX_BOT_ID", os.getenv("VORTEXT_BOT_ID", "vortext-fleet")).strip() or "vortext-fleet"
 
-        requested = os.getenv("VORTEX_DASHBOARD_SYNC_ENABLED", "false").strip().lower() in {
+        requested = os.getenv("VORTEX_DASHBOARD_SYNC_ENABLED", os.getenv("VORTEXT_DASHBOARD_SYNC_ENABLED", "false")).strip().lower() in {
             "1", "true", "yes", "on"
         }
         try:
-            self.interval_seconds = max(3.0, min(60.0, float(os.getenv("VORTEX_PUBLISH_INTERVAL_SECONDS", "5"))))
+            self.interval_seconds = max(3.0, min(60.0, float(os.getenv("VORTEX_PUBLISH_INTERVAL_SECONDS", os.getenv("VORTEXT_PUBLISH_INTERVAL_SECONDS", "5")))))
         except ValueError:
             self.interval_seconds = 5.0
 
