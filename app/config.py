@@ -376,7 +376,7 @@ class LiquidityConfig:
     cache_results:         bool  = field(default_factory=lambda: _b("LIQUIDITY_CACHE_RESULTS", True))
 
 
-# ── VORTEXT Live Feed configuration ─────────────────────────────────────────
+# ── VORTEX Live Feed configuration ─────────────────────────────────────────
 
 @dataclass
 class VortextLiveFeedConfig:
