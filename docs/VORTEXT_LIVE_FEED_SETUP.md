@@ -1,4 +1,4 @@
-# VORTEXT AI read-only MT5 dashboard integration
+# VORTEX AI read-only MT5 dashboard integration
 
 This document describes the integration branch's staging path. It does not authorize real-money order execution, change the MT5 trading strategy, or deploy the public Production website.
 
@@ -15,7 +15,7 @@ No inbound connection to the trading PC is required. No order submit, modify or 
 
 ## 2. Supabase staging schema already provisioned
 
-Staging project: `xtyszeuvtfcgognkrwxv` (`VORTEXT AI Staging`).
+Staging project: `xtyszeuvtfcgognkrwxv` (`VORTEX AI Staging`).
 
 The remote staging project already has the following tables and functions from the separately applied durable-telemetry migrations:
 
@@ -24,7 +24,7 @@ The remote staging project already has the following tables and functions from t
 - `public.upsert_vortext_multi_account_snapshot(text,timestamptz,jsonb)`: atomic, timestamp-ordered snapshot write.
 
 Observed staging controls:
-- RLS is enabled on both VORTEXT tables.
+- RLS is enabled on both legacy-named VORTEXT database tables.
 - Browser roles do not have write access to the snapshot RPC or tables.
 - The multi-account RPC is executable by `service_role`; `anon` and `authenticated` cannot execute it.
 - The security advisor returned no staging security findings at inspection.
@@ -34,7 +34,7 @@ Observed staging controls:
 
 ## 3. Configure the shared read-only account feed
 
-To make the same MT5 account visible to every signed-in VORTEXT AI user, add its exact private-registry alias to the Preview-only `VORTEXT_DASHBOARD_SHARED_ACCOUNTS` variable. Example: `account_003`. This is not a public/anonymous feed: every request must still carry a valid Supabase Auth access token. Do not configure `VORTEXT_DASHBOARD_ALLOWED_EMAILS` in shared mode unless you deliberately intend to restrict the audience to those exact emails. A user with an explicitly inactive operator record remains blocked.
+To make the same MT5 account visible to every signed-in VORTEX AI user, add its exact private-registry alias to the Preview-only `VORTEX_DASHBOARD_SHARED_ACCOUNTS` variable. Example: `account_003`. This is not a public/anonymous feed: every request must still carry a valid Supabase Auth access token. Do not configure `VORTEX_DASHBOARD_ALLOWED_EMAILS` in shared mode unless you deliberately intend to restrict the audience to those exact emails. A user with an explicitly inactive operator record remains blocked.
 
 The repository setup log previously recorded MT5 login `26179878` under alias `account_003` on `VantageMarkets-Demo`; verify that alias against the current private trading-PC registry before enabling publication. The numeric broker login is not the website account alias.
 
@@ -42,7 +42,7 @@ The repository setup log previously recorded MT5 login `26179878` under alias `a
 
 Access is a database-side grant, not a client-side email check. Obtain the exact login email from the Supabase Auth user and the stable `account_id` alias from the private trading PC account registry. Do not use the MT5 password or broker login number as the alias.
 
-In the Supabase SQL editor for **VORTEXT AI Staging**, replace both placeholders and run:
+In the Supabase SQL editor for **VORTEX AI Staging**, replace both placeholders and run:
 
 ```sql
 insert into public.vortext_authorized_operators
@@ -84,11 +84,11 @@ Required **Preview-only** variables:
 | `SUPABASE_URL` | `https://xtyszeuvtfcgognkrwxv.supabase.co` |
 | `SUPABASE_PUBLISHABLE_KEY` | Staging publishable key. |
 | `SUPABASE_SECRET_KEY` | Staging secret key; server-side only. |
-| `VORTEXT_BOT_HMAC_SECRET` | Random secret at least 32 characters; must match the trading PC. |
-| `VORTEXT_BOT_ID` | `vortext-fleet`. |
-| `VORTEXT_DASHBOARD_SHARED_ACCOUNTS` | Comma-separated stable registry IDs visible to all authenticated users, e.g. `account_003`. |
+| `VORTEX_BOT_HMAC_SECRET` | Random secret at least 32 characters; must match the trading PC. |
+| `VORTEX_BOT_ID` | `vortext-fleet`. |
+| `VORTEX_DASHBOARD_SHARED_ACCOUNTS` | Comma-separated stable registry IDs visible to all authenticated users, e.g. `account_003`. |
 
-`VORTEXT_DASHBOARD_ALLOWED_EMAILS` is an optional additional email restriction. Leave it unset when the goal is to let all valid signed-in users view the shared account feed. It does not replace per-user account grants for accounts that are not in the shared list.
+`VORTEX_DASHBOARD_ALLOWED_EMAILS` is an optional additional email restriction. Leave it unset when the goal is to let all valid signed-in users view the shared account feed. It does not replace per-user account grants for accounts that are not in the shared list.
 
 Never decrypt, paste or send the secret values through chat. Verify presence in Vercel's Preview settings and keep all these variables out of Production until a separate production release review.
 
@@ -97,11 +97,11 @@ Never decrypt, paste or send the secret values through chat. Verify presence in 
 Add or verify these values in the local process environment on the Windows trading PC:
 
 ```env
-VORTEXT_DASHBOARD_SYNC_ENABLED=true
-VORTEXT_DASHBOARD_INGEST_URL=https://<verified-preview-deployment>/api/trades
-VORTEXT_BOT_ID=vortext-fleet
-VORTEXT_PUBLISH_INTERVAL_SECONDS=5.0
-VORTEXT_BOT_HMAC_SECRET=<same-random-secret-as-vercel-preview>
+VORTEX_DASHBOARD_SYNC_ENABLED=true
+VORTEX_DASHBOARD_INGEST_URL=https://<verified-preview-deployment>/api/trades
+VORTEX_BOT_ID=vortext-fleet
+VORTEX_PUBLISH_INTERVAL_SECONDS=5.0
+VORTEX_BOT_HMAC_SECRET=<same-random-secret-as-vercel-preview>
 ```
 
 Use the exact Preview deployment URL returned by Vercel after the branch preview is ready. Do not use `https://vortexbot.ai/api/trades`, `pkgtraders-demo.vercel.app` or another domain unless it has been verified to be the non-production Preview deployment for this branch.
