@@ -1,12 +1,12 @@
-# VORTEXT AI Website
+# VORTEX AI Website
 
-This directory is the root of the VORTEXT AI customer-facing website.
+This directory is the root of the VORTEX AI customer-facing website.
 
 ## Current behavior
 
 - Product release status: limited access and integration testing; not generally available. Public onboarding is closed, and analytics/execution modules marked under validation are not represented as released customer features.
 
-- Responsive VORTEXT AI public pages use the approved logo and current product disclosures. The homepage includes an accessible mobile hamburger menu and links to the dedicated MT5 Getting Started guide.
+- Responsive VORTEX AI public pages use the approved logo and current product disclosures. The homepage includes an accessible mobile hamburger menu and links to the dedicated MT5 Getting Started guide.
 - Sign-in uses Google OAuth or an email magic link for existing Supabase users only. Email magic-link sign-up is disabled with `shouldCreateUser: false`.
 - The dashboard is private and read-only. It cannot submit, modify, or close MT5 orders.
 - `/api/auth-config` publishes only the browser-safe Supabase URL and publishable key.
@@ -31,15 +31,15 @@ Configure these only in the Vercel **Preview** environment for this integration:
 | `SUPABASE_URL` | Supabase staging project URL. |
 | `SUPABASE_PUBLISHABLE_KEY` | Browser-safe key used by Supabase Auth. |
 | `SUPABASE_SECRET_KEY` | Server-only secret used by `/api/trades` to read authorization records and snapshots. |
-| `VORTEXT_BOT_HMAC_SECRET` | At least 32 random characters; must exactly match the bot's local setting. |
-| `VORTEXT_BOT_ID` | `vortext-fleet` for the current publisher. |
-| `VORTEXT_DASHBOARD_SHARED_ACCOUNTS` | Comma-separated server-side account aliases visible to every valid signed-in user, e.g. `account_003`. |\n| `VORTEXT_DASHBOARD_ALLOWED_EMAILS` | Optional restrictive email fence. Leave unset for the intended all-signed-in-users shared feed. |
+| `VORTEX_BOT_HMAC_SECRET` | At least 32 random characters; must exactly match the bot's local setting. |
+| `VORTEX_BOT_ID` | `vortext-fleet` for the current publisher. |
+| `VORTEX_DASHBOARD_SHARED_ACCOUNTS` | Comma-separated server-side account aliases visible to every valid signed-in user, e.g. `account_003`. |\n| `VORTEX_DASHBOARD_ALLOWED_EMAILS` | Optional restrictive email fence. Leave unset for the intended all-signed-in-users shared feed. |
 
-Never expose `SUPABASE_SECRET_KEY` or `VORTEXT_BOT_HMAC_SECRET` to browser code, Git, logs or screenshots. Never place an MT5 password in Vercel.
+Never expose `SUPABASE_SECRET_KEY` or `VORTEX_BOT_HMAC_SECRET` to browser code, Git, logs or screenshots. The API and publisher accept previous `VORTEXT_` environment-variable names only as a compatibility fallback; configure canonical `VORTEX_` names for new deployments. The existing `vortext_*` Supabase table/RPC names and `vortext-fleet` bot ID remain unchanged to avoid breaking the provisioned staging schema. Never place an MT5 password in Vercel.
 
 ## Operator and account authorization
 
-The staging project already contains `public.vortext_authorized_operators`. Shared read-only account IDs are configured only on the server through `VORTEXT_DASHBOARD_SHARED_ACCOUNTS`; no per-user row is required for those shared IDs. Any explicitly inactive operator row blocks that account. Additional non-shared accounts are visible only when the signed-in Supabase Auth user has an active record with:
+The staging project already contains `public.vortext_authorized_operators`. Shared read-only account IDs are configured only on the server through `VORTEX_DASHBOARD_SHARED_ACCOUNTS`; no per-user row is required for those shared IDs. Any explicitly inactive operator row blocks that account. Additional non-shared accounts are visible only when the signed-in Supabase Auth user has an active record with:
 
 - `user_id`: the exact `auth.users.id` value for the signed-in account;
 - `email`: the same email as the Auth user;
