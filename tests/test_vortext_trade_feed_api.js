@@ -12,10 +12,10 @@ const BASE_ENV = {
   SUPABASE_URL: 'https://xtyszeuvtfcgognkrwxv.supabase.co',
   SUPABASE_PUBLISHABLE_KEY: 'sb_publishable_test',
   SUPABASE_SECRET_KEY: 'sb_secret_test',
-  VORTEXT_BOT_HMAC_SECRET: 'h'.repeat(64),
-  VORTEXT_BOT_ID: 'vortext-fleet'
+  VORTEX_BOT_HMAC_SECRET: 'h'.repeat(64),
+  VORTEX_BOT_ID: 'vortext-fleet'
 };
-const ENV_KEYS = [...Object.keys(BASE_ENV), 'VORTEXT_DASHBOARD_ALLOWED_EMAILS', 'VORTEXT_DASHBOARD_SHARED_ACCOUNTS'];
+const ENV_KEYS = [...Object.keys(BASE_ENV), 'VORTEX_DASHBOARD_ALLOWED_EMAILS', 'VORTEX_DASHBOARD_SHARED_ACCOUNTS'];
 
 function makeSnapshot(overrides = {}) {
   const now = new Date().toISOString();
@@ -91,10 +91,10 @@ async function invokeGet({ allowedAccounts = ['mt5-A'], active = true, hasOperat
   const calls = [];
   try {
     Object.assign(process.env, BASE_ENV);
-    delete process.env.VORTEXT_DASHBOARD_ALLOWED_EMAILS;
-    if (allowlist !== undefined) process.env.VORTEXT_DASHBOARD_ALLOWED_EMAILS = allowlist;
-    if (sharedAccounts) process.env.VORTEXT_DASHBOARD_SHARED_ACCOUNTS = sharedAccounts;
-    else delete process.env.VORTEXT_DASHBOARD_SHARED_ACCOUNTS;
+    delete process.env.VORTEX_DASHBOARD_ALLOWED_EMAILS;
+    if (allowlist !== undefined) process.env.VORTEX_DASHBOARD_ALLOWED_EMAILS = allowlist;
+    if (sharedAccounts) process.env.VORTEX_DASHBOARD_SHARED_ACCOUNTS = sharedAccounts;
+    else delete process.env.VORTEX_DASHBOARD_SHARED_ACCOUNTS;
 
     const operator = {
       user_id: USER_ID,
@@ -237,7 +237,7 @@ test('GET requires a bearer session before reading any private data', async () =
   let upstreamCalls = 0;
   try {
     Object.assign(process.env, BASE_ENV);
-    delete process.env.VORTEXT_DASHBOARD_ALLOWED_EMAILS;
+    delete process.env.VORTEX_DASHBOARD_ALLOWED_EMAILS;
     global.fetch = async () => { upstreamCalls += 1; return makeResponse(200, {}); };
     const req = { method: 'GET', headers: {}, url: '/api/trades' };
     const res = makeRes();
@@ -277,7 +277,7 @@ test('POST falls back to the base snapshot RPC only when the multi-account RPC i
       bot_status: 'running'
     });
     const timestamp = String(Math.floor(Date.now() / 1000));
-    const signature = crypto.createHmac('sha256', BASE_ENV.VORTEXT_BOT_HMAC_SECRET)
+    const signature = crypto.createHmac('sha256', BASE_ENV.VORTEX_BOT_HMAC_SECRET)
       .update(timestamp, 'ascii').update('.', 'ascii').update(Buffer.from(body)).digest('hex');
 
     global.fetch = async function (url, options = {}) {
@@ -296,8 +296,8 @@ test('POST falls back to the base snapshot RPC only when the multi-account RPC i
     req.method = 'POST';
     req.headers = {
       'content-type': 'application/json',
-      'x-vortext-timestamp': timestamp,
-      'x-vortext-signature': signature
+      'x-vortex-timestamp': timestamp,
+      'x-vortex-signature': signature
     };
     req.url = '/api/trades';
     const res = makeRes();
