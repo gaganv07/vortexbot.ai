@@ -1,6 +1,6 @@
 import aiohttp
 """
-tests/test_vortext_dashboard.py — Comprehensive Unit & Integration Tests for VORTEXT Live Feed Publisher
+tests/test_vortext_dashboard.py — Comprehensive Unit & Integration Tests for VORTEX Live Feed Publisher
 """
 from datetime import datetime, timezone
 import json
@@ -116,18 +116,18 @@ def test_hmac_signature_is_deterministic_and_binds_the_body():
 
 
 def test_publisher_is_disabled_by_default(monkeypatch):
-    for key in ("VORTEXT_DASHBOARD_SYNC_ENABLED", "VORTEXT_DASHBOARD_INGEST_URL", "VORTEXT_BOT_HMAC_SECRET"):
+    for key in ("VORTEX_DASHBOARD_SYNC_ENABLED", "VORTEX_DASHBOARD_INGEST_URL", "VORTEX_BOT_HMAC_SECRET"):
         monkeypatch.delenv(key, raising=False)
     publisher = VortextDashboardPublisher(mt5_client=SimpleNamespace(connected=True, _sim_mode=False))
     assert publisher.enabled is False
 
 
 def test_publisher_enabled_only_when_fully_configured(monkeypatch):
-    monkeypatch.setenv("VORTEXT_DASHBOARD_SYNC_ENABLED", "true")
-    monkeypatch.setenv("VORTEXT_DASHBOARD_INGEST_URL", "https://pkgtraders-demo.vercel.app/api/trades")
-    monkeypatch.setenv("VORTEXT_BOT_HMAC_SECRET", "a" * 32)
-    monkeypatch.setenv("VORTEXT_BOT_ID", "vortext-fleet")
-    monkeypatch.setenv("VORTEXT_PUBLISH_INTERVAL_SECONDS", "10")
+    monkeypatch.setenv("VORTEX_DASHBOARD_SYNC_ENABLED", "true")
+    monkeypatch.setenv("VORTEX_DASHBOARD_INGEST_URL", "https://pkgtraders-demo.vercel.app/api/trades")
+    monkeypatch.setenv("VORTEX_BOT_HMAC_SECRET", "a" * 32)
+    monkeypatch.setenv("VORTEX_BOT_ID", "vortext-fleet")
+    monkeypatch.setenv("VORTEX_PUBLISH_INTERVAL_SECONDS", "10")
 
     publisher = VortextDashboardPublisher(mt5_client=SimpleNamespace(connected=True, _sim_mode=False))
     assert publisher.enabled is True
@@ -136,17 +136,17 @@ def test_publisher_enabled_only_when_fully_configured(monkeypatch):
 
 
 def test_publisher_rejects_insecure_http_endpoint(monkeypatch):
-    monkeypatch.setenv("VORTEXT_DASHBOARD_SYNC_ENABLED", "true")
-    monkeypatch.setenv("VORTEXT_DASHBOARD_INGEST_URL", "http://insecure-site.com/api/trades")
-    monkeypatch.setenv("VORTEXT_BOT_HMAC_SECRET", "a" * 32)
+    monkeypatch.setenv("VORTEX_DASHBOARD_SYNC_ENABLED", "true")
+    monkeypatch.setenv("VORTEX_DASHBOARD_INGEST_URL", "http://insecure-site.com/api/trades")
+    monkeypatch.setenv("VORTEX_BOT_HMAC_SECRET", "a" * 32)
     publisher = VortextDashboardPublisher(mt5_client=SimpleNamespace())
     assert publisher.enabled is False
 
 
 def test_publisher_rejects_short_hmac_secret(monkeypatch):
-    monkeypatch.setenv("VORTEXT_DASHBOARD_SYNC_ENABLED", "true")
-    monkeypatch.setenv("VORTEXT_DASHBOARD_INGEST_URL", "https://pkgtraders-demo.vercel.app/api/trades")
-    monkeypatch.setenv("VORTEXT_BOT_HMAC_SECRET", "too-short-secret")
+    monkeypatch.setenv("VORTEX_DASHBOARD_SYNC_ENABLED", "true")
+    monkeypatch.setenv("VORTEX_DASHBOARD_INGEST_URL", "https://pkgtraders-demo.vercel.app/api/trades")
+    monkeypatch.setenv("VORTEX_BOT_HMAC_SECRET", "too-short-secret")
     publisher = VortextDashboardPublisher(mt5_client=SimpleNamespace())
     assert publisher.enabled is False
 
