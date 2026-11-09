@@ -1,6 +1,6 @@
 # VORTEXT AI website and MT5 dashboard release readiness
 
-Inspection date: 2026-11-01. This integration branch combines the PR #5 website-readiness pages, the existing read-only MT5 snapshot publisher, shared authenticated dashboard access, a Getting Started guide and explicit release-state disclosures.
+Inspection date: 2026-11-09. Updated after GitHub source review and Vercel Preview HTTP smoke checks. This integration branch combines the PR #5 website-readiness pages, the existing read-only MT5 snapshot publisher, shared authenticated dashboard access, a Getting Started guide and explicit release-state disclosures.
 
 ## Release posture
 
@@ -48,12 +48,19 @@ Shared IDs are configured on the Vercel Preview branch only. They do not make th
 
 Project: `vortexbot-ai`, website root: `website`.
 
-- Branch-only `VORTEXT_BOT_ID=vortext-fleet`.
-- Branch-only `VORTEXT_DASHBOARD_SHARED_ACCOUNTS=account_003`.
-- Preview Supabase URL and publishable key point to the isolated staging project.
-- At last environment inspection, Preview `SUPABASE_SECRET_KEY` and `VORTEXT_BOT_HMAC_SECRET` were empty. Both must be provisioned before the API can ingest/read snapshots.
+- GitHub Preview builds for the integration and contact-update branches reported `READY`.
+- The contact-page Preview returned HTTP 200 and served the supplied WhatsApp number, direct WhatsApp link and Instagram profile link.
+- Public page smoke checks returned HTTP 200 for `/`, `/pricing.html`, `/faq.html`, `/contact.html`, `/privacy.html`, `/terms.html`, `/login.html` and `/dashboard.html`.
+- `GET /api/trades` returned HTTP 503 with `Trade feed backend is not configured`. This is fail-closed behavior, not a working live feed.
+- The previous environment inspection found Preview `SUPABASE_SECRET_KEY` and `VORTEXT_BOT_HMAC_SECRET` empty. Re-check the branch-specific Preview environment in Vercel; do not infer that a successful static-site build means these are configured.
 - The local HMAC secret on the Windows trading PC must match the Preview HMAC secret. Never paste either secret into chat, Git or screenshots.
 - No Production environment variable was changed by this work.
+
+## Production Supabase security hold
+
+A prior production database audit reported 22 tables in the `public` schema with Row Level Security disabled and broad grants to `anon` and/or `authenticated`. This finding has not been independently revalidated in this release pass. Treat it as a critical release blocker until a fresh production audit maps each table to its runtime consumers and verifies least-privilege grants and table-specific RLS policies. Do not apply blanket policies or revoke grants without dependency analysis: doing so can break production services, while leaving broad grants in place can expose data.
+
+The staging VORTEX tables are separate from this broader production-schema finding. Their staging migration enables RLS, revokes browser-role access and grants the snapshot upsert only to `service_role`. This does not remediate the other production tables.
 
 ## MT5 account mapping
 
@@ -76,11 +83,11 @@ Project: `xtyszeuvtfcgognkrwxv` (`VORTEXT AI Staging`, ap-south-1).
 
 ## Test results
 
-Latest isolated Vercel sandbox run before the UI additions:
-- Node API tests: 11 passed.
-- Python website-readiness tests: 8 passed.
-
-The new UI/Getting Started tests must be rerun after the current branch changes. A passing unit/static test suite does not replace the Preview browser smoke test or real MT5 publication test.
+- The integration PR description records 11 Node trade-feed API tests and 11 Python website-readiness tests passing at an earlier checkpoint.
+- The latest contact-page update adds assertions for the WhatsApp phone number, click-to-chat URL, Instagram profile, WhatsApp Channel, Discord link and account-safety warning.
+- The updated Python test suite has not yet been executed after these latest changes. Do not treat earlier passing counts as verification of the current commit.
+- Preview HTTP smoke checks confirmed successful page responses and security headers. The API smoke check correctly returned 503 because backend credentials are not configured.
+- A passing unit/static test suite does not replace authenticated dashboard testing or a real MT5 publisher test.
 
 ## Remaining release gates
 
