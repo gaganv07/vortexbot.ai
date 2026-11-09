@@ -33,7 +33,8 @@ Configure these only in the Vercel **Preview** environment for this integration:
 | `SUPABASE_SECRET_KEY` | Server-only secret used by `/api/trades` to read authorization records and snapshots. |
 | `VORTEX_BOT_HMAC_SECRET` | At least 32 random characters; must exactly match the bot's local setting. |
 | `VORTEX_BOT_ID` | `vortext-fleet` for the current publisher. |
-| `VORTEX_DASHBOARD_SHARED_ACCOUNTS` | Comma-separated server-side account aliases visible to every valid signed-in user, e.g. `account_003`. |\n| `VORTEX_DASHBOARD_ALLOWED_EMAILS` | Optional restrictive email fence. Leave unset for the intended all-signed-in-users shared feed. |
+| `VORTEX_DASHBOARD_SHARED_ACCOUNTS` | Comma-separated server-side account aliases visible to every valid signed-in user, e.g. `account_003`. |
+| `VORTEX_DASHBOARD_ALLOWED_EMAILS` | Optional restrictive email fence. Leave unset for the intended all-signed-in-users shared feed. |
 
 Never expose `SUPABASE_SECRET_KEY` or `VORTEX_BOT_HMAC_SECRET` to browser code, Git, logs or screenshots. The API and publisher accept previous `VORTEXT_` environment-variable names only as a compatibility fallback; configure canonical `VORTEX_` names for new deployments. The existing `vortext_*` Supabase table/RPC names and `vortext-fleet` bot ID remain unchanged to avoid breaking the provisioned staging schema. Never place an MT5 password in Vercel.
 
