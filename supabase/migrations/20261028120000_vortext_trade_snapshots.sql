@@ -1,4 +1,4 @@
--- VORTEXT AI live-feed storage. Browser roles receive no table grants.
+-- VORTEX AI live-feed storage. Browser roles receive no table grants.
 create table if not exists public.vortext_trade_snapshots (
   bot_id text primary key check (bot_id ~ '^[A-Za-z0-9._-]{1,64}$'),
   captured_at timestamptz not null,
