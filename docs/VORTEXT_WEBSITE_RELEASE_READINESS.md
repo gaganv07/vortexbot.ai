@@ -97,11 +97,10 @@ Project: `xtyszeuvtfcgognkrwxv` (`VORTEXT AI Staging`, ap-south-1).
 
 ## Test results
 
-- The integration PR description records 11 Node trade-feed API tests and 11 Python website-readiness tests passing at an earlier checkpoint.
-- The latest contact-page update adds assertions for the WhatsApp phone number, click-to-chat URL, Instagram profile, WhatsApp Channel, Discord link and account-safety warning.
-- The updated Python test suite has not yet been executed after these latest changes. Do not treat earlier passing counts as verification of the current commit.
+- GitHub Actions run [#42562728284](https://github.com/gaganv07/vortexbot.ai/actions/runs/42562728284) passed on 2026-11-09: 11/11 Node trade-feed API tests and 11/11 Python website-readiness tests.
+- The CI run verified the WhatsApp phone number, click-to-chat URL, Instagram profile, WhatsApp Channel, Discord link, account-safety warning, corrected 7-instrument count, restricted-access copy and research-module disclosure.
 - Preview HTTP smoke checks confirmed successful page responses and security headers. The API smoke check correctly returned 503 because backend credentials are not configured.
-- A passing unit/static test suite does not replace authenticated dashboard testing or a real MT5 publisher test.
+- Passing unit/static tests do not replace authenticated dashboard testing or a fresh signed MT5 publisher test.
 
 ## Remaining release gates
 
