@@ -326,7 +326,7 @@ class Orchestrator:
             asyncio.create_task(self._backup_loop(),   name="backup_loop"),
         ]
 
-        # 6b. Start VORTEXT Live Feed Publisher if configured
+        # 6b. Start VORTEX Live Feed Publisher if configured
         try:
             from app.vortext_dashboard import VortextDashboardPublisher
             self.vortext_publisher = VortextDashboardPublisher(
