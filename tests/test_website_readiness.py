@@ -60,6 +60,12 @@ def test_public_pages_disclose_prelaunch_and_support_gaps() -> None:
     faq = read_page("faq.html")
 
     assert "No monitored support inbox" in contact
+    assert "+91 91480 34459" in contact
+    assert "https://wa.me/919148034459" in contact
+    assert "https://www.instagram.com/vortexbot.ai/" in contact
+    assert "https://whatsapp.com/channel/0029Vb99VvWInlqLco0j4F0v" in contact
+    assert "https://discord.gg/DzT8apvP" in contact
+    assert "not a secure account-helpdesk" in contact
     assert "No fixed retention periods" in privacy
     assert "PRE-LAUNCH NOTICE" in terms
     assert "not accepting public customers yet" in pricing
