@@ -1,4 +1,4 @@
-"""Read-only publisher for the VORTEXT AI live trades and multi-account fleet dashboard.
+"""Read-only publisher for the VORTEX AI live trades and multi-account fleet dashboard.
 
 Reads only broker-confirmed MT5 account/positions/deals across single or multiple
 accounts. It does not submit, modify, or close orders. Publishing is disabled
@@ -403,7 +403,7 @@ def build_snapshot(source: Any, bot_id: str = "vortext-fleet", now: Optional[dat
 
 
 class VortextDashboardPublisher:
-    """Background publisher for VORTEXT live trades feed.
+    """Background publisher for VORTEX live trades feed.
 
     Disabled by default and strictly read-only: never places, modifies, or cancels trades.
     """
@@ -411,15 +411,15 @@ class VortextDashboardPublisher:
     def __init__(self, account_manager: Any = None, mt5_client: Any = None) -> None:
         self.account_manager = account_manager
         self.mt5_client = mt5_client
-        self.endpoint = os.getenv("VORTEXT_DASHBOARD_INGEST_URL", "").strip()
-        self.secret = os.getenv("VORTEXT_BOT_HMAC_SECRET", "").strip()
-        self.bot_id = os.getenv("VORTEXT_BOT_ID", "vortext-fleet").strip() or "vortext-fleet"
+        self.endpoint = os.getenv("VORTEX_DASHBOARD_INGEST_URL", "").strip()
+        self.secret = os.getenv("VORTEX_BOT_HMAC_SECRET", os.getenv("VORTEXT_BOT_HMAC_SECRET", "")).strip()
+        self.bot_id = os.getenv("VORTEX_BOT_ID", "vortext-fleet").strip() or "vortext-fleet"
 
-        requested = os.getenv("VORTEXT_DASHBOARD_SYNC_ENABLED", "false").strip().lower() in {
+        requested = os.getenv("VORTEX_DASHBOARD_SYNC_ENABLED", "false").strip().lower() in {
             "1", "true", "yes", "on"
         }
         try:
-            self.interval_seconds = max(3.0, min(60.0, float(os.getenv("VORTEXT_PUBLISH_INTERVAL_SECONDS", "5"))))
+            self.interval_seconds = max(3.0, min(60.0, float(os.getenv("VORTEX_PUBLISH_INTERVAL_SECONDS", "5"))))
         except ValueError:
             self.interval_seconds = 5.0
 
@@ -431,7 +431,7 @@ class VortextDashboardPublisher:
             and has_source
         )
         if requested and not self.enabled:
-            logger.warning("VORTEXT live-feed requested with incomplete configuration; publisher disabled")
+            logger.warning("VORTEX live-feed requested with incomplete configuration; publisher disabled")
 
     @property
     def source(self) -> Any:
@@ -445,23 +445,23 @@ class VortextDashboardPublisher:
         timestamp = str(int(time.time()))
         headers = {
             "Content-Type": "application/json",
-            "X-Vortext-Timestamp": timestamp,
-            "X-Vortext-Signature": make_signature(self.secret, timestamp, body),
+            "X-Vortex-Timestamp": timestamp,
+            "X-Vortex-Signature": make_signature(self.secret, timestamp, body),
         }
         try:
             timeout = aiohttp.ClientTimeout(total=7)
             async with session.post(self.endpoint, data=body, headers=headers, timeout=timeout) as response:
                 if response.status not in (200, 201):
-                    logger.warning("VORTEXT trade-feed rejected snapshot (HTTP %s)", response.status)
+                    logger.warning("VORTEX trade-feed rejected snapshot (HTTP %s)", response.status)
                     return False
                 return True
         except (aiohttp.ClientError, asyncio.TimeoutError, Exception) as exc:
-            logger.warning("VORTEXT trade-feed unavailable (%s)", type(exc).__name__)
+            logger.warning("VORTEX trade-feed unavailable (%s)", type(exc).__name__)
             return False
 
     async def run(self) -> None:
         if not self.enabled:
-            logger.info("VORTEXT live-feed publisher disabled; trading behavior unchanged")
+            logger.info("VORTEX live-feed publisher disabled; trading behavior unchanged")
             return
         timeout = aiohttp.ClientTimeout(total=7)
         async with aiohttp.ClientSession(timeout=timeout) as session:
@@ -472,5 +472,5 @@ class VortextDashboardPublisher:
                 except asyncio.CancelledError:
                     raise
                 except Exception as exc:
-                    logger.warning("VORTEXT trade snapshot skipped (%s)", type(exc).__name__)
+                    logger.warning("VORTEX trade snapshot skipped (%s)", type(exc).__name__)
                 await asyncio.sleep(self.interval_seconds)
