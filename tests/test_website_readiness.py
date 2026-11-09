@@ -44,7 +44,7 @@ def test_homepage_uses_configured_instrument_count_limited_access_and_hamburger_
     assert "public onboarding is not open" in homepage
     assert 'id="menu-toggle"' in homepage
     assert 'aria-label="Open navigation"' in homepage
-    assert 'class="bar"' in homepage
+    assert "<span></span><span></span><span></span>" in homepage
     assert 'href="/getting-started.html"' in homepage
     assert "LIMITED ACCESS" in homepage.upper()
     assert "integration testing" in homepage
