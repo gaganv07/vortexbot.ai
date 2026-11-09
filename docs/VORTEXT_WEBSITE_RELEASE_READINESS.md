@@ -52,8 +52,9 @@ Project: `vortexbot-ai`, website root: `website`.
 - The contact-page Preview returned HTTP 200 and served the supplied WhatsApp number, direct WhatsApp link and Instagram profile link.
 - Public page smoke checks returned HTTP 200 for `/`, `/pricing.html`, `/faq.html`, `/contact.html`, `/privacy.html`, `/terms.html`, `/login.html` and `/dashboard.html`.
 - `GET /api/trades` returned HTTP 503 with `Trade feed backend is not configured`. This is fail-closed behavior, not a working live feed.
-- The previous environment inspection found Preview `SUPABASE_SECRET_KEY` and `VORTEXT_BOT_HMAC_SECRET` empty. Re-check the branch-specific Preview environment in Vercel; do not infer that a successful static-site build means these are configured.
-- The local HMAC secret on the Windows trading PC must match the Preview HMAC secret. Never paste either secret into chat, Git or screenshots.
+- The current Vercel environment inventory shows Preview `SUPABASE_SECRET_KEY` is blank. It also shows blank `VORTEX_BOT_HMAC_SECRET` entries (missing the second “T”); the API code expects `VORTEXT_BOT_HMAC_SECRET`. Because the entries are sensitive, Vercel does not permit renaming them in place. Replace the misnamed Preview entries with the correctly named variable and set both required values before expecting the API to work.
+- The Production environment inventory also shows `SUPABASE_SECRET_KEY` and `VORTEXT_BOT_HMAC_SECRET` entries with blank values. The Production feed API therefore is not configured either. Do not populate Production secrets as part of this Preview-only release.
+- The local HMAC secret on the Windows trading PC must match the Preview HMAC secret exactly. The Supabase secret key must come from the intended staging project. Never paste either secret into chat, Git or screenshots.
 - No Production environment variable was changed by this work.
 
 ## Current Supabase security audit (2026-11-09)
