@@ -1,0 +1,46 @@
+name: VORTEX AI website and trade-feed checks
+
+on:
+  push:
+    branches:
+      - feat/vortext-authenticated-mt5-dashboard
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "website/**"
+      - "tests/test_website_readiness.py"
+      - "tests/test_vortext_trade_feed_api.js"
+      - ".github/workflows/vortext-preview-tests.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  website-readiness:
+    name: Website readiness tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install test runner
+        run: python -m pip install --upgrade pytest
+      - name: Run website readiness tests
+        run: python -m pytest -q tests/test_website_readiness.py
+
+  trade-feed-api:
+    name: Trade-feed API security tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Run trade-feed API tests
+        run: node --test tests/test_vortext_trade_feed_api.js
