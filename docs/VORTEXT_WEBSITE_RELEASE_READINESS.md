@@ -56,11 +56,25 @@ Project: `vortexbot-ai`, website root: `website`.
 - The local HMAC secret on the Windows trading PC must match the Preview HMAC secret. Never paste either secret into chat, Git or screenshots.
 - No Production environment variable was changed by this work.
 
-## Production Supabase security hold
+## Current Supabase security audit (2026-11-09)
 
-A prior production database audit reported 22 tables in the `public` schema with Row Level Security disabled and broad grants to `anon` and/or `authenticated`. This finding has not been independently revalidated in this release pass. Treat it as a critical release blocker until a fresh production audit maps each table to its runtime consumers and verifies least-privilege grants and table-specific RLS policies. Do not apply blanket policies or revoke grants without dependency analysis: doing so can break production services, while leaving broad grants in place can expose data.
+The connected Supabase projects were inspected read-only during this release pass.
 
-The staging VORTEX tables are separate from this broader production-schema finding. Their staging migration enables RLS, revokes browser-role access and grants the snapshot upsert only to `service_role`. This does not remediate the other production tables.
+### Production project
+
+- All 24 tables in the `public` schema have RLS enabled.
+- The Supabase security advisor currently reports 23 public tables with RLS enabled but no policies. This is not automatically a data exposure: the current grants query found no `anon` table grants and only a SELECT grant to `authenticated` on `vortext_authorized_operators`, protected by an own-row policy. The remaining tables appear intended for server-side access; confirm every application runtime uses a server-only key and never returns unfiltered records.
+- The only public-schema policies currently found are the two operator-table policies: signed-in users may read their own operator record, and `service_role` may manage operator records.
+- The production `upsert_vortext_multi_account_snapshot` function is SECURITY DEFINER but its current ACL grants execution only to `service_role` (plus the owner). Do not broaden that grant.
+- The security advisor warns that leaked-password protection is disabled. Enable it in Supabase Auth settings before accepting customer accounts.
+- These findings supersede the older audit note about RLS-disabled tables. Re-run advisors after changes and before release.
+
+### Staging project
+
+- All three public tables have RLS enabled, and the current grants query found only the operator table's authenticated SELECT grant, guarded by the own-row policy.
+- The staging operator table currently has four rows and Supabase Auth has seven users. Verify that only intended test users are active and that every operator row maps to the correct Auth UUID and email before onboarding.
+- Three snapshots exist, but the newest captured timestamp is 2026-11-05 13:00:13 UTC, approximately 3.6 days old at inspection time. These rows are stale and must not be treated as a live feed.
+- The security advisor warns that leaked-password protection is disabled here too.
 
 ## MT5 account mapping
 
@@ -73,13 +87,12 @@ The staging VORTEX tables are separate from this broader production-schema findi
 
 Project: `xtyszeuvtfcgognkrwxv` (`VORTEXT AI Staging`, ap-south-1).
 
-- Existing staging schema contains `vortext_authorized_operators`, `vortext_trade_snapshots` and the timestamp-ordered snapshot RPC.
-- RLS is enabled on the VORTEXT tables; browser roles cannot write snapshots or execute the service-only upsert RPC.
-- Operator rows were empty at inspection.
-- Auth lookup for `gagangowdabm27@gmail.com` returned no user.
-- Trade snapshot rows were empty at inspection.
+- Staging contains `vortext_authorized_operators`, `vortext_trade_snapshots`, `auth_telemetry_events` and the timestamp-ordered snapshot RPCs.
+- RLS is enabled on all three public tables. Browser roles have no direct snapshot write access; snapshot upsert execution is restricted to `service_role`.
+- Four operator rows and seven Auth users currently exist. Review active flags and exact UUID/email mappings before granting access.
+- Three snapshot rows exist, but the latest is older than the 30-second freshness threshold by several days. The API is currently fail-closed because required Vercel Preview secrets are blank.
 - Do not apply the incompatible old PR #4 multi-account migration to staging.
-- Production Supabase security findings remain a separate workstream and have not been changed here.
+- No production database schema or grant changes were made during this audit.
 
 ## Test results
 
