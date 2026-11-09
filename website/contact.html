@@ -6,8 +6,13 @@
 </style></head>
 <body><header><div class="wrap"><nav aria-label="Main navigation"><a href="/" aria-label="VORTEX AI home"><img class="logo" src="/vortext-ai-logo.webp?v=20261101-2" alt="VORTEX AI"></a><div class="navlinks"><a href="/">Home</a><a href="/pricing.html">Plans</a><a href="/faq.html">FAQ</a><a href="/contact.html">Support</a></div><a class="back" href="/login.html">Sign in ↗</a></nav></div></header>
 <main class="wrap">
-<div class="kicker">Contact & support</div><h1>How to reach VORTEX AI</h1><p class="lead">VORTEX AI does not currently have a verified public support channel. Customer onboarding is not open while the official contact route and operational support process are being finalized.</p>
-<div class="panel"><span class="pill">Support status</span><h2>Public contact route not configured</h2><p>The planned initial support channel is the official VORTEX AI Instagram profile, but its exact URL has not been verified and published. No monitored support inbox is currently advertised. Do not rely on an assumed handle or send passwords, OTPs, API keys or trading credentials through social messages.</p><p class="notice" id="social-status">Customer onboarding remains closed until a verified support channel and response process are published.</p><a class="btn" id="instagram-link" href="#" target="_blank" rel="noopener noreferrer" hidden>Open official Instagram profile ↗</a></div>
+<div class="kicker">Contact & support</div><h1>Contact VORTEX AI</h1><p class="lead">Use the official channels below for general enquiries and community updates. Customer onboarding remains limited while the product and operational support process are being validated.</p>
+<section class="panel"><span class="pill">Official channels</span><h2>Connect with VORTEX AI</h2><div class="grid">
+<section class="card"><h3>WhatsApp support</h3><p><strong>+91 91480 34459</strong><br>Use this number for general enquiries. It is not a secure account-helpdesk or a guaranteed response service.</p><a class="btn" href="https://wa.me/919148034459" target="_blank" rel="noopener noreferrer" aria-label="Chat with VORTEX AI on WhatsApp">Chat on WhatsApp ↗</a></section>
+<section class="card"><h3>Instagram</h3><p><strong>@vortexbot.ai</strong><br>Follow product updates and send general enquiries through the official profile.</p><a class="btn" href="https://www.instagram.com/vortexbot.ai/" target="_blank" rel="noopener noreferrer" aria-label="Open the VORTEX AI Instagram profile">Open Instagram ↗</a></section>
+<section class="card"><h3>WhatsApp Channel</h3><p>Follow the channel for broadcast announcements and product updates.</p><a class="btn" href="https://whatsapp.com/channel/0029Vb99VvWInlqLco0j4F0v" target="_blank" rel="noopener noreferrer">Follow WhatsApp Channel ↗</a></section>
+<section class="card"><h3>Discord community</h3><p>Join community discussion and product updates.</p><a class="btn" href="https://discord.gg/DzT8apvP" target="_blank" rel="noopener noreferrer">Join Discord ↗</a></section>
+</div><p class="notice" id="social-status">VORTEX AI is in limited-access integration testing. Public customer onboarding is not open.</p><p>No monitored support inbox or formal response-time commitment is currently advertised. Never send passwords, OTPs, API keys, broker credentials or recovery codes through social messages.</p></section>
 <div class="grid">
 <section class="card"><h3>For dashboard issues</h3><p>Include the sign-in email you used, the page URL, the approximate time of the issue and a screenshot with account identifiers hidden.</p></section>
 <section class="card"><h3>For MT5 connection issues</h3><p>Include broker name, MT5 server name, whether the terminal is connected and the last update time. Do not send broker login details or passwords.</p></section>
@@ -16,18 +21,5 @@
 <section class="panel"><h2>Safe support checklist</h2><ul><li>Never send your MT5 password, email OTP, Supabase key, bot HMAC secret or recovery code.</li><li>Redact account numbers, balances you do not want to disclose and personal information from screenshots.</li><li>VORTEX AI will not ask you to transfer trading capital to a personal wallet or personal bank account.</li><li>Use only the official support link published on this page once it is enabled.</li></ul></section>
 </main>
 <footer><div class="wrap foot"><span>© VORTEX AI · Automated trading involves risk.</span><div class="footlinks"><a href="/pricing.html">Plans</a><a href="/faq.html">FAQ</a><a href="/contact.html">Contact & Support</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/">Home</a></div></div></footer>
-<script>
-(function(){
-  const profileUrl = ""; // Keep disabled until the exact official profile URL is verified by the operator.
-  const link = document.getElementById("instagram-link");
-  const status = document.getElementById("social-status");
-  if (!profileUrl) return;
-  try {
-    const url = new URL(profileUrl);
-    if (url.protocol !== "https:" || url.hostname !== "www.instagram.com" || !/^\/[A-Za-z0-9._]+\/?$/.test(url.pathname)) return;
-    link.href = url.href; link.hidden = false;
-    status.textContent = "Use this verified official VORTEX AI Instagram profile for support enquiries.";
-  } catch (_) {}
-})();
-</script>
+
 </body></html>
