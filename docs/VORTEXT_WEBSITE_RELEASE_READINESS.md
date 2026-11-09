@@ -1,4 +1,4 @@
-# VORTEXT AI website and MT5 dashboard release readiness
+# VORTEX AI website and MT5 dashboard release readiness
 
 Inspection date: 2026-11-09. Updated after GitHub source review and Vercel Preview HTTP smoke checks. This integration branch combines the PR #5 website-readiness pages, the existing read-only MT5 snapshot publisher, shared authenticated dashboard access, a Getting Started guide and explicit release-state disclosures.
 
@@ -9,7 +9,7 @@ Inspection date: 2026-11-09. Updated after GitHub source review and Vercel Previ
 - Deployment scope: Vercel Preview and isolated Supabase staging only.
 - Production has not been migrated, updated or deployed by this work.
 - Product status displayed on the homepage: **LIMITED ACCESS · INTEGRATION TESTING**.
-- VORTEXT AI is not generally available. Public customer onboarding remains closed.
+- VORTEX AI is not generally available. Public customer onboarding remains closed.
 - The verified website scope in this branch is read-only monitoring. No public commitment is made for unreleased research or execution modules.
 
 ## User-facing readiness changes
@@ -36,7 +36,7 @@ The Preview API:
 
 1. Requires a Supabase bearer access token and validates it with Supabase Auth.
 2. Uses the server-only Supabase secret for snapshot and operator metadata reads.
-3. Exposes only the server-configured IDs in `VORTEXT_DASHBOARD_SHARED_ACCOUNTS` to all valid signed-in users.
+3. Exposes only the server-configured IDs in `VORTEX_DASHBOARD_SHARED_ACCOUNTS` to all valid signed-in users.
 4. May add per-user account grants from `vortext_authorized_operators.allowed_accounts`.
 5. Blocks an explicitly inactive or mismatched operator record.
 6. Filters `accounts`, `positions` and `deals` to the allowed set before returning data. Query-string account IDs do not grant access.
@@ -52,8 +52,8 @@ Project: `vortexbot-ai`, website root: `website`.
 - The contact-page Preview returned HTTP 200 and served the supplied WhatsApp number, direct WhatsApp link and Instagram profile link.
 - Public page smoke checks returned HTTP 200 for `/`, `/pricing.html`, `/faq.html`, `/contact.html`, `/privacy.html`, `/terms.html`, `/login.html` and `/dashboard.html`.
 - `GET /api/trades` returned HTTP 503 with `Trade feed backend is not configured`. This is fail-closed behavior, not a working live feed.
-- The current Vercel environment inventory shows Preview `SUPABASE_SECRET_KEY` is blank. It also shows blank `VORTEX_BOT_HMAC_SECRET` entries (missing the second “T”); the API code expects `VORTEXT_BOT_HMAC_SECRET`. Because the entries are sensitive, Vercel does not permit renaming them in place. Replace the misnamed Preview entries with the correctly named variable and set both required values before expecting the API to work.
-- The Production environment inventory also shows `SUPABASE_SECRET_KEY` and `VORTEXT_BOT_HMAC_SECRET` entries with blank values. The Production feed API therefore is not configured either. Do not populate Production secrets as part of this Preview-only release.
+- The last Vercel environment audit showed Preview `SUPABASE_SECRET_KEY` and the HMAC secret entries were blank. The API and MT5 publisher now use canonical `VORTEX_` environment-variable names and accept the previous `VORTEXT_` names as a compatibility fallback. Add a non-empty Preview `SUPABASE_SECRET_KEY` and `VORTEX_BOT_HMAC_SECRET`; do not rely on the blank legacy entries.
+- The last Production environment inventory also showed `SUPABASE_SECRET_KEY` and the HMAC secret entries with blank values. The Production feed API therefore is not configured either. Do not populate Production secrets as part of this Preview-only release.
 - The local HMAC secret on the Windows trading PC must match the Preview HMAC secret exactly. The Supabase secret key must come from the intended staging project. Never paste either secret into chat, Git or screenshots.
 - No Production environment variable was changed by this work.
 
@@ -86,7 +86,7 @@ The connected Supabase projects were inspected read-only during this release pas
 
 ## Supabase staging state
 
-Project: `xtyszeuvtfcgognkrwxv` (`VORTEXT AI Staging`, ap-south-1).
+Project: `xtyszeuvtfcgognkrwxv` (`VORTEX AI Staging`, ap-south-1).
 
 - Staging contains `vortext_authorized_operators`, `vortext_trade_snapshots`, `auth_telemetry_events` and the timestamp-ordered snapshot RPCs.
 - RLS is enabled on all three public tables. Browser roles have no direct snapshot write access; snapshot upsert execution is restricted to `service_role`.
@@ -104,7 +104,7 @@ Project: `xtyszeuvtfcgognkrwxv` (`VORTEXT AI Staging`, ap-south-1).
 
 ## Remaining release gates
 
-1. Configure non-empty Preview `SUPABASE_SECRET_KEY` and `VORTEXT_BOT_HMAC_SECRET`.
+1. Configure non-empty Preview `SUPABASE_SECRET_KEY` and `VORTEX_BOT_HMAC_SECRET`. Keep the existing `vortext_*` database objects and `vortext-fleet` bot ID unchanged for staging compatibility.
 2. Verify the private Windows account registry maps login 26179878 to `account_003`.
 3. Provision the intended Supabase Auth users using the approved onboarding route; email magic-link login does not create new users.
 4. Verify the publisher configuration and endpoint on the Windows trading PC; keep all broker credentials and secrets local/server-side.
