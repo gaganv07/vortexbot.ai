@@ -199,6 +199,7 @@ The bot trades across these symbols (auto-discovered from your broker):
 | USDJPY | USD vs Japanese Yen |
 | BTCUSD | Bitcoin vs USD |
 | NAS100 | NASDAQ 100 Index |
+| US30 | US 30 Cash Index |
 
 ---
 

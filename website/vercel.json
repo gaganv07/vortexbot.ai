@@ -30,6 +30,38 @@
     {
       "source": "/login",
       "destination": "/login.html"
+    },
+    {
+      "source": "/dashboard",
+      "destination": "/dashboard.html"
+    },
+    {
+      "source": "/account",
+      "destination": "/account.html"
+    },
+    {
+      "source": "/getting-started",
+      "destination": "/getting-started.html"
+    },
+    {
+      "source": "/pricing",
+      "destination": "/pricing.html"
+    },
+    {
+      "source": "/faq",
+      "destination": "/faq.html"
+    },
+    {
+      "source": "/contact",
+      "destination": "/contact.html"
+    },
+    {
+      "source": "/privacy",
+      "destination": "/privacy.html"
+    },
+    {
+      "source": "/terms",
+      "destination": "/terms.html"
     }
   ]
 }
