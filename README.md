@@ -199,6 +199,7 @@ The bot trades across these symbols (auto-discovered from your broker):
 | USDJPY | USD vs Japanese Yen |
 | BTCUSD | Bitcoin vs USD |
 | NAS100 | NASDAQ 100 Index |
+| US30 | US 30 Cash Index |
 
 ---
 
@@ -229,3 +230,8 @@ All risk parameters are configured via `.env`:
 ## License
 
 This project is for educational and research purposes. Use at your own risk.
+
+
+## VORTEXT AI live dashboard
+
+The read-only MT5 publisher is disabled by default. See docs/VORTEXT_LIVE_FEED_SETUP.md for the feed architecture, environment variables, security controls, and demo-account validation steps.
