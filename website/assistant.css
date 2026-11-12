@@ -1,5 +1,5 @@
 /* VORTEX AI support assistant — consistent institutional white/blue theme */
-#vortex-help-launcher{position:fixed;right:20px;bottom:20px;z-index:10000;display:inline-flex;align-items:center;gap:10px;min-height:52px;padding:0 17px;border:1px solid #2563eb;border-radius:9999px;background:#2563eb;color:#fff;font:750 14px system-ui,sans-serif;box-shadow:0 8px 24px #0f172a26;cursor:pointer}
+#vortex-help-launcher{position:fixed;left:20px;right:auto;bottom:20px;z-index:10000;display:inline-flex;align-items:center;gap:10px;min-height:52px;padding:0 17px;border:1px solid #2563eb;border-radius:9999px;background:#2563eb;color:#fff;font:750 14px system-ui,sans-serif;box-shadow:0 8px 24px #0f172a26;cursor:pointer}
 #vortex-help-launcher:hover{background:#1d4ed8;border-color:#1d4ed8}
 #vortex-help-launcher:focus-visible,#vortex-help-close:focus-visible,#vortex-help-send:focus-visible,#vortex-help-input:focus-visible,.vortex-help-chip:focus-visible{outline:3px solid #93c5fd;outline-offset:3px}
 #vortex-help-icon{display:grid;place-items:center;width:26px;height:26px;border-radius:9999px;background:#fff;color:#1d4ed8;font-size:17px}
@@ -26,4 +26,4 @@
 .vh-composer button,#vortex-help-send{min-width:66px;padding:0 12px;border:1px solid #2563eb;border-radius:8px;background:#2563eb;color:#fff;font:750 12px system-ui;cursor:pointer}
 .vh-composer button:hover,#vortex-help-send:hover{background:#1d4ed8}
 .vh-footnote{padding:0 11px 9px;background:#fff;color:#64748b;font-size:10px;text-align:center}
-@media(max-width:560px){#vortex-help-launcher{right:12px;bottom:12px;min-height:49px;padding:0 15px}#vortex-help-panel{right:8px;bottom:69px;width:calc(100vw - 16px);height:calc(100dvh - 85px);min-height:340px;border-radius:16px}}
+@media(max-width:560px){#vortex-help-launcher{left:12px;right:auto;bottom:12px;min-height:52px;padding:0 15px}#vortex-help-panel{right:8px;bottom:69px;width:calc(100vw - 16px);height:calc(100dvh - 85px);min-height:340px;border-radius:16px}}
