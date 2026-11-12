@@ -349,8 +349,8 @@ footer{border-top:1px solid #e2e8f0;color:#64748b}
 .nav{justify-content:space-between}
 .nav-links{flex:1 1 auto;min-width:0;justify-content:flex-start;gap:clamp(10px,1.35vw,20px);font-size:var(--type-sm)}
 .nav-actions{gap:8px}
-.nav-actions .btn-primary{background:#fff;border-color:#cbd5e1;color:#0f172a}
-.nav-actions .btn-primary:hover{background:#f8fafc;border-color:#94a3b8;color:#0f172a}
+.nav-actions .btn-primary{background:#2563eb;border-color:#2563eb;color:#fff;box-shadow:none}
+.nav-actions .btn-primary:hover{background:#1d4ed8;border-color:#1d4ed8;color:#fff}
 .footer-links{gap:12px 20px}
 .footer-links a{display:inline-flex;align-items:center;min-height:44px;font-size:var(--type-md);line-height:1.35}
 .preview-notice{max-width:1000px;margin:16px auto 0;padding:15px 18px;border:1px solid #b6d4fe;border-left:4px solid #2563eb;border-radius:var(--radius-md);background:#eff6ff}
@@ -397,11 +397,11 @@ footer{border-top:1px solid #e2e8f0;color:#64748b}
     <a href="/faq.html">FAQ</a>
     <a href="/contact.html">Support</a>
     <a class="mobile-only mobile-nav-action" href="/login.html">Sign in</a>
-    <a class="mobile-only mobile-nav-action mobile-nav-primary" href="/login.html?next=dashboard.html">Dashboard</a>
+    <a class="mobile-only mobile-nav-action mobile-nav-primary" href="/login.html?next=dashboard.html">Open Dashboard</a>
    </div>
    <div class="nav-actions">
     <a class="btn btn-outline btn-small" href="/login.html">Sign in</a>
-    <a class="btn btn-outline btn-small" href="/login.html?next=dashboard.html">Open dashboard</a>
+    <a class="btn btn-primary btn-small" href="/login.html?next=dashboard.html">Open Dashboard</a>
     <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="site-links"><span></span><span></span><span></span></button>
    </div>
   </nav>
@@ -544,7 +544,7 @@ footer{border-top:1px solid #e2e8f0;color:#64748b}
  }
  const top=document.getElementById("back-to-top");
  if(top){
-  function update(){top.classList.toggle("is-visible",window.scrollY>600);}
+  function update(){const threshold=Math.max(600,window.innerHeight*.75);top.classList.toggle("is-visible",window.scrollY>threshold);}
   window.addEventListener("scroll",update,{passive:true});
   top.addEventListener("click",function(){window.scrollTo({top:0,behavior:window.matchMedia("(prefers-reduced-motion: reduce)").matches?"auto":"smooth"});});
   update();
