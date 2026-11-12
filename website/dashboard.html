@@ -96,11 +96,22 @@ td.side.buy{color:#5dffa3}td.side.sell{color:#ffb3a8}
  .metric-hint{font-size:10px}
 }
 @media(prefers-reduced-motion:reduce){button,.btn{transition:none}}
-</style><link rel="icon" type="image/svg+xml" href="/favicon.svg?v=20261031-1"><link rel="shortcut icon" href="/favicon.ico?v=20261031-1">
-<link rel="shortcut icon" href="/favicon.svg?v=20261031-1">
+
+/* VORTEX AI institutional visual system — shared across authenticated and public pages */
+:root{color-scheme:light;--bg:#ffffff;--panel:#ffffff;--panel2:#f8fafc;--line:#e2e8f0;--line2:#cbd5e1;--text:#0f172a;--muted:#475569;--teal:#2563eb;--cyan:#2563eb;--mint:#2563eb;--amber:#92400e}
+html{background:#fff;color-scheme:light}body{background:#fff!important;color:#0f172a!important;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important}a{color:#2563eb}header{background:#ffffffed!important;border-bottom:1px solid #e2e8f0!important;backdrop-filter:blur(14px)}footer{background:#fff!important;border-color:#e2e8f0!important;color:#64748b!important}h1,h2,h3,h4,.title,.heading,.card-title{color:#0f172a!important}p,li,.muted,.subtitle,.description{color:#475569}
+.panel,.card,.section,.metric,.metric-card,.table-wrap,.welcome-note,.welcome-mark,.security-item,.sidebar,.side-card,.settings-card,.provider,.notice{box-shadow:0 4px 18px #0f172a08!important}
+.panel,.card,.section,.metric-card,.table-wrap,.security-item,.sidebar,.side-card,.settings-card{background:#fff!important;border-color:#e2e8f0!important;color:#0f172a!important}
+button,.btn,.submit,.provider,.back-to-top{box-shadow:none!important}button.primary,.btn-primary,.submit,.primary,.action-primary{background:#2563eb!important;border-color:#2563eb!important;color:#fff!important}button.secondary,.btn-secondary,.btn-quiet,.provider,.back,.nav-link{border-color:#cbd5e1!important;color:#0f172a!important}input,select,textarea{background:#fff!important;color:#0f172a!important;border-color:#cbd5e1!important}input::placeholder,textarea::placeholder{color:#94a3b8!important}
+.notice{background:#eff6ff!important;border-color:#dbeafe!important;color:#334155!important}.notice.show{color:#334155!important}.notice.ok{background:#ecfdf5!important;border-color:#a7f3d0!important;color:#065f46!important}.notice.error{background:#fef2f2!important;border-color:#fecaca!important;color:#991b1b!important}.warning,.status,.release-note{background:#eff6ff!important;border-color:#dbeafe!important;color:#334155!important}
+.kicker,.eyebrow,.welcome-kicker,.step-number{color:#2563eb!important}.welcome-note{background:#f8fafc!important;border-color:#e2e8f0!important}.welcome-mark{background:#eff6ff!important;border-color:#dbeafe!important;color:#2563eb!important}.welcome-title{color:#0f172a!important}.welcome-detail{color:#64748b!important}
+.logo,.brand-logo{object-fit:contain}.header-row,.dashboard-nav{background:transparent!important}.nav-actions .nav-link,.nav a{color:#475569!important}.nav a:hover,.nav-actions a:hover{color:#2563eb!important}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style><link rel="icon" type="image/svg+xml" href="/favicon.svg?v=20261112-2"><link rel="shortcut icon" href="/favicon.ico?v=20261112-2">
+<link rel="shortcut icon" href="/favicon.svg?v=20261112-2">
 <link rel="stylesheet" href="/assistant.css?v=1">
 </head><body>
-<header><div class="wrap"><nav class="dashboard-nav"><a class="brand" href="/" aria-label="VORTEX AI home"><img class="logo" src="/vortext-ai-logo.webp?v=20261101-2" alt="VORTEX AI"></a><div class="nav-actions"><a class="nav-link" href="/">Home</a><a class="nav-link" href="/contact.html">Support</a><span id="user" class="user-chip">Checking sign-in…</span><button id="logout" class="btn btn-quiet" type="button" hidden>Sign out</button></div></nav></div></header>
+<header><div class="wrap"><nav class="dashboard-nav"><a class="brand" href="/" aria-label="VORTEX AI home"><img class="logo" src="/vortext-ai-logo.webp?v=20261112-2" alt="VORTEX AI"></a><div class="nav-actions"><a class="nav-link" href="/">Home</a><a class="nav-link" href="/contact.html">Support</a><span id="user" class="user-chip">Checking sign-in…</span><button id="logout" class="btn btn-quiet" type="button" hidden>Sign out</button></div></nav></div></header>
 <main class="wrap">
 <div class="topline"><div class="dashboard-heading"><div class="kicker">Private trading dashboard</div><h1>Your trading activity</h1><p class="muted">Live broker-confirmed information for approved accounts. This dashboard is read-only.</p><span class="readonly-pill">Read-only preview</span></div><div class="top-actions"><button id="refresh-now" class="btn btn-primary" type="button" aria-controls="private-content"><span aria-hidden="true">↻</span> Refresh data</button><a class="btn btn-secondary" href="/account.html">Profile &amp; settings</a><small id="refresh-mode" class="action-meta">Loading refresh preferences…</small></div></div>
 <section id="welcome-note" class="welcome-note" aria-live="polite" hidden>
