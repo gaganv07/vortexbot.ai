@@ -36,9 +36,15 @@ module.exports = function handler(req, res) {
     });
   }
 
+  const allowedEmails = (process.env.VORTEX_DASHBOARD_ALLOWED_EMAILS || process.env.VORTEXT_DASHBOARD_ALLOWED_EMAILS || "")
+    .split(",").map(function (email) { return email.trim(); }).filter(Boolean);
+  // Public signup is opt-in and requires the server-side email fence used by /api/trades.
+  const signupEnabled = process.env.VORTEX_PUBLIC_SIGNUP_ENABLED === "true" && allowedEmails.length > 0;
+
   return res.status(200).json({
     configured: true,
     supabaseUrl,
-    publishableKey
+    publishableKey,
+    signupEnabled
   });
 };

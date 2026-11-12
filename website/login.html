@@ -67,7 +67,18 @@ button,.btn,.submit,.provider,.back-to-top{box-shadow:none!important}button.prim
 .kicker,.eyebrow,.welcome-kicker,.step-number{color:#2563eb!important}.welcome-note{background:#f8fafc!important;border-color:#e2e8f0!important}.welcome-mark{background:#eff6ff!important;border-color:#dbeafe!important;color:#2563eb!important}.welcome-title{color:#0f172a!important}.welcome-detail{color:#64748b!important}
 .logo,.brand-logo{object-fit:contain}.header-row,.dashboard-nav{background:transparent!important}.nav-actions .nav-link,.nav a{color:#475569!important}.nav a:hover,.nav-actions a:hover{color:#2563eb!important}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
-/* Sign-in contrast and form usability repair */:root{color-scheme:light!important;--bg:#fff!important;--panel:#fff!important;--text:#0f172a!important;--muted:#475569!important;--teal:#2563eb!important;--cyan:#2563eb!important}body{background:#fff!important;color:#0f172a!important}header,footer{background:#fff!important;border-color:#e2e8f0!important}.back{color:#475569!important}.back:hover{color:#1d4ed8!important}.panel{background:#fff!important;border:1px solid #e2e8f0!important;color:#0f172a!important;box-shadow:0 12px 36px #0f172a0d!important}.eyebrow{color:#2563eb!important}h1{color:#0f172a!important}p{color:#475569!important}.provider{background:#fff!important;border:1px solid #cbd5e1!important;color:#0f172a!important;box-shadow:none!important}.provider:hover:not(:disabled){background:#f8fafc!important;border-color:#93c5fd!important;color:#1d4ed8!important}.provider:disabled{opacity:1!important;color:#334155!important;background:#f8fafc!important}.or{color:#64748b!important}.or:before,.or:after{background:#e2e8f0!important}label{color:#334155!important}input{background:#fff!important;color:#0f172a!important;border:1px solid #cbd5e1!important}input::placeholder{color:#94a3b8!important;opacity:1!important}input:focus{border-color:#2563eb!important;box-shadow:0 0 0 3px #2563eb20!important}.submit{background:#2563eb!important;border-color:#2563eb!important;color:#fff!important}.submit:hover:not(:disabled){background:#1d4ed8!important;border-color:#1d4ed8!important}.submit:disabled{background:#93c5fd!important;color:#1e3a8a!important;border-color:#93c5fd!important}.notice{background:#eff6ff!important;border-color:#bfdbfe!important;color:#334155!important}.notice.warn{background:#fffbeb!important;border-color:#fde68a!important;color:#92400e!important}.notice.ok{background:#ecfdf5!important;border-color:#a7f3d0!important;color:#065f46!important}.notice.error{background:#fef2f2!important;border-color:#fecaca!important;color:#991b1b!important}.legal,.tiny,footer{color:#64748b!important}.legal a{color:#1d4ed8!important}.back-to-top{background:#2563eb!important;border-color:#2563eb!important;color:#fff!important}</style>
+/* Sign-in contrast and form usability repair */:root{color-scheme:light!important;--bg:#fff!important;--panel:#fff!important;--text:#0f172a!important;--muted:#475569!important;--teal:#2563eb!important;--cyan:#2563eb!important}body{background:#fff!important;color:#0f172a!important}header,footer{background:#fff!important;border-color:#e2e8f0!important}.back{color:#475569!important}.back:hover{color:#1d4ed8!important}.panel{background:#fff!important;border:1px solid #e2e8f0!important;color:#0f172a!important;box-shadow:0 12px 36px #0f172a0d!important}.eyebrow{color:#2563eb!important}h1{color:#0f172a!important}p{color:#475569!important}.provider{background:#fff!important;border:1px solid #cbd5e1!important;color:#0f172a!important;box-shadow:none!important}.provider:hover:not(:disabled){background:#f8fafc!important;border-color:#93c5fd!important;color:#1d4ed8!important}.provider:disabled{opacity:1!important;color:#334155!important;background:#f8fafc!important}.or{color:#64748b!important}.or:before,.or:after{background:#e2e8f0!important}label{color:#334155!important}input{background:#fff!important;color:#0f172a!important;border:1px solid #cbd5e1!important}input::placeholder{color:#94a3b8!important;opacity:1!important}input:focus{border-color:#2563eb!important;box-shadow:0 0 0 3px #2563eb20!important}.submit{background:#2563eb!important;border-color:#2563eb!important;color:#fff!important}.submit:hover:not(:disabled){background:#1d4ed8!important;border-color:#1d4ed8!important}.submit:disabled{background:#93c5fd!important;color:#1e3a8a!important;border-color:#93c5fd!important}.notice{background:#eff6ff!important;border-color:#bfdbfe!important;color:#334155!important}.notice.warn{background:#fffbeb!important;border-color:#fde68a!important;color:#92400e!important}.notice.ok{background:#ecfdf5!important;border-color:#a7f3d0!important;color:#065f46!important}.notice.error{background:#fef2f2!important;border-color:#fecaca!important;color:#991b1b!important}.legal,.tiny,footer{color:#64748b!important}.legal a{color:#1d4ed8!important}.back-to-top{background:#2563eb!important;border-color:#2563eb!important;color:#fff!important}
+/* Email/password account creation controls */
+.auth-mode{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:5px;margin:18px 0 16px;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc}
+.auth-mode[hidden]{display:none!important}
+.mode-button{min-height:42px;border:1px solid transparent;border-radius:9px;background:transparent;color:#475569;font-family:inherit;font-size:13px;font-weight:650;line-height:1.2;cursor:pointer}
+.mode-button.active{background:#fff;border-color:#dbeafe;color:#1d4ed8;box-shadow:0 1px 4px #0f172a12}
+.mode-button:focus-visible{outline:2px solid #2563eb;outline-offset:2px}
+#email-form{display:grid;grid-template-columns:minmax(0,1fr);gap:8px}
+#email-form input{width:100%;min-width:0}
+#email-form [hidden]{display:none!important}
+#email-form .submit{margin-top:12px}
+</style>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=20261112-3"><link rel="shortcut icon" href="/favicon.ico?v=20261112-3">
 <link rel="shortcut icon" href="/favicon.svg?v=20261112-3">
 <link rel="stylesheet" href="/assistant.css?v=1">
@@ -83,9 +94,25 @@ button,.btn,.submit,.provider,.back-to-top{box-shadow:none!important}button.prim
 <button class="provider" id="apple" type="button" disabled title="Checking Apple sign-in availability"><span><svg viewBox="0 0 24 24" focusable="false" aria-hidden="true"><path fill="currentColor" d="M16.37 12.23c.02 2.09 1.83 2.78 1.85 2.79-.02.05-.29 1-.96 1.98-.58.84-1.18 1.67-2.13 1.69-.93.02-1.23-.54-2.3-.54-1.06 0-1.4.52-2.28.56-.91.03-1.6-.91-2.18-1.75-1.19-1.72-2.1-4.86-.88-6.98.6-1.05 1.68-1.72 2.85-1.74.9-.02 1.75.61 2.3.61.54 0 1.55-.76 2.61-.65.44.02 1.69.18 2.49 1.35-.06.04-1.49.87-1.47 2.68ZM14.68 6.7c.48-.58.8-1.39.71-2.2-.69.03-1.53.46-2.03 1.04-.45.52-.84 1.34-.73 2.13.77.06 1.56-.39 2.05-.97Z"/></svg>Continue with Apple</span></button>
 </div>
 <div class="or">OR CONTINUE WITH EMAIL</div>
-<form id="email-form"><label for="email">Email address</label><div class="email-row"><input id="email" name="email" type="email" autocomplete="email" placeholder="name@example.com" required><button class="submit" id="email-submit" type="submit" disabled>Send secure sign-in link</button></div></form>
+<div class="auth-mode" role="group" aria-label="Account action">
+<button type="button" class="mode-button active" id="signin-mode" aria-pressed="true">Sign in</button>
+<button type="button" class="mode-button" id="signup-mode" aria-pressed="false">Create account</button>
+</div>
+<form id="email-form" novalidate>
+<label for="email">Email address</label>
+<input id="email" name="email" type="email" autocomplete="email" placeholder="name@example.com" maxlength="254" required>
+<label for="password" style="margin-top:14px">Password</label>
+<input id="password" name="password" type="password" autocomplete="current-password" placeholder="Enter your password" minlength="10" required>
+<div id="confirm-wrap" hidden>
+<label for="confirm-password" style="margin-top:14px">Confirm password</label>
+<input id="confirm-password" name="confirm-password" type="password" autocomplete="new-password" placeholder="Re-enter your password" minlength="10">
+<p class="tiny" style="margin:8px 0 0">Use at least 10 characters. Verify your email address to activate your account.</p>
+</div>
+<button class="submit" id="email-submit" type="submit" disabled style="margin-top:18px">Sign in with email</button>
+</form>
+<div class="legal" style="margin-top:14px">New accounts must verify their email. Dashboard access remains subject to VORTEX AI account approval; creating an account does not automatically authorize trading-account access.</div>
 <div class="legal">By continuing, you agree to use this service in accordance with our <a href="/terms.html#risk">risk disclosure</a>. Automated trading can result in losses.</div>
-<div class="tiny">Email-link delivery requires a configured outbound SMTP sender. Social sign-in is available only when configured. Email-link delivery requires a verified outbound email service. Demo trading dashboard · Read-only website · No MT5 password collection</div>
+<div class="tiny">Email/password registration requires verified email delivery. Demo trading dashboard · Read-only website · No MT5 password collection</div>
 </section></main>
 <footer><div class="wrap row"><span>© VORTEX AI</span><div class="row"><a href="/">Home</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/contact.html">Support</a></div></div></footer>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.118.0"></script>
@@ -96,25 +123,48 @@ button,.btn,.submit,.provider,.back-to-top{box-shadow:none!important}button.prim
   const googleButton = $("google");
   const appleButton = $("apple");
   const emailButton = $("email-submit");
+  const form = $("email-form");
+  const confirmWrap = $("confirm-wrap");
+  const authModeGroup = document.querySelector(".auth-mode");
+  const signInMode = $("signin-mode");
+  const signUpMode = $("signup-mode");
   let client = null;
   let googleEnabled = false;
   let appleEnabled = false;
   let emailEnabled = false;
+  let signupEnabled = false;
+  let mode = "signin";
   const requestedNext = new URLSearchParams(window.location.search).get("next");
   const nextPage = ["dashboard.html", "account.html"].includes(requestedNext) ? requestedNext : "dashboard.html";
-  // Complete authentication on the same origin the user loaded the login page from.
-  // A relative URL keeps preview, production and localhost deployments working without
-  // hardcoding a single canonical domain. A localhost origin is safe here because the
-  // Supabase redirect_uri allowlist is configured per deployment.
   const target = window.location.origin + "/dashboard.html";
-  function show(message, warning = false) {
+  function show(message, kind = "") {
     status.textContent = message;
-    status.className = "notice show" + (warning ? " warn" : "");
+    status.className = "notice show" + (kind ? " " + kind : "");
   }
   function setBusy(busy) {
     googleButton.disabled = busy || !googleEnabled;
     appleButton.disabled = busy || !appleEnabled;
     emailButton.disabled = busy || !emailEnabled;
+    signInMode.disabled = busy;
+    signUpMode.disabled = busy || !signupEnabled;
+  }
+  function setMode(nextMode) {
+    if (nextMode === "signup" && !signupEnabled) nextMode = "signin";
+    mode = nextMode;
+    const creating = mode === "signup";
+    signInMode.classList.toggle("active", !creating);
+    signUpMode.classList.toggle("active", creating);
+    signInMode.setAttribute("aria-pressed", String(!creating));
+    signUpMode.setAttribute("aria-pressed", String(creating));
+    $("password").autocomplete = creating ? "new-password" : "current-password";
+    confirmWrap.hidden = !creating;
+    $("confirm-password").required = creating;
+    emailButton.textContent = creating ? "Create account" : "Sign in with email";
+    $("heading").textContent = creating ? "Create your VORTEX AI account" : "Sign in to VORTEX AI";
+    if (creating) show("Create an account using your email and password. Email verification is required before sign-in.", "");
+    else show("Sign in with your registered email and password.", "");
+    $("password").value = "";
+    $("confirm-password").value = "";
   }
   async function init() {
     try {
@@ -122,19 +172,18 @@ button,.btn,.submit,.provider,.back-to-top{box-shadow:none!important}button.prim
       const response = await fetch("/api/auth-config", { cache: "no-store" });
       const config = await response.json();
       if (!response.ok || !config.configured) {
-        show("Login setup is not complete. The dashboard remains private until authentication is configured.", true);
+        show("Login setup is not complete. The dashboard remains private until authentication is configured.", "warn");
         return;
       }
+      signupEnabled = config.signupEnabled === true;
+      signUpMode.hidden = !signupEnabled;
+      authModeGroup.hidden = !signupEnabled;
       if (!window.supabase || !window.supabase.createClient) throw new Error("Auth library unavailable");
       client = window.supabase.createClient(config.supabaseUrl, config.publishableKey);
       const { data } = await client.auth.getSession();
       if (data.session) { window.location.replace("/" + nextPage); return; }
-
-      // Ask Supabase Auth which providers are enabled before exposing their actions.
       const settingsResponse = await fetch(config.supabaseUrl.replace(/\/+$/, "") + "/auth/v1/settings", {
-        method: "GET",
-        headers: { apikey: config.publishableKey },
-        cache: "no-store"
+        method: "GET", headers: { apikey: config.publishableKey }, cache: "no-store"
       });
       if (!settingsResponse.ok) throw new Error("Could not verify enabled sign-in providers");
       const settings = await settingsResponse.json();
@@ -142,60 +191,75 @@ button,.btn,.submit,.provider,.back-to-top{box-shadow:none!important}button.prim
       appleEnabled = settings.external?.apple === true;
       emailEnabled = settings.external?.email === true;
       setBusy(false);
-
-      const activeProviders = [
-        googleEnabled ? "Google" : null,
-        appleEnabled ? "Apple" : null,
-        emailEnabled ? "email link" : null
-      ].filter(Boolean);
-      if (activeProviders.length) {
-        show(activeProviders.join(", ") + " sign-in available. Access is limited to pre-approved accounts.");
-      } else {
-        show("No sign-in provider is currently enabled. Contact the VORTEX AI administrator to complete authentication setup.", true);
-      }
+      const activeProviders = [googleEnabled ? "Google" : null, appleEnabled ? "Apple" : null, emailEnabled ? "email and password" : null].filter(Boolean);
+      show(activeProviders.length
+        ? activeProviders.join(", ") + " sign-in available." + (signupEnabled ? " New accounts require email verification and dashboard approval." : " Access is limited to approved accounts.")
+        : "No sign-in provider is currently enabled. Contact the VORTEX AI administrator.",
+        activeProviders.length ? "" : "warn");
       googleButton.title = googleEnabled ? "Continue with Google" : "Google sign-in is not enabled for this service";
       appleButton.title = appleEnabled ? "Continue with Apple" : "Apple sign-in is not configured for this service";
+      setMode("signin");
     } catch (error) {
       setBusy(true);
-      show("Could not verify the sign-in provider configuration. No OAuth redirect will be attempted. Please try again later.", true);
+      show("Could not verify the sign-in configuration. Please try again later.", "warn");
     }
   }
   async function oauth(provider) {
     const enabled = provider === "google" ? googleEnabled : provider === "apple" ? appleEnabled : false;
     const label = provider === "apple" ? "Apple" : "Google";
-    if (!client || !enabled) {
-      show(label + " sign-in is not enabled for this service. The provider must be configured before it can authenticate accounts.", true);
-      return;
-    }
+    if (!client || !enabled) { show(label + " sign-in is not enabled for this service.", "warn"); return; }
     setBusy(true);
     show("Redirecting to " + label + "…");
     const { error } = await client.auth.signInWithOAuth({ provider, options: { redirectTo: target } });
-    if (error) {
-      setBusy(false);
-      show(error.message || "Could not start " + label + " sign-in.", true);
-    }
+    if (error) { setBusy(false); show(error.message || "Could not start " + label + " sign-in.", "error"); }
   }
+  signInMode.addEventListener("click", () => setMode("signin"));
+  signUpMode.addEventListener("click", () => setMode("signup"));
   googleButton.addEventListener("click", () => oauth("google"));
   appleButton.addEventListener("click", () => oauth("apple"));
-  $("email-form").addEventListener("submit", async (event) => {
+  form.addEventListener("submit", async (event) => {
     event.preventDefault();
-    if (!client || !emailEnabled) {
-      show("Email sign-in is not enabled for this service.", true);
-      return;
-    }
+    if (!client || !emailEnabled) { show("Email/password authentication is not enabled for this service yet.", "warn"); return; }
+    if (mode === "signup" && !signupEnabled) { show("Account creation is not enabled for this service.", "warn"); setMode("signin"); return; }
     const email = $("email").value.trim();
+    const password = $("password").value;
+    if (!email || !$("email").validity.valid) { show("Enter a valid email address.", "error"); $("email").focus(); return; }
+    if (password.length < 10) { show("Use a password containing at least 10 characters.", "error"); $("password").focus(); return; }
     setBusy(true);
-    show("Sending a one-time sign-in link…");
-    const { error } = await client.auth.signInWithOtp({
-      email,
-      options: { emailRedirectTo: target, shouldCreateUser: false }
-    });
-    if (error) {
-      show("Could not start email sign-in. Confirm that this address is approved and try again.", true);
-    } else {
-      show("If this is an approved VORTEX AI account, a secure sign-in link has been requested. Check your inbox.");
+    try {
+      if (mode === "signup") {
+        const confirmation = $("confirm-password").value;
+        if (password !== confirmation) { show("The passwords do not match.", "error"); $("confirm-password").focus(); return; }
+        show("Creating your account and requesting email verification…");
+        const { data, error } = await client.auth.signUp({
+          email, password,
+          options: { emailRedirectTo: target, data: { product: "VORTEX AI" } }
+        });
+        if (error) throw error;
+        if (data.session) {
+          show("Your account has been created. Dashboard access still requires account approval.", "ok");
+          window.location.replace("/" + nextPage);
+        } else {
+          form.reset();
+          setMode("signin");
+          show("Account created. Check your inbox for the VORTEX AI verification email, then return here to sign in. Dashboard access requires approval.", "ok");
+        }
+      } else {
+        show("Signing in securely…");
+        const { data, error } = await client.auth.signInWithPassword({ email, password });
+        if (error) throw error;
+        if (!data.session) throw new Error("Sign-in did not create a session. Verify your email and try again.");
+        show("Sign-in successful. Opening your dashboard…", "ok");
+        window.location.replace("/" + nextPage);
+      }
+    } catch (error) {
+      const message = String(error?.message || "");
+      if (/invalid login credentials/i.test(message)) show("Email or password is incorrect. If this is a new account, verify your email first.", "error");
+      else if (/already registered|user already registered/i.test(message)) show("An account may already exist for this email. Switch to Sign in or use password recovery.", "warn");
+      else show(message || "Authentication could not be completed. Please try again.", "error");
+    } finally {
+      setBusy(false);
     }
-    setBusy(false);
   });
   init();
 })();
