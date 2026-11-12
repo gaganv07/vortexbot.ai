@@ -34,17 +34,17 @@ Configure these only in the Vercel **Preview** environment for this integration:
 | `SUPABASE_URL` | Supabase staging project URL. |
 | `SUPABASE_PUBLISHABLE_KEY` | Browser-safe key used by Supabase Auth. |
 | `SUPABASE_SECRET_KEY` | Server-only secret used by `/api/trades` to read authorization records and snapshots. |
-| `VORTEXT_BOT_HMAC_SECRET` | At least 32 random characters; must exactly match the bot's local setting. |
-| `VORTEXT_BOT_ID` | `vortext-fleet` for the current publisher. |
-| `VORTEXT_DASHBOARD_SHARED_ACCOUNTS` | Comma-separated server-side account aliases shared only with allowlisted email addresses, e.g. `account_003`. |
-| `VORTEXT_DASHBOARD_ALLOWED_EMAILS` | Comma-separated approved email addresses required for shared-account access. If unset, shared accounts are not exposed. |
+| `VORTEX_BOT_HMAC_SECRET` | At least 32 random characters; must exactly match the bot's local setting. |
+| `VORTEX_BOT_ID` | Must exactly match the stable bot ID emitted by the configured publisher. |
+| `VORTEX_DASHBOARD_SHARED_ACCOUNTS` | Comma-separated server-side account aliases shared only with allowlisted email addresses, e.g. `account_003`. |
+| `VORTEX_DASHBOARD_ALLOWED_EMAILS` | Comma-separated approved email addresses required for shared-account access. If unset, shared accounts are not exposed. |
 | `VORTEX_PUBLIC_SIGNUP_ENABLED` | Must remain unset/false unless outbound email verification is tested and the email allowlist is populated. |
 
-Never expose `SUPABASE_SECRET_KEY` or `VORTEXT_BOT_HMAC_SECRET` to browser code, Git, logs or screenshots. Never place an MT5 password in Vercel.
+Never expose `SUPABASE_SECRET_KEY` or `VORTEX_BOT_HMAC_SECRET` to browser code, Git, logs or screenshots. Never place an MT5 password in Vercel.
 
 ## Operator and account authorization
 
-The staging project already contains `public.vortext_authorized_operators`. Shared read-only account IDs are configured only on the server through `VORTEXT_DASHBOARD_SHARED_ACCOUNTS`; no per-user row is required for those shared IDs. Any explicitly inactive operator row blocks that account. Additional non-shared accounts are visible only when the signed-in Supabase Auth user has an active record with:
+The staging project contains `public.vortext_authorized_operators` and stored snapshot rows. The latest staging snapshot was approximately 3.1 days old at the 2026-11-12 audit; treat the feed as stale until a fresh signed snapshot is verified. Shared read-only account IDs are configured only on the server through `VORTEX_DASHBOARD_SHARED_ACCOUNTS` and are visible only to addresses in `VORTEX_DASHBOARD_ALLOWED_EMAILS`. Any explicitly inactive operator row blocks that account. Additional non-shared accounts are visible only when the signed-in Supabase Auth user has an active record with:
 
 - `user_id`: the exact `auth.users.id` value for the signed-in account;
 - `email`: the same email as the Auth user;
@@ -66,7 +66,7 @@ For staging, set the publisher's ingest URL to the verified Vercel **Preview dep
 - The trading PC must be running with the intended real MT5 account connected for new snapshots to arrive.
 - The local account registry's `account_id` must be granted to the correct website user.
 - The Supabase staging operator table and trade snapshot table were empty at the last inspection; the first live snapshot has not yet been verified.
-- Email magic-link delivery is not customer-grade until a monitored outbound SMTP sender is configured and tested. Google OAuth is the configured sign-in provider.
+- Email/password registration verification is not customer-grade until a monitored outbound SMTP sender is configured and tested. Configured OAuth sign-in remains available only where its provider is enabled.
 - Public support, legal identity, jurisdiction, privacy contact, retention and legal review gates remain open. Public customer onboarding must remain closed.
 
 ## Git and credential safety
