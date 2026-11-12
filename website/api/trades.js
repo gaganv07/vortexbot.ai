@@ -490,10 +490,12 @@ async function get(req, res, c) {
     return reply(res, 403, { ok: false, error: 'This VORTEXT account has been disabled' });
   }
 
-  // Shared feeds are read-only and apply to every valid signed-in user.
-  // Per-user operator grants can add accounts but cannot widen the shared list.
+  // Shared accounts require an explicit server-side email allowlist.
+  // Without that fence, only individually assigned operator accounts are visible.
+  const emailIsAllowlisted = c.allowedEmails.includes(email);
+  const sharedAccountIds = emailIsAllowlisted ? c.sharedAccountIds : [];
   const allowedAccountIds = [...new Set([
-    ...c.sharedAccountIds,
+    ...sharedAccountIds,
     ...operatorAccess.allowedAccountIds
   ])];
   if (!allowedAccountIds.length) {
