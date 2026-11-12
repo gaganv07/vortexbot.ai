@@ -128,6 +128,25 @@ button,.btn,.submit,.provider,.back-to-top{box-shadow:none!important}button.prim
 .back-to-top{right:16px;bottom:88px}
 @media(max-width:760px){.top-actions{margin-top:0}.action-meta{text-align:left}}
 @media(max-width:560px){.back-to-top{right:12px;bottom:80px}}
+
+/* Dashboard usability follow-up: align actions and group related controls */
+.topline{align-items:flex-start;gap:12px}
+.dashboard-heading{align-self:flex-start}
+.top-actions{align-self:flex-start;margin-top:0}
+#account-meta{display:block;text-align:left;margin-top:4px}
+.nav-actions{gap:24px}
+.nav-actions .nav-link{padding-inline:6px}
+.back-to-top{width:52px;height:52px;right:24px;bottom:88px;font-size:26px}
+@media(max-width:760px){
+ .topline{align-items:flex-start}
+ .top-actions{margin-top:0}
+ .nav-actions{gap:18px}
+ .back-to-top{right:16px;bottom:80px}
+}
+@media(max-width:420px){
+ .nav-actions{gap:14px}
+ .back-to-top{width:52px;height:52px;right:12px;bottom:80px}
+}
 </style><link rel="icon" type="image/svg+xml" href="/favicon.svg?v=20261112-3"><link rel="shortcut icon" href="/favicon.ico?v=20261112-3">
 <link rel="shortcut icon" href="/favicon.svg?v=20261112-3">
 <link rel="stylesheet" href="/assistant.css?v=1">
