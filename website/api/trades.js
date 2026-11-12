@@ -476,9 +476,6 @@ async function get(req, res, c) {
   }
 
   const email = String(user.email).trim().toLowerCase();
-  if (c.allowedEmails.length && !c.allowedEmails.includes(email)) {
-    return reply(res, 403, { ok: false, error: 'Account is not authorized to view trading data' });
-  }
 
   let operatorAccess;
   try {
