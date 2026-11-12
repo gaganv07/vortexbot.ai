@@ -17,14 +17,14 @@ function config() {
   const url = (process.env.SUPABASE_URL || '').replace(/\/+$/, '');
   const publishableKey = process.env.SUPABASE_PUBLISHABLE_KEY || '';
   const secretKey = process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY || '';
-  const secret = process.env.VORTEXT_BOT_HMAC_SECRET || '';
+  const secret = process.env.VORTEX_BOT_HMAC_SECRET || process.env.VORTEXT_BOT_HMAC_SECRET || '';
   // Keep this aligned with app.vortext_dashboard.VortextDashboardPublisher.
-  const botId = (process.env.VORTEXT_BOT_ID || 'vortext-fleet').trim();
+  const botId = (process.env.VORTEX_BOT_ID || process.env.VORTEXT_BOT_ID || 'vortext-fleet').trim();
   // Optional email fence; leave unset when all signed-in users should see shared feeds.
-  const allowedEmails = (process.env.VORTEXT_DASHBOARD_ALLOWED_EMAILS || '')
+  const allowedEmails = (process.env.VORTEX_DASHBOARD_ALLOWED_EMAILS || process.env.VORTEXT_DASHBOARD_ALLOWED_EMAILS || '')
     .split(',').map(function (s) { return s.trim().toLowerCase(); }).filter(Boolean);
   // Server-controlled shared accounts are visible to every valid Supabase Auth user.
-  const sharedAccountIds = [...new Set((process.env.VORTEXT_DASHBOARD_SHARED_ACCOUNTS || '')
+  const sharedAccountIds = [...new Set((process.env.VORTEX_DASHBOARD_SHARED_ACCOUNTS || process.env.VORTEXT_DASHBOARD_SHARED_ACCOUNTS || '')
     .split(',').map(function (s) { return s.trim(); })
     .filter(function (id) { return ACCOUNT_ID_PATTERN.test(id); }))];
   let validUrl = false;
