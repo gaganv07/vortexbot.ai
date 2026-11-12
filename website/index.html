@@ -344,6 +344,42 @@ footer{border-top:1px solid #e2e8f0;color:#64748b}
  .preview-metric{display:flex;align-items:center;justify-content:space-between;gap:8px}
  .preview-metric strong{margin:0;text-align:right}
 }
+
+/* Usability audit refinements */
+.nav{justify-content:space-between}
+.nav-links{flex:1 1 auto;min-width:0;justify-content:flex-start;gap:clamp(10px,1.35vw,20px);font-size:var(--type-sm)}
+.nav-actions{gap:8px}
+.nav-actions .btn-primary{background:#fff;border-color:#cbd5e1;color:#0f172a}
+.nav-actions .btn-primary:hover{background:#f8fafc;border-color:#94a3b8;color:#0f172a}
+.footer-links{gap:12px 20px}
+.footer-links a{display:inline-flex;align-items:center;min-height:44px;font-size:var(--type-md);line-height:1.35}
+.preview-notice{max-width:1000px;margin:16px auto 0;padding:15px 18px;border:1px solid #b6d4fe;border-left:4px solid #2563eb;border-radius:var(--radius-md);background:#eff6ff}
+.preview-note{margin:0;color:#1e3a8a;font-size:var(--type-md);font-weight:600;text-align:left}
+.session-callout{grid-template-columns:minmax(190px,.55fr) minmax(0,1.45fr);gap:16px}
+.step-heading{display:flex;align-items:center;gap:12px;margin-bottom:10px}
+.step-icon{display:grid;place-items:center;width:40px;height:40px;flex:0 0 40px;border:1px solid #dbeafe;border-radius:var(--radius-md);background:#eff6ff;color:#2563eb}
+.step-icon svg{width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.step-number{font-size:var(--type-sm);letter-spacing:.08em}
+.step h3{margin-top:0}
+.section-heading .eyebrow{border:0;background:transparent;padding:0;color:#64748b}
+.section-heading h2{margin-top:22px}
+.final-cta{justify-content:flex-start;gap:32px}
+.final-cta>div{max-width:640px}
+.back-to-top{width:auto;min-width:78px;height:52px;padding:0 15px;gap:7px;border-radius:var(--radius-pill);font-size:var(--type-md);font-weight:700}
+.back-to-top span{font-size:var(--type-sm)}
+@media(max-width:1120px){
+ .nav-links{gap:12px;font-size:var(--type-xs)}
+}
+@media(max-width:980px){
+ .nav-links{display:none;position:absolute;left:0;right:0;top:calc(100% + 1px);z-index:31;flex:none;min-width:0;justify-content:stretch;gap:0}
+}
+@media(max-width:760px){
+ .session-callout{grid-template-columns:minmax(0,1fr);gap:11px}
+ .preview-notice{margin-top:12px;padding:13px 14px}
+ .final-cta{align-items:stretch;flex-direction:column;gap:18px}
+ .final-cta .btn{align-self:flex-start}
+}
+
 </style>
 <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=20261112-3"><link rel="stylesheet" href="/assistant.css?v=1">
 </head>
@@ -365,7 +401,7 @@ footer{border-top:1px solid #e2e8f0;color:#64748b}
    </div>
    <div class="nav-actions">
     <a class="btn btn-outline btn-small" href="/login.html">Sign in</a>
-    <a class="btn btn-primary btn-small" href="/login.html?next=dashboard.html">Open dashboard</a>
+    <a class="btn btn-outline btn-small" href="/login.html?next=dashboard.html">Open dashboard</a>
     <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="site-links"><span></span><span></span><span></span></button>
    </div>
   </nav>
@@ -379,7 +415,7 @@ footer{border-top:1px solid #e2e8f0;color:#64748b}
    <p class="hero-description">VORTEX AI brings multi-market analysis, configurable risk controls and broker-connected monitoring into one disciplined workflow. Review system status and broker-reported activity through an authenticated, read-only dashboard.</p>
    <div class="hero-actions">
     <a class="btn btn-primary" href="/#features">Explore the platform <span class="arrow" aria-hidden="true">→</span></a>
-    <a class="btn btn-outline" href="/login.html?next=dashboard.html">Sign in to dashboard <span class="arrow" aria-hidden="true">↗</span></a>
+    
    </div>
    <div class="benefits" aria-label="Platform facts">
     <div class="benefit">
@@ -456,7 +492,7 @@ footer{border-top:1px solid #e2e8f0;color:#64748b}
    </div>
    <p>VORTEX AI begins evaluating eligible trade opportunities from this configured start time on eligible weekdays. Trade entries remain subject to strategy signals, risk controls, market availability, news filters and broker execution checks. The session opening does not guarantee an order.</p>
   </section>
-  <p class="preview-note">VORTEX AI is currently in a restricted preview. Dashboard access is limited to approved users and is read-only; this website cannot submit, modify, or close broker orders. Product modules remain subject to validation and availability.</p>
+  <div class="preview-notice" role="note" aria-label="Restricted preview notice"><p class="preview-note">Restricted preview: Dashboard access is limited to approved users and is read-only. This website cannot submit, modify, or close broker orders. Product modules remain subject to validation and availability.</p></div>
  </section>
 
  <section class="content-section" id="features">
@@ -474,9 +510,9 @@ footer{border-top:1px solid #e2e8f0;color:#64748b}
   <div class="wrap">
    <div class="section-heading"><div class="eyebrow">How it works</div><h2>From broker connection to clear visibility</h2><p>The private dashboard separates broker-confirmed activity from system status and feed freshness.</p></div>
    <div class="steps">
-    <article class="step"><span class="step-number">01 / CONNECT</span><h3>Connect your MT5 account</h3><p>The trading terminal connects to the broker using the broker's own platform and credentials.</p></article>
-    <article class="step"><span class="step-number">02 / VERIFY</span><h3>Verify broker data</h3><p>Account status, positions and trade history are read from broker-confirmed snapshots when the signed feed is available.</p></article>
-    <article class="step"><span class="step-number">03 / MONITOR</span><h3>View your dashboard</h3><p>Approved users sign in to view read-only trading information and the last successful broker-update time.</p></article>
+    <article class="step"><div class="step-heading"><span class="step-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 12a4 4 0 0 1 4-4h3"/><path d="M16 8l3 0 0 3"/><path d="M16 12a4 4 0 0 1-4 4H9"/><path d="M8 16H5v-3"/></svg></span><span class="step-number">01 / CONNECT</span></div><h3>Connect your MT5 account</h3><p>The trading terminal connects to the broker using the broker's own platform and credentials.</p></article>
+    <article class="step"><div class="step-heading"><span class="step-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m5 12 4 4L19 6"/><path d="M12 22a10 10 0 1 0 0-20 10 10 0 0 0 0 20Z"/></svg></span><span class="step-number">02 / VERIFY</span></div><h3>Verify broker data</h3><p>Account status, positions and trade history are read from broker-confirmed snapshots when the signed feed is available.</p></article>
+    <article class="step"><div class="step-heading"><span class="step-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 12h18"/><path d="M12 3v18"/><circle cx="12" cy="12" r="8"/></svg></span><span class="step-number">03 / MONITOR</span></div><h3>View your dashboard</h3><p>Approved users sign in to view read-only trading information and the last successful broker-update time.</p></article>
    </div>
    <div class="release-note">Access is currently restricted to approved preview users. The website is not an order-entry terminal and does not offer public live-trading activation.</div>
   </div>
@@ -489,7 +525,7 @@ footer{border-top:1px solid #e2e8f0;color:#64748b}
 <footer>
  <div class="wrap footer-row"><div>© VORTEX AI · Markets Move. We Adapt.</div><div class="footer-links"><a href="/market-coverage.html">Market coverage</a><a href="/getting-started.html">Getting started</a><a href="/pricing.html">Plans</a><a href="/faq.html">FAQ</a><a href="/contact.html">Support</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/login.html">Login</a></div></div>
 </footer>
-<button class="back-to-top" id="back-to-top" type="button" aria-label="Back to top" title="Back to top">↑</button>
+<button class="back-to-top" id="back-to-top" type="button" aria-label="Back to top" title="Back to top">↑ <span>Top</span></button>
 <script>
 (function(){
  const menu=document.getElementById("menu-toggle");
@@ -504,7 +540,7 @@ footer{border-top:1px solid #e2e8f0;color:#64748b}
   });
   links.addEventListener("click",function(e){if(e.target.closest("a"))closeMenu();});
   document.addEventListener("keydown",function(e){if(e.key==="Escape")closeMenu();});
-  window.addEventListener("resize",function(){if(window.innerWidth>760)closeMenu();});
+  window.addEventListener("resize",function(){if(window.innerWidth>980)closeMenu();});
  }
  const top=document.getElementById("back-to-top");
  if(top){
