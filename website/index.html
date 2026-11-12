@@ -3,10 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#03110e">
-<meta name="description" content="VORTEX AI — Intelligent. Adaptive. Automated. A private, read-only MT5 trading-system preview.">
+<meta name="theme-color" content="#ffffff">
+<meta name="description" content="VORTEX AI — Institutional clarity for automated trading. Private, authenticated and read-only MT5 monitoring.">
 <title>VORTEX AI | Markets Move. We Adapt.</title>
-<link rel="icon" type="image/svg+xml" href="/favicon.svg?v=20261101-4"><link rel="shortcut icon" href="/favicon.ico?v=20261031-1">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg?v=20261112-3">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <style>
 :root{
@@ -206,8 +206,145 @@ footer{margin-top:46px;padding:24px 0 30px;border-top:1px solid #12392d;color:#8
 .session-utc{margin-top:7px;color:var(--muted);font-size:12px;font-weight:650}
 .session-callout p{margin:0;color:var(--muted);font-size:14px;line-height:1.65;overflow-wrap:anywhere}
 @media(max-width:760px){.session-callout{grid-template-columns:minmax(0,1fr);gap:11px;padding:18px}.session-time{font-size:clamp(24px,7vw,30px)}}
+
+/* Institutional trading-platform refresh */
+:root{color-scheme:light;--bg:#fff;--panel:#fff;--panel-2:#f8f9fa;--line:#e2e8f0;--line-soft:#e2e8f0;--text:#0f172a;--muted:#475569;--teal:#2563eb;--mint:#2563eb;--deep:#0f172a;--amber:#b45309}
+html{scroll-padding-top:88px}
+body{background:#fff;color:#0f172a;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+.wrap{width:min(1240px,calc(100% - 64px))}
+.site-header{background:rgba(255,255,255,.96);border-bottom:1px solid #e2e8f0;backdrop-filter:blur(16px)}
+.nav{height:82px}
+.brand-link{width:142px}
+.brand-logo{filter:none}
+.nav-links{color:#475569;font-size:14px;gap:clamp(14px,2vw,27px)}
+.nav-links a:hover,.nav-links a[aria-current=page]{color:#2563eb}
+.btn{min-height:44px;padding:11px 18px;border:1px solid #cbd5e1;border-radius:8px;background:#fff;color:#0f172a;font-size:14px;font-weight:650;box-shadow:none}
+.btn:hover{transform:translateY(-1px);border-color:#94a3b8;box-shadow:0 5px 16px #0f172a0d}
+.btn-primary{background:#2563eb;border-color:#2563eb;color:#fff;box-shadow:none}
+.btn-primary:hover{background:#1d4ed8;border-color:#1d4ed8;color:#fff}
+.btn-outline{background:#fff;border-color:#cbd5e1;color:#0f172a}
+.btn-small{min-height:40px;padding:9px 15px}
+.menu-toggle{border-color:#cbd5e1;background:#fff;color:#0f172a}
+.menu-toggle span{background:#0f172a}
+.hero{grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:clamp(32px,5vw,72px);min-height:590px;padding:76px 0 68px}
+.hero:before{display:none}
+.hero-copy{padding:0}
+.hero .eyebrow,.section-heading .eyebrow{border:1px solid #dbe3ee;border-radius:6px;background:#f8fafc;color:#334155;font-size:12px;font-weight:650;letter-spacing:.01em;padding:8px 12px}
+.hero .eyebrow:before,.section-heading .eyebrow:before{width:6px;height:6px;background:#2563eb;box-shadow:none}
+.hero h1{max-width:690px;margin:24px 0 18px;color:#0f172a;font-size:clamp(44px,5.2vw,68px);font-weight:750;line-height:1.04;letter-spacing:-.055em}
+.hero h1 span{color:#2563eb}
+.tagline{display:none}
+.hero-description{max-width:620px;color:#475569;font-size:18px;line-height:1.7}
+.hero-actions{gap:12px;margin-top:30px}
+.hero-actions .btn{min-width:0;min-height:50px;font-size:14px;padding:13px 19px}
+.hero-actions .btn-outline{border-color:#cbd5e1}
+.benefits{grid-template-columns:repeat(3,minmax(0,1fr));gap:0;margin-top:42px;padding-top:22px;border-top:1px solid #e2e8f0}
+.benefit{gap:10px;padding:0 13px;border-right:1px solid #e2e8f0}
+.benefit:first-child{padding-left:0}
+.benefit:last-child{border-right:0}
+.benefit-icon{width:34px;height:34px;flex-basis:34px;border:1px solid #dbeafe;border-radius:8px;background:#eff6ff;color:#2563eb;box-shadow:none}
+.benefit-icon svg{width:18px;height:18px}
+.benefit-copy strong{color:#0f172a;font-size:12px;white-space:normal}
+.benefit-copy span{color:#64748b;font-size:11px}
+.hero-visual{display:block;min-height:0;position:relative;padding:0}
+.visual-grid,.chart-line,.logo-glow,.market-globe,.candles,.hero-logo{display:none}
+.trading-preview{position:relative;overflow:hidden;border:1px solid #e2e8f0;border-radius:12px;background:#fff;box-shadow:0 18px 55px #0f172a12}
+.preview-top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:18px 20px;border-bottom:1px solid #e2e8f0}
+.preview-brand{display:flex;align-items:center;gap:10px;color:#0f172a;font-size:13px;font-weight:700}
+.preview-mark{display:grid;place-items:center;width:30px;height:30px;border-radius:8px;background:#eff6ff;color:#2563eb;font-size:13px;font-weight:800}
+.preview-status{padding:5px 8px;border:1px solid #dbeafe;border-radius:5px;background:#eff6ff;color:#1d4ed8;font-size:9px;font-weight:800;letter-spacing:.09em}
+.preview-body{padding:20px}
+.preview-eyebrow{color:#64748b;font-size:10px;font-weight:750;letter-spacing:.12em;text-transform:uppercase}
+.preview-title{margin:6px 0 0;color:#0f172a;font-size:21px;font-weight:700;letter-spacing:-.035em}
+.preview-subtitle{margin:4px 0 16px;color:#64748b;font-size:12px}
+.preview-chart{width:100%;height:auto;display:block;border:1px solid #edf1f5;border-radius:8px;background:linear-gradient(180deg,#f8fbff,#fff)}
+.preview-legend{display:flex;justify-content:space-between;gap:10px;margin:9px 0 18px;color:#64748b;font-size:10px}
+.preview-legend span:first-child:before{content:"";display:inline-block;width:7px;height:7px;margin-right:6px;border-radius:50%;background:#2563eb}
+.preview-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.preview-metric{min-width:0;padding:12px 10px;border:1px solid #e2e8f0;border-radius:7px;background:#f8fafc}
+.preview-metric span{display:block;color:#64748b;font-size:10px}
+.preview-metric strong{display:block;margin-top:5px;color:#0f172a;font-size:13px;line-height:1.3;overflow-wrap:anywhere}
+.preview-foot{display:flex;align-items:flex-start;gap:9px;margin-top:15px;padding:12px;border:1px solid #e2e8f0;border-radius:7px;background:#f8fafc;color:#475569;font-size:11px;line-height:1.5}
+.preview-foot-dot{width:7px;height:7px;flex:0 0 7px;margin-top:4px;border-radius:50%;background:#64748b}
+.preview-disclaimer{margin:11px 2px 0;color:#94a3b8;font-size:10px;line-height:1.5}
+.metrics-shell{margin:0 auto 34px;padding:15px;border:1px solid #e2e8f0;border-radius:10px;background:#f8fafc;box-shadow:none}
+.metrics-grid{gap:0}
+.metric{min-height:105px;border:0;border-right:1px solid #e2e8f0;border-radius:0;background:transparent}
+.metric:last-child{border-right:0}
+.metric-icon{width:29px;height:29px;color:#2563eb}
+.metric strong{color:#0f172a;font-size:21px;font-variant-numeric:tabular-nums}
+.metric span{color:#64748b;font-size:12px}
+.session-callout{border:1px solid #e2e8f0;border-radius:9px;background:#f8fafc;box-shadow:none}
+.session-label{color:#2563eb}
+.session-time{color:#0f172a;font-variant-numeric:tabular-nums}
+.session-utc,.session-callout p{color:#475569}
+.preview-note{color:#64748b}
+.content-section{padding:58px 0}
+.section-heading .eyebrow{color:#334155}
+.section-heading .eyebrow:before{display:none}
+.section-heading h2{color:#0f172a}
+.section-heading p{color:#64748b}
+.feature-card,.step{border:1px solid #e2e8f0;border-radius:9px;background:#fff;box-shadow:0 2px 8px #0f172a05}
+.feature-card .benefit-icon{width:40px;height:40px;flex-basis:40px}
+.feature-card h3,.step h3{color:#0f172a}
+.feature-card p,.step p{color:#64748b}
+.step-number{color:#2563eb}
+.release-note{border-left-color:#2563eb;border-radius:0 7px 7px 0;background:#eff6ff;color:#334155}
+.final-cta{border:1px solid #e2e8f0;border-radius:10px;background:#f8fafc}
+.final-cta h2{color:#0f172a}
+.final-cta p{color:#64748b}
+footer{border-top:1px solid #e2e8f0;color:#64748b}
+.footer-links a{color:#475569}
+.footer-links a:hover{color:#2563eb}
+.back-to-top{border:1px solid #2563eb;border-radius:8px;background:#2563eb;color:#fff}
+:focus-visible{outline:3px solid #93c5fd;outline-offset:3px}
+@media(max-width:980px){
+ .wrap{width:calc(100% - 44px)}
+ .nav{height:76px}
+ .brand-link{width:118px}
+ .nav-links{background:#fff;border-color:#e2e8f0;box-shadow:0 18px 35px #0f172a12}
+ .nav-links a{border-bottom-color:#e2e8f0}
+ .nav-links .mobile-only{border-color:#cbd5e1;background:#fff;color:#0f172a}
+ .nav-links .mobile-nav-primary{border-color:#2563eb;background:#2563eb;color:#fff}
+ .hero{grid-template-columns:minmax(0,1fr) minmax(0,.9fr);gap:28px;padding:58px 0}
+}
+@media(max-width:760px){
+ .wrap{width:calc(100% - 32px)}
+ .hero{grid-template-columns:minmax(0,1fr);gap:28px;padding:42px 0 30px}
+ .hero h1{font-size:clamp(42px,10vw,58px);margin-top:18px}
+ .hero-description{font-size:16px}
+ .hero-actions{display:flex;flex-wrap:wrap}
+ .hero-actions .btn{flex:1 1 145px}
+ .benefits{margin-top:28px;padding-top:18px}
+ .benefit{align-items:flex-start;flex-direction:row;gap:7px;padding:0 8px}
+ .benefit-icon{width:31px;height:31px;flex-basis:31px}
+ .benefit-copy strong{font-size:11px}
+ .benefit-copy span{font-size:10px}
+ .hero-visual{padding:0}
+ .preview-body{padding:15px}
+ .preview-title{font-size:19px}
+ .preview-grid{gap:6px}
+ .preview-metric{padding:10px 8px}
+ .preview-metric strong{font-size:12px}
+ .metrics-shell{padding:8px}
+ .metrics-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .metric{border-right:0;border-bottom:1px solid #e2e8f0}
+ .metric:nth-child(odd){border-right:1px solid #e2e8f0}
+ .metric:nth-last-child(-n+2){border-bottom:0}
+ .content-section{padding:42px 0}
+}
+@media(max-width:390px){
+ .wrap{width:calc(100% - 24px)}
+ .benefits{gap:4px}
+ .benefit{padding:0 4px;gap:5px}
+ .benefit-copy strong{font-size:10px}
+ .preview-top{padding:14px}
+ .preview-grid{grid-template-columns:1fr}
+ .preview-metric{display:flex;align-items:center;justify-content:space-between;gap:8px}
+ .preview-metric strong{margin:0;text-align:right}
+}
 </style>
-<link rel="stylesheet" href="/assistant.css?v=1">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg?v=20261112-3"><link rel="stylesheet" href="/assistant.css?v=1">
 </head>
 <body>
 <header class="site-header">
@@ -215,20 +352,18 @@ footer{margin-top:46px;padding:24px 0 30px;border-top:1px solid #12392d;color:#8
   <nav class="nav" aria-label="Main navigation">
    <a class="brand-link" href="/" aria-label="VORTEX AI home"><img class="brand-logo" src="/vortext-ai-logo.webp?v=20261101-4" alt="VORTEX AI logo"></a>
    <div class="nav-links" id="site-links">
-    <a href="#home" aria-current="page">Home</a>
-    <a href="#about">About</a>
-    <a href="#features">Features</a>
-    <a href="#performance">Performance</a>
-    <a href="#how-it-works">How It Works</a>
-    <a href="/login.html?next=dashboard.html">Dashboard</a>
+    <a href="#features">Platform</a>
+    <a href="/market-coverage.html">Market coverage</a>
+    <a href="#how-it-works">How it works</a>
+    <a href="/getting-started.html">Getting started</a>
     <a href="/faq.html">FAQ</a>
     <a href="/contact.html">Contact</a>
-    <a class="mobile-only mobile-nav-action" href="/login.html">Login</a>
+    <a class="mobile-only mobile-nav-action" href="/login.html">Sign in</a>
     <a class="mobile-only mobile-nav-action mobile-nav-primary" href="/login.html?next=dashboard.html">Dashboard</a>
    </div>
    <div class="nav-actions">
-    <a class="btn btn-outline btn-small" href="/login.html">Login</a>
-    <a class="btn btn-primary btn-small" href="/login.html?next=dashboard.html">Dashboard</a>
+    <a class="btn btn-outline btn-small" href="/login.html">Sign in</a>
+    <a class="btn btn-primary btn-small" href="/login.html?next=dashboard.html">Open dashboard</a>
     <button class="menu-toggle" id="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="site-links"><span></span><span></span><span></span></button>
    </div>
   </nav>
@@ -237,40 +372,56 @@ footer{margin-top:46px;padding:24px 0 30px;border-top:1px solid #12392d;color:#8
 <main id="home">
  <section class="wrap hero" id="about">
   <div class="hero-copy">
-   <div class="eyebrow">AI-Powered Trading Automation</div>
-   <h1>VORTEX <span>AI</span></h1>
-   <p class="tagline">Intelligent. Adaptive. <span class="soft">Automated.</span></p>
-   <p class="hero-description">An advanced AI trading bot engineered to analyze multiple markets, adapt to changing conditions, and execute high-probability opportunities with precision and discipline.</p>
+   <div class="eyebrow">Private MT5 monitoring · Restricted preview</div>
+   <h1>Institutional clarity for <span>automated trading.</span></h1>
+   <p class="hero-description">VORTEX AI brings multi-market analysis, configurable risk controls and broker-connected monitoring into one disciplined workflow. Review system status and broker-reported activity through an authenticated, read-only dashboard.</p>
    <div class="hero-actions">
-    <a class="btn btn-primary" href="/login.html?next=dashboard.html">Open Dashboard <span class="arrow" aria-hidden="true">→</span></a>
-    <a class="btn btn-outline" href="#how-it-works">Watch Demo <span class="play-icon" aria-hidden="true">▶</span></a>
+    <a class="btn btn-primary" href="/#features">Explore the platform <span class="arrow" aria-hidden="true">→</span></a>
+    <a class="btn btn-outline" href="/login.html?next=dashboard.html">Sign in to dashboard <span class="arrow" aria-hidden="true">↗</span></a>
    </div>
-   <div class="benefits" aria-label="Platform highlights">
-    <div class="benefit">
-     <span class="benefit-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2 3.5 6v5.3c0 5.2 3.5 8.6 8.5 10.7 5-2.1 8.5-5.5 8.5-10.7V6L12 2Z"/><path d="m8 12 2.5 2.5L16.5 8"/></svg></span>
-     <span class="benefit-copy"><strong>AI Market Analysis</strong><span>Real-time insights</span></span>
-    </div>
-    <div class="benefit">
-     <span class="benefit-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2 4 5v6c0 5 3.4 8.2 8 11 4.6-2.8 8-6 8-11V5l-8-3Z"/><path d="M9 12h6M12 9v6"/></svg></span>
-     <span class="benefit-copy"><strong>Smart Risk Control</strong><span>Capital protection</span></span>
-    </div>
+   <div class="benefits" aria-label="Platform facts">
     <div class="benefit">
      <span class="benefit-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M4 20V12h4v8H4ZM10 20V7h4v13h-4ZM16 20V3h4v17h-4Z"/></svg></span>
-     <span class="benefit-copy"><strong>Multi-Market</strong><span>7 trading pairs</span></span>
+     <span class="benefit-copy"><strong>7 configured instruments</strong><span>Broker-dependent availability</span></span>
+    </div>
+    <div class="benefit">
+     <span class="benefit-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2 4 5v6c0 5 3.4 8.2 8 11 4.6-2.8 8-6 8-11V5l-8-3Z"/><path d="m8.5 12 2.3 2.3 4.7-5"/></svg></span>
+     <span class="benefit-copy"><strong>Read-only dashboard</strong><span>No website order controls</span></span>
+    </div>
+    <div class="benefit">
+     <span class="benefit-icon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 6v6l4 2"/></svg></span>
+     <span class="benefit-copy"><strong>Broker snapshots</strong><span>Freshness shown after sign-in</span></span>
     </div>
    </div>
   </div>
-  <div class="hero-visual" aria-label="VORTEX AI brand artwork">
-   <div class="visual-grid"></div>
-   <svg class="chart-line" viewBox="0 0 640 430" aria-hidden="true">
-    <path d="M12 348 92 302 150 330 213 268 270 286 330 210 387 236 447 157 506 178 575 92 628 112" fill="none" stroke="#00e6a5" stroke-width="2" opacity=".65"/>
-    <path d="M12 377 92 331 150 359 213 297 270 315 330 239 387 265 447 186 506 207 575 121 628 141" fill="none" stroke="#00e6a5" stroke-width="1" opacity=".18"/>
-    <g fill="#00e6a5"><circle cx="92" cy="302" r="4"/><circle cx="213" cy="268" r="4"/><circle cx="330" cy="210" r="4"/><circle cx="447" cy="157" r="4"/><circle cx="575" cy="92" r="4"/></g>
-   </svg>
-   <div class="candles" aria-hidden="true"><i class="candle"></i><i class="candle"></i><i class="candle"></i><i class="candle"></i></div>
-   <div class="logo-glow"></div>
-   <img class="hero-logo" src="/vortext-ai-logo.webp?v=20261101-4" alt="VORTEX AI — Markets Move. We Adapt. — 7 Pairs | AI Trading Bot">
-   <div class="market-globe"></div>
+  <div class="hero-visual" aria-label="Illustrative VORTEX AI trading dashboard preview">
+   <div class="trading-preview">
+    <div class="preview-top">
+     <div class="preview-brand"><span class="preview-mark">V</span><span>VORTEX AI <span style="color:#64748b;font-weight:500">/ Trading monitor</span></span></div>
+     <span class="preview-status">PRIVATE PREVIEW</span>
+    </div>
+    <div class="preview-body">
+     <div class="preview-eyebrow">Portfolio visibility</div>
+     <div class="preview-title">Multi-market monitor</div>
+     <p class="preview-subtitle">A consolidated view of connected account activity</p>
+     <svg class="preview-chart" viewBox="0 0 560 190" role="img" aria-label="Illustrative market-monitor chart with no live price data">
+      <defs><linearGradient id="areaFill" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#2563eb" stop-opacity=".15"/><stop offset="1" stop-color="#2563eb" stop-opacity="0"/></linearGradient></defs>
+      <g stroke="#e8eef5" stroke-width="1"><path d="M28 34H538M28 78H538M28 122H538M28 166H538"/></g>
+      <path d="M28 143 C65 130 82 145 112 119 S164 126 195 96 S244 110 274 86 S326 98 357 69 S411 83 441 55 S495 67 538 35 L538 166 L28 166Z" fill="url(#areaFill)"/>
+      <path d="M28 143 C65 130 82 145 112 119 S164 126 195 96 S244 110 274 86 S326 98 357 69 S411 83 441 55 S495 67 538 35" fill="none" stroke="#2563eb" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="538" cy="35" r="5" fill="#2563eb" stroke="#fff" stroke-width="3"/>
+      <g fill="#94a3b8" font-size="10" font-family="Inter, sans-serif"><text x="28" y="183">Illustrative interface only</text><text x="538" y="183" text-anchor="end">No live market feed</text></g>
+     </svg>
+     <div class="preview-legend"><span>Illustrative activity curve</span><span>Not performance data</span></div>
+     <div class="preview-grid">
+      <div class="preview-metric"><span>Market coverage</span><strong class="tabular-nums">7 instruments</strong></div>
+      <div class="preview-metric"><span>Dashboard access</span><strong>Approved users</strong></div>
+      <div class="preview-metric"><span>Data presentation</span><strong>Read-only</strong></div>
+     </div>
+     <div class="preview-foot"><span class="preview-foot-dot" aria-hidden="true"></span><span>Broker account values, open positions and feed timestamps appear only when an authorized account has a current snapshot.</span></div>
+    </div>
+   </div>
+   <p class="preview-disclaimer">Product interface illustration. Figures and chart movement are not live account data, backtest results or a return forecast.</p>
   </div>
  </section>
 
