@@ -74,7 +74,7 @@ input,button{max-width:100%;min-width:0}
 <div class="or">OR CONTINUE WITH EMAIL</div>
 <form id="email-form"><label for="email">Email address</label><div class="email-row"><input id="email" name="email" type="email" autocomplete="email" placeholder="name@example.com" required><button class="submit" id="email-submit" type="submit" disabled>Send secure sign-in link</button></div></form>
 <div class="legal">By continuing, you agree to use this service in accordance with our <a href="/terms.html#risk">risk disclosure</a>. Automated trading can result in losses.</div>
-<div class="tiny">Email-link delivery requires a configured outbound SMTP sender. Google and Apple sign-in are available when enabled in Production Supabase. Demo trading dashboard · Read-only website · No MT5 password collection</div>
+<div class="tiny">Email-link delivery requires a configured outbound SMTP sender. Social sign-in is available only when configured. Email-link delivery requires a verified outbound email service. Demo trading dashboard · Read-only website · No MT5 password collection</div>
 </section></main>
 <footer><div class="wrap row"><span>© VORTEX AI</span><div class="row"><a href="/">Home</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/contact.html">Support</a></div></div></footer>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.118.0"></script>
@@ -142,8 +142,8 @@ input,button{max-width:100%;min-width:0}
       } else {
         show("No sign-in provider is currently enabled. Contact the VORTEX AI administrator to complete authentication setup.", true);
       }
-      googleButton.title = googleEnabled ? "Continue with Google" : "Google sign-in is not enabled in Production Supabase";
-      appleButton.title = appleEnabled ? "Continue with Apple" : "Apple sign-in is not configured in Production Supabase";
+      googleButton.title = googleEnabled ? "Continue with Google" : "Google sign-in is not enabled for this service";
+      appleButton.title = appleEnabled ? "Continue with Apple" : "Apple sign-in is not configured for this service";
     } catch (error) {
       setBusy(true);
       show("Could not verify the sign-in provider configuration. No OAuth redirect will be attempted. Please try again later.", true);
@@ -153,7 +153,7 @@ input,button{max-width:100%;min-width:0}
     const enabled = provider === "google" ? googleEnabled : provider === "apple" ? appleEnabled : false;
     const label = provider === "apple" ? "Apple" : "Google";
     if (!client || !enabled) {
-      show(label + " sign-in is not enabled in Production Supabase. The provider must be configured before it can authenticate accounts.", true);
+      show(label + " sign-in is not enabled for this service. The provider must be configured before it can authenticate accounts.", true);
       return;
     }
     setBusy(true);
@@ -169,7 +169,7 @@ input,button{max-width:100%;min-width:0}
   $("email-form").addEventListener("submit", async (event) => {
     event.preventDefault();
     if (!client || !emailEnabled) {
-      show("Email sign-in is not enabled in Supabase.", true);
+      show("Email sign-in is not enabled for this service.", true);
       return;
     }
     const email = $("email").value.trim();
