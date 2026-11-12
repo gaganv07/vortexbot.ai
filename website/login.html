@@ -70,6 +70,7 @@ button,.btn,.submit,.provider,.back-to-top{box-shadow:none!important}button.prim
 /* Sign-in contrast and form usability repair */:root{color-scheme:light!important;--bg:#fff!important;--panel:#fff!important;--text:#0f172a!important;--muted:#475569!important;--teal:#2563eb!important;--cyan:#2563eb!important}body{background:#fff!important;color:#0f172a!important}header,footer{background:#fff!important;border-color:#e2e8f0!important}.back{color:#475569!important}.back:hover{color:#1d4ed8!important}.panel{background:#fff!important;border:1px solid #e2e8f0!important;color:#0f172a!important;box-shadow:0 12px 36px #0f172a0d!important}.eyebrow{color:#2563eb!important}h1{color:#0f172a!important}p{color:#475569!important}.provider{background:#fff!important;border:1px solid #cbd5e1!important;color:#0f172a!important;box-shadow:none!important}.provider:hover:not(:disabled){background:#f8fafc!important;border-color:#93c5fd!important;color:#1d4ed8!important}.provider:disabled{opacity:1!important;color:#334155!important;background:#f8fafc!important}.or{color:#64748b!important}.or:before,.or:after{background:#e2e8f0!important}label{color:#334155!important}input{background:#fff!important;color:#0f172a!important;border:1px solid #cbd5e1!important}input::placeholder{color:#94a3b8!important;opacity:1!important}input:focus{border-color:#2563eb!important;box-shadow:0 0 0 3px #2563eb20!important}.submit{background:#2563eb!important;border-color:#2563eb!important;color:#fff!important}.submit:hover:not(:disabled){background:#1d4ed8!important;border-color:#1d4ed8!important}.submit:disabled{background:#93c5fd!important;color:#1e3a8a!important;border-color:#93c5fd!important}.notice{background:#eff6ff!important;border-color:#bfdbfe!important;color:#334155!important}.notice.warn{background:#fffbeb!important;border-color:#fde68a!important;color:#92400e!important}.notice.ok{background:#ecfdf5!important;border-color:#a7f3d0!important;color:#065f46!important}.notice.error{background:#fef2f2!important;border-color:#fecaca!important;color:#991b1b!important}.legal,.tiny,footer{color:#64748b!important}.legal a{color:#1d4ed8!important}.back-to-top{background:#2563eb!important;border-color:#2563eb!important;color:#fff!important}
 /* Email/password account creation controls */
 .auth-mode{display:grid;grid-template-columns:1fr 1fr;gap:6px;padding:5px;margin:18px 0 16px;border:1px solid #e2e8f0;border-radius:12px;background:#f8fafc}
+.auth-mode[hidden]{display:none!important}
 .mode-button{min-height:42px;border:1px solid transparent;border-radius:9px;background:transparent;color:#475569;font-family:inherit;font-size:13px;font-weight:650;line-height:1.2;cursor:pointer}
 .mode-button.active{background:#fff;border-color:#dbeafe;color:#1d4ed8;box-shadow:0 1px 4px #0f172a12}
 .mode-button:focus-visible{outline:2px solid #2563eb;outline-offset:2px}
@@ -124,12 +125,14 @@ button,.btn,.submit,.provider,.back-to-top{box-shadow:none!important}button.prim
   const emailButton = $("email-submit");
   const form = $("email-form");
   const confirmWrap = $("confirm-wrap");
+  const authModeGroup = document.querySelector(".auth-mode");
   const signInMode = $("signin-mode");
   const signUpMode = $("signup-mode");
   let client = null;
   let googleEnabled = false;
   let appleEnabled = false;
   let emailEnabled = false;
+  let signupEnabled = false;
   let mode = "signin";
   const requestedNext = new URLSearchParams(window.location.search).get("next");
   const nextPage = ["dashboard.html", "account.html"].includes(requestedNext) ? requestedNext : "dashboard.html";
@@ -143,9 +146,10 @@ button,.btn,.submit,.provider,.back-to-top{box-shadow:none!important}button.prim
     appleButton.disabled = busy || !appleEnabled;
     emailButton.disabled = busy || !emailEnabled;
     signInMode.disabled = busy;
-    signUpMode.disabled = busy;
+    signUpMode.disabled = busy || !signupEnabled;
   }
   function setMode(nextMode) {
+    if (nextMode === "signup" && !signupEnabled) nextMode = "signin";
     mode = nextMode;
     const creating = mode === "signup";
     signInMode.classList.toggle("active", !creating);
@@ -171,6 +175,9 @@ button,.btn,.submit,.provider,.back-to-top{box-shadow:none!important}button.prim
         show("Login setup is not complete. The dashboard remains private until authentication is configured.", "warn");
         return;
       }
+      signupEnabled = config.signupEnabled === true;
+      signUpMode.hidden = !signupEnabled;
+      authModeGroup.hidden = !signupEnabled;
       if (!window.supabase || !window.supabase.createClient) throw new Error("Auth library unavailable");
       client = window.supabase.createClient(config.supabaseUrl, config.publishableKey);
       const { data } = await client.auth.getSession();
@@ -185,7 +192,10 @@ button,.btn,.submit,.provider,.back-to-top{box-shadow:none!important}button.prim
       emailEnabled = settings.external?.email === true;
       setBusy(false);
       const activeProviders = [googleEnabled ? "Google" : null, appleEnabled ? "Apple" : null, emailEnabled ? "email and password" : null].filter(Boolean);
-      show(activeProviders.length ? activeProviders.join(", ") + " sign-in available. New accounts require email verification and dashboard approval." : "No sign-in provider is currently enabled. Contact the VORTEX AI administrator.", activeProviders.length ? "" : "warn");
+      show(activeProviders.length
+        ? activeProviders.join(", ") + " sign-in available." + (signupEnabled ? " New accounts require email verification and dashboard approval." : " Access is limited to approved accounts.")
+        : "No sign-in provider is currently enabled. Contact the VORTEX AI administrator.",
+        activeProviders.length ? "" : "warn");
       googleButton.title = googleEnabled ? "Continue with Google" : "Google sign-in is not enabled for this service";
       appleButton.title = appleEnabled ? "Continue with Apple" : "Apple sign-in is not configured for this service";
       setMode("signin");
@@ -210,6 +220,7 @@ button,.btn,.submit,.provider,.back-to-top{box-shadow:none!important}button.prim
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
     if (!client || !emailEnabled) { show("Email/password authentication is not enabled for this service yet.", "warn"); return; }
+    if (mode === "signup" && !signupEnabled) { show("Account creation is not enabled for this service.", "warn"); setMode("signin"); return; }
     const email = $("email").value.trim();
     const password = $("password").value;
     if (!email || !$("email").validity.valid) { show("Enter a valid email address.", "error"); $("email").focus(); return; }
@@ -252,7 +263,7 @@ button,.btn,.submit,.provider,.back-to-top{box-shadow:none!important}button.prim
   });
   init();
 })();
-</script>>
+</script>
 <button class="back-to-top" id="back-to-top" type="button" aria-label="Back to top" title="Back to top">↑</button>
 <script>
 (function(){
