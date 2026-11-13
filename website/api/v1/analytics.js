@@ -199,7 +199,7 @@ function config() {
         parsed.password === '' &&
         Boolean(expectedHost) &&
         hostname === expectedHost &&
-        parsed.pathname === '' &&
+        (parsed.pathname === '' || parsed.pathname === '/') &&
         parsed.search === '' &&
         parsed.hash === '';
     } catch (_) {
