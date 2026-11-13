@@ -158,8 +158,26 @@ const INSTRUMENT_SPECS = {
  * Dynamic configuration helper.
  * Strictly fail-closed: missing URL, publishable key, or service key fails closed.
  */
+function expectedSupabaseProjectRef() {
+  const deploymentEnv = (process.env.VERCEL_ENV || '').trim().toLowerCase();
+
+  if (deploymentEnv === 'preview') return 'xtyszeuvtfcgognkrwxv';
+  if (deploymentEnv === 'production') return 'bucziqekzyrttgcoxtas';
+
+  // Local development must explicitly declare which isolated project it expects.
+  // Unknown/unspecified deployment environments fail closed.
+  if (!deploymentEnv && process.env.NODE_ENV === 'development') {
+    const localRef = (process.env.VORTEX_EXPECTED_SUPABASE_PROJECT_REF || '').trim().toLowerCase();
+    if (localRef === 'xtyszeuvtfcgognkrwxv' || localRef === 'bucziqekzyrttgcoxtas') {
+      return localRef;
+    }
+  }
+
+  return null;
+}
+
 function config() {
-  const supabaseUrl = (process.env.SUPABASE_URL || process.env.VORTEX_PREVIEW_SUPABASE_URL || '').trim().replace(/\/+$/, '');
+  const supabaseUrl = (process.env.SUPABASE_URL || process.env.VORTEX_PREVIEW_SUPABASE_URL || '').trim().replace(/\\/+$/, '');
   const publishableKey = (process.env.SUPABASE_PUBLISHABLE_KEY || '').trim().replace(/[\r\n\s]+/g, '');
   const serviceKey = (process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.VORTEX_PREVIEW_SUPABASE_SERVICE_ROLE_KEY || '').trim().replace(/[\r\n\s]+/g, '');
 
@@ -167,8 +185,23 @@ function config() {
   if (supabaseUrl) {
     try {
       const parsed = new URL(supabaseUrl);
+      const expectedProjectRef = expectedSupabaseProjectRef();
+      const hostname = parsed.hostname.toLowerCase();
+      const exactStagingHost = 'xtyszeuvtfcgognkrwxv.supabase.co';
+      const exactProductionHost = 'bucziqekzyrttgcoxtas.supabase.co';
+      const expectedHost = expectedProjectRef === 'xtyszeuvtfcgognkrwxv'
+        ? exactStagingHost
+        : (expectedProjectRef === 'bucziqekzyrttgcoxtas' ? exactProductionHost : '');
+
       validUrl = parsed.protocol === 'https:' &&
-        (parsed.hostname.endsWith('.supabase.co') || parsed.hostname.endsWith('.supabase.in'));
+        parsed.port === '' &&
+        parsed.username === '' &&
+        parsed.password === '' &&
+        Boolean(expectedHost) &&
+        hostname === expectedHost &&
+        parsed.pathname === '' &&
+        parsed.search === '' &&
+        parsed.hash === '';
     } catch (_) {
       validUrl = false;
     }
