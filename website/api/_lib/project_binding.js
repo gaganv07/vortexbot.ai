@@ -1,19 +1,22 @@
 /**
  * website/api/_lib/project_binding.js
  *
- * VORTEX AI — PR #19 STAGE 2C: SHARED SUPABASE PROJECT-BINDING GUARD
+ * VORTEX AI — PR #19 STAGE 2D: SHARED SUPABASE PROJECT-BINDING GUARD
  *
- * Centralized, fail-closed project-binding validation shared across all server-side APIs:
+ * Centralized, fail-closed project-binding validation shared across every server-side
+ * and browser-auth configuration route:
  * - website/api/v1/analytics.js
  * - website/api/trades.js
+ * - website/api/auth-config.js
  *
  * Invariants:
  * 1. Preview environment (VERCEL_ENV=preview) must bind exclusively to staging project 'xtyszeuvtfcgognkrwxv'.
  * 2. Production environment (VERCEL_ENV=production) must bind exclusively to production project 'bucziqekzyrttgcoxtas'.
- * 3. Local development (VERCEL_ENV=development, VORTEX_LOCAL_DEV=true, or NODE_ENV=development without VERCEL_ENV)
- *    strictly requires an explicit supported project reference.
- * 4. Unknown environments, missing environments, and project mismatches fail closed.
- * 5. Protocol must be HTTPS; custom ports, credentials, paths, queries, and fragments are strictly forbidden.
+ * 3. Local development strictly requires an explicit switch (VERCEL_ENV=development OR VORTEX_LOCAL_DEV=true)
+ *    AND an explicit project reference matching the Supabase URL.
+ * 4. No implicit overrides: VORTEX_ALLOW_LOCAL_DEV is removed; NODE_ENV=development is NEVER inferred.
+ * 5. Unknown or ambiguous environments fail closed.
+ * 6. Protocol must be HTTPS; custom ports, credentials, paths, queries, and fragments are strictly forbidden.
  */
 
 'use strict';
@@ -81,10 +84,7 @@ function validateSupabaseProjectBinding(supabaseUrl) {
 
   // 4. Environment Scoping & Project Binding
   const vercelEnv = (process.env.VERCEL_ENV || '').trim().toLowerCase();
-  const isExplicitLocalDev = vercelEnv === 'development' ||
-    process.env.VORTEX_LOCAL_DEV === 'true' ||
-    process.env.VORTEX_ALLOW_LOCAL_DEV === 'true' ||
-    (!vercelEnv && process.env.NODE_ENV === 'development');
+  const isExplicitLocalDev = vercelEnv === 'development' || process.env.VORTEX_LOCAL_DEV === 'true';
 
   if (vercelEnv === 'preview') {
     // Preview environment must bind strictly to staging project
@@ -138,7 +138,7 @@ function validateSupabaseProjectBinding(supabaseUrl) {
     return { valid: true, projectRef: extractedRef, environment: 'development' };
   }
 
-  // Unknown environment (missing or invalid VERCEL_ENV outside explicit local dev)
+  // Unknown or ambiguous environment (missing or invalid VERCEL_ENV outside explicit local dev)
   return {
     valid: false,
     error: `Unknown environment rejection: missing or invalid VERCEL_ENV '${vercelEnv}' outside explicit local development`
@@ -150,7 +150,7 @@ function validateSupabaseProjectBinding(supabaseUrl) {
  * Preview -> 'xtyszeuvtfcgognkrwxv'
  * Production -> 'bucziqekzyrttgcoxtas'
  * Local Development -> declared via VORTEX_EXPECTED_SUPABASE_PROJECT_REF or SUPABASE_PROJECT_REF
- * Unknown / unspecified environments fail closed (returns null).
+ * Unknown / ambiguous environments fail closed (returns null).
  */
 function expectedSupabaseProjectRef() {
   const deploymentEnv = (process.env.VERCEL_ENV || '').trim().toLowerCase();
@@ -158,15 +158,12 @@ function expectedSupabaseProjectRef() {
   if (deploymentEnv === 'preview') return STAGING_PROJECT_REF;
   if (deploymentEnv === 'production') return PRODUCTION_PROJECT_REF;
 
-  const isLocalDev = deploymentEnv === 'development' ||
-    process.env.VORTEX_LOCAL_DEV === 'true' ||
-    process.env.VORTEX_ALLOW_LOCAL_DEV === 'true' ||
-    (!deploymentEnv && process.env.NODE_ENV === 'development');
+  const isLocalDev = deploymentEnv === 'development' || process.env.VORTEX_LOCAL_DEV === 'true';
 
   if (isLocalDev) {
     const localRef = (
-      process.env.VORTEX_EXPECTED_SUPABASE_PROJECT_REF ||
       process.env.SUPABASE_PROJECT_REF ||
+      process.env.VORTEX_EXPECTED_SUPABASE_PROJECT_REF ||
       process.env.EXPECTED_SUPABASE_PROJECT_REF ||
       ''
     ).trim().toLowerCase();

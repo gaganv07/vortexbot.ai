@@ -267,6 +267,36 @@ async function runTestSuite() {
     const r4 = validateSupabaseProjectBinding(STAGING_URL);
     report('4d. Unknown: Do not infer Preview from NODE_ENV alone (rejected)',
       r4.valid === false && r4.error.includes('Unknown environment rejection'));
+
+    // 4e. Do not infer Local Development from NODE_ENV=development alone
+    resetEnv();
+    process.env.NODE_ENV = 'development';
+    process.env.SUPABASE_PROJECT_REF = STAGING_REF;
+    const r5 = validateSupabaseProjectBinding(STAGING_URL);
+    report('4e. Unknown: Do not infer Local Development from NODE_ENV alone (rejected)',
+      r5.valid === false && r5.error.includes('Unknown environment rejection'));
+
+    // 4f. VORTEX_ALLOW_LOCAL_DEV is removed as an implicit override
+    resetEnv();
+    process.env.VORTEX_ALLOW_LOCAL_DEV = 'true';
+    process.env.SUPABASE_PROJECT_REF = STAGING_REF;
+    const r6 = validateSupabaseProjectBinding(STAGING_URL);
+    report('4f. Unknown: VORTEX_ALLOW_LOCAL_DEV removed as implicit override (rejected)',
+      r6.valid === false && r6.error.includes('Unknown environment rejection'));
+
+    // 4g. expectedSupabaseProjectRef returns null for NODE_ENV=development alone
+    resetEnv();
+    process.env.NODE_ENV = 'development';
+    process.env.SUPABASE_PROJECT_REF = STAGING_REF;
+    report('4g. Unknown: expectedSupabaseProjectRef returns null for NODE_ENV alone',
+      analyticsHandler.expectedSupabaseProjectRef() === null);
+
+    // 4h. expectedSupabaseProjectRef returns null for VORTEX_ALLOW_LOCAL_DEV alone
+    resetEnv();
+    process.env.VORTEX_ALLOW_LOCAL_DEV = 'true';
+    process.env.SUPABASE_PROJECT_REF = STAGING_REF;
+    report('4h. Unknown: expectedSupabaseProjectRef returns null for VORTEX_ALLOW_LOCAL_DEV alone',
+      analyticsHandler.expectedSupabaseProjectRef() === null);
   }
 
   // -------------------------------------------------------------------------
