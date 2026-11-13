@@ -1,4 +1,11 @@
 const crypto = require('node:crypto');
+const {
+  validateSupabaseProjectBinding,
+  expectedSupabaseProjectRef,
+  STAGING_PROJECT_REF,
+  PRODUCTION_PROJECT_REF,
+  SUPPORTED_LOCAL_REFS
+} = require('./_lib/project_binding');
 
 const BODY_LIMIT = 512 * 1024;
 const MAX_CLOCK_SKEW_SECONDS = 300;
@@ -14,10 +21,10 @@ function reply(res, status, body) {
 }
 
 function config() {
-  const url = (process.env.SUPABASE_URL || '').replace(/\/+$/, '');
-  const publishableKey = process.env.SUPABASE_PUBLISHABLE_KEY || '';
-  const secretKey = process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY || '';
-  const secret = process.env.VORTEXT_BOT_HMAC_SECRET || '';
+  const url = (process.env.SUPABASE_URL || process.env.VORTEX_PREVIEW_SUPABASE_URL || '').trim().replace(/\/+$/, '');
+  const publishableKey = (process.env.SUPABASE_PUBLISHABLE_KEY || '').trim().replace(/[\r\n\s]+/g, '');
+  const secretKey = (process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.VORTEX_PREVIEW_SUPABASE_SERVICE_ROLE_KEY || '').trim().replace(/[\r\n\s]+/g, '');
+  const secret = (process.env.VORTEXT_BOT_HMAC_SECRET || '').trim();
   // Keep this aligned with app.vortext_dashboard.VortextDashboardPublisher.
   const botId = (process.env.VORTEXT_BOT_ID || 'vortext-fleet').trim();
   // Optional email fence; leave unset when all signed-in users should see shared feeds.
@@ -27,13 +34,13 @@ function config() {
   const sharedAccountIds = [...new Set((process.env.VORTEXT_DASHBOARD_SHARED_ACCOUNTS || '')
     .split(',').map(function (s) { return s.trim(); })
     .filter(function (id) { return ACCOUNT_ID_PATTERN.test(id); }))];
-  let validUrl = false;
-  try {
-    const parsed = new URL(url);
-    validUrl = parsed.protocol === 'https:' &&
-      (parsed.hostname.endsWith('.supabase.co') || parsed.hostname.endsWith('.supabase.in'));
-  } catch (_) {}
-  return { url, publishableKey, secretKey, secret, botId, allowedEmails, sharedAccountIds, validUrl };
+
+  const binding = validateSupabaseProjectBinding(url);
+  const validUrl = binding.valid;
+  const projectRef = binding.projectRef || null;
+  const bindingError = binding.error || null;
+
+  return { url, publishableKey, secretKey, secret, botId, allowedEmails, sharedAccountIds, validUrl, projectRef, bindingError };
 }
 
 function readyForIngest(c) {
@@ -597,11 +604,22 @@ async function get(req, res, c) {
   }
 }
 
-module.exports = async function handler(req, res) {
+async function handler(req, res) {
   const c = config();
   if (req.method === 'POST') return post(req, res, c);
   if (req.method === 'GET') return get(req, res, c);
   res.setHeader('Allow', 'GET, POST');
   return reply(res, 405, { ok: false, error: 'Method not allowed' });
-};
-module.exports.config = { api: { bodyParser: false } };
+}
+
+handler.config = { api: { bodyParser: false } };
+handler.validateSupabaseProjectBinding = validateSupabaseProjectBinding;
+handler.expectedSupabaseProjectRef = expectedSupabaseProjectRef;
+handler.STAGING_PROJECT_REF = STAGING_PROJECT_REF;
+handler.PRODUCTION_PROJECT_REF = PRODUCTION_PROJECT_REF;
+handler.SUPPORTED_LOCAL_REFS = SUPPORTED_LOCAL_REFS;
+handler.getConfig = config;
+handler.readyForIngest = readyForIngest;
+handler.readyForRead = readyForRead;
+
+module.exports = handler;
