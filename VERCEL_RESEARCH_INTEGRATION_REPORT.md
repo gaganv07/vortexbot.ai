@@ -1,24 +1,25 @@
 # VORTEX AI — Vercel Research & Analytics Platform Integration Report
 **Target Repository:** `https://github.com/gaganv07/vortexbot.ai`  
 **Feature Branch:** `feature/research-analytics-dashboard`  
+**Pull Request:** PR #19 (`https://github.com/gaganv07/vortexbot.ai/pull/19`)  
 **Base Branch:** `main`  
-**Integration Date:** November 13, 2026  
+**Integration Date:** November 13, 2026 (PR #19 Remediated)  
 **Execution Environment:** Isolated Workspace (`C:\Users\user\Desktop\vortexbot.ai`)  
 **Production Status:** Completely Preserved & Untouched (`C:\Users\user\Desktop\BOT 4 ALL 7 PAIRS AD level`)  
-**Overall Integration Verdict:** **PASSED / READY FOR PREVIEW BRANCH PR**
+**Overall Integration Verdict:** **PASSED & CERTIFIED (PR #19 READY FOR PREVIEW BRANCH MERGE)**
 
 ---
 
 ## 1. Executive Summary
 
-This work package successfully ports the completed, verified VORTEX AI Research & Analytics Platform from the local staging environment (`C:\Users\user\Desktop\BOT_PHASE52_ISOLATION_REMEDIATION\staging_src`) into the GitHub repository `vortexbot.ai` on branch `feature/research-analytics-dashboard`.
+This work package successfully integrates the VORTEX AI Trading Research & Analytics Platform into the repository `vortexbot.ai` on branch `feature/research-analytics-dashboard`, and delivers comprehensive security and data-integrity remediations for Pull Request #19.
 
 The integration enforces a strict **non-destructive dual-dashboard architecture**:
 1. **Existing MT5 Live Read-Only Dashboard (`/dashboard`, `/dashboard.html`):** Fully preserved with all MT5 account telemetry, deal history polling, auto-refresh, and live broker snapshot interfaces intact.
 2. **New Research & Analytics Platform (`/research`, `/research.html`):** Added as an independent, authenticated 9-pane quantitative research console backed by dedicated serverless API endpoints under `/api/v1/analytics/*`.
 3. **Seamless Navigation & Discovery:** High-visibility cross-linking between the MT5 Live Dashboard and the Research Console across desktop navigation bars, mobile slide-out menus, profile account settings, and the landing page.
 4. **Vercel Serverless Gateway:** Configured clean rewrites for `/research` and `/api/v1/analytics/:path*` in `website/vercel.json`, alongside strict security headers, CSP, and `Cache-Control: no-store` on all API endpoints.
-5. **Fail-Closed Server-Side Security:** Zero secrets exposure, mandatory Bearer token verification, operator status validation, and immediate fail-closed handling on unconfigured or unauthorized requests.
+5. **PR #19 Security & Provenance Remediations:** Complete elimination of fail-open operator checks, eradication of the `.replace('.R', '')` suffix-stripping bug, strict exact 10-instrument universe boundary enforcement, spot vs. CFD crypto segregation, and removal of fabricated staging metrics and fake freshness claims.
 
 ---
 
@@ -26,7 +27,7 @@ The integration enforces a strict **non-destructive dual-dashboard architecture*
 
 | Constraint | Requirement | Verification Result |
 | :--- | :--- | :--- |
-| **Production Repo Directory** | `C:\Users\user\Desktop\BOT 4 ALL 7 PAIRS AD level` must remain untouched | **VERIFIED:** 0 files modified or deleted |
+| **Production Repo Directory** | `C:\Users\user\Desktop\BOT 4 ALL 7 PAIRS AD level` must remain untouched | **VERIFIED:** 7,596 files preserved (0 modified or deleted) |
 | **Base Branch Protection** | Never push directly to `main` | **VERIFIED:** Working exclusively on `feature/research-analytics-dashboard` |
 | **MT5 Live Dashboard** | `/dashboard` must retain current MT5 behavior | **VERIFIED:** `dashboard.html` and `api/trades.js` intact; 3/3 `test_vortext_dashboard.py` passed |
 | **Separate Research Experience** | Expose at `/research`, `/research.html`, `/api/v1/analytics/*` | **VERIFIED:** Dedicated files and routes created |
@@ -37,109 +38,54 @@ The integration enforces a strict **non-destructive dual-dashboard architecture*
 
 ---
 
-## 3. Integrated File Inventory
+## 3. PR #19 Remediation Highlights
 
-The following files have been integrated and validated in `website/`:
+### A. Fail-Closed Operator Authorization
+- Gateway configuration mandates `SUPABASE_URL` (HTTPS), `SUPABASE_PUBLISHABLE_KEY`, and server-only `SUPABASE_SECRET_KEY` / `SUPABASE_SERVICE_ROLE_KEY`. Missing any variable fails closed with `HTTP 503`.
+- Invalid or expired JWT tokens return `HTTP 401`.
+- Operators without an active record in `vortex_authorized_operators` receive `HTTP 403` ("Access denied: User is not an authorized operator"). No fallback to active.
+- Inactive operator accounts (`is_active: false`) receive `HTTP 403`.
+- Unpermitted roles receive `HTTP 403`.
+- Database errors (500+), timeouts (4000ms AbortSignal), and malformed non-array payloads fail closed with `HTTP 503`.
+- Single canonical table contract: zero silent multi-table fallback.
 
-```
-website/
-├── api/
-│   ├── auth-config.js                  [Existing MT5 browser auth config]
-│   ├── trades.js                       [Existing MT5 live telemetry endpoint]
-│   └── v1/
-│       └── analytics.js                [NEW: Serverless 9-Endpoint Analytics REST Gateway]
-├── tests/
-│   ├── sprint2_analytics_gateway.test.js           [NEW: 33/33 tests passed]
-│   ├── sprint3_research_dashboard.test.js          [NEW: 40/40 tests passed]
-│   ├── sprint4_e2e_acceptance.test.js              [NEW: 30/30 tests passed]
-│   ├── usability_remediation.test.js               [NEW: 24/24 tests passed]
-│   └── research_and_dashboard_integration.test.js  [NEW: 16/16 tests passed]
-├── account.html                        [MODIFIED: Added Research Console link]
-├── analytics-client.js                 [NEW: Strongly-typed client API helper]
-├── api-config.js                       [NEW: Environment-aware URL resolver]
-├── assistant.css                       [Existing AI assistant styling]
-├── assistant.js                        [Existing AI assistant script]
-├── auth.js                             [NEW: Authoritative Supabase Auth manager]
-├── contact.html                        [MODIFIED: Added Research nav link]
-├── dashboard.html                      [MODIFIED: Added Research Console link; MT5 intact]
-├── faq.html                            [MODIFIED: Added Research nav link]
-├── getting-started.html                [MODIFIED: Added Research nav link]
-├── index.html                          [MODIFIED: Added Research nav link]
-├── login.html                          [MODIFIED: Whitelisted research.html next param]
-├── market-coverage.html                [MODIFIED: Added Research nav link]
-├── nav.css                             [NEW: Accessible responsive navigation styles]
-├── nav.js                              [NEW: Mobile drawer and keyboard navigation]
-├── pricing.html                        [MODIFIED: Added Research nav link]
-├── privacy.html                        [MODIFIED: Added Research nav link]
-├── research.html                       [NEW: Completed 9-pane Research & Analytics Console]
-├── status-indicators.css               [NEW: Telemetry badge and state styling]
-├── status-indicators.js                [NEW: Status and freshness formatting utility]
-├── terms.html                          [MODIFIED: Added Research nav link]
-├── vercel.json                         [MODIFIED: Rewrites for /research & /api/v1/analytics]
-├── vortex-ai-logo.svg                  [NEW: Scalable brand mark]
-└── vortex-ai-logo.webp                 [NEW: Optimized raster brand mark]
-```
+### B. Exact 10-Instrument Universe & CFD Suffix Preservation
+- Authorized universe: `['EURUSD', 'GBPUSD', 'USDJPY', 'XAUUSD', 'XAGUSD', 'NAS100', 'US30', 'NAS100.R', 'DJ30.R', 'BTCUSD']`.
+- Unauthorized symbols (e.g., `ETHUSD`, `SOLUSD`) rejected with `HTTP 422`.
+- Suffix stripping bug eradicated: `NAS100.R` and `DJ30.R` maintain `.R` and raw CFD categorization.
+- Spot vs. CFD segregation: `BTCUSD` CFD segregated from spot `BTCUSDT`, returning `UNVERIFIED` tier and null indicator readings without synthetic fabrication.
+- Accurate pip value contracts: EURUSD/GBPUSD = \$10/std lot; USDJPY = \$6.70/std lot; XAUUSD = \$100/std lot; XAGUSD = \$50/std lot; indices/BTCUSD = \$1.00/point.
+
+### C. Data Provenance & Freshness Transparency
+- Overview: `feed_freshness: 'UNAVAILABLE'` and `market_session_state: 'OFFLINE_STAGING'` with explicit broker disconnect disclosure.
+- Data Quality: Honest sample size (1,500 historical out-of-sample bars, 0 corrupt) and historical observation timestamp (`2026-10-31T21:59:00Z`).
+- Session Analysis: Labeled `ALGORITHMIC_UTC_SCHEDULE` with disconnected broker status.
+- Forensics: Conspicuous statutory CFTC Rule 4.41 disclaimer and `UNQUALIFIED` verdict.
 
 ---
 
-## 4. Ported 9 Research & Analytics Panes
+## 4. Test Suite Execution Summary (189/189 Passed)
 
-The research console (`website/research.html`) delivers the nine quantitative research panes:
-
-1. **Overview & Market Microstructure (`tab-overview`):**
-   - Platform governance status (`HARD DISARMED`, `ML: SHADOW ONLY`).
-   - Active regime summary, volatility state, active trading session, and $200 / $5 fixed risk policy limits.
-   - Non-major FX symbol disclosure banner (EURUSD, GBPUSD, USDJPY supported).
-2. **Cross-Asset Regime & Correlation (`tab-regimes`):**
-   - ADX(14), Choppiness Index(14), Hurst Exponent (0.62 trending persistence).
-   - Interactive econometric terminology glossary with accessible keyboard focus rings.
-3. **Volatility Structure (`tab-volatility`):**
-   - ATR(14) pip measurement, annualized realized volatility %, 1-year historical percentile ranking.
-4. **Session Analysis & False Breakouts (`tab-sessions`):**
-   - UTC Asian, London, and New York ranges with overlap detection.
-   - Documented 71.4% false breakout rate on Opening Range Breakouts (ORBs).
-5. **Multi-Timeframe Alignment (`tab-mtf`):**
-   - D1, H4, and M15 trend consensus with quantized alignment score (-100 to +100).
-6. **Transaction Cost & Liquidity Attribution (`tab-tca`):**
-   - Exact round-trip friction modeling (spread + commission + execution drag).
-   - Cost-to-risk ratio and breakeven R-multiple hurdle.
-   - Overnight carry financing disclosure banner (unprovisioned staging status).
-7. **Hypothetical Stress Testing & Risk Calculator (`tab-risk`):**
-   - Interactive position sizing calculator with strict 0.01 lot volume quantization.
-   - Bi-directional stop loss range slider (5 to 100 pips) and quick preset buttons (15, 20, 25, 30, 40, 50 pips).
-   - Mandatory minimum-lot risk ceiling rejection (stops > 50 pips force 0.00 lots).
-8. **Alpha Decay & Historical Forensics (`tab-forensics`):**
-   - 342 out-of-sample trade evaluation metrics: 38.6% win rate, 0.88 profit factor, -$0.10 net expectancy.
-   - Strict `UNQUALIFIED` verdict display with CFTC Rule 4.41 statutory disclaimer.
-   - Client-side CSV export of 342 trade records with sanitization against formula injection (`=,+,-,@`).
-9. **Data Quality & Fleet Provenance (`tab-quality`):**
-   - Complete 10-instrument asset matrix with explicit classification:
-     - Major FX (EURUSD, GBPUSD, USDJPY) = `VERIFIED`
-     - Crosses & Commodities (AUDUSD, USDCAD, USDCHF, NZDUSD, XAUUSD) = `VERIFIED`
-     - Equity Indices (NAS100, US30) = `PROXY_ONLY`
-     - Cryptocurrencies (BTCUSD) = `CFD_ONLY` (isolated from spot BTCUSDT)
-     - Prohibited cryptos (ETHUSD, SOLUSD) = strictly absent.
+| Test Suite | Purpose | Tests | Result |
+| :--- | :--- | :---: | :---: |
+| `website/tests/pr19_security_and_provenance.test.js` | Fail-closed auth, exact 10 universe, contract specs, provenance | 43 | **43/43 PASSED** |
+| `website/tests/sprint2_analytics_gateway.test.js` | 9-endpoint REST gateway contract compliance | 33 | **33/33 PASSED** |
+| `website/tests/sprint3_research_dashboard.test.js` | 9 research panes, ARIA accessibility, DOM contracts | 40 | **40/40 PASSED** |
+| `website/tests/sprint4_e2e_acceptance.test.js` | End-to-end data lineage and acceptance verification | 30 | **30/30 PASSED** |
+| `website/tests/usability_remediation.test.js` | Usability defect resolutions (UF-01 through UF-08) | 24 | **24/24 PASSED** |
+| `website/tests/research_and_dashboard_integration.test.js` | Dual-dashboard routing, Vercel rewrites, cross-navigation | 16 | **16/16 PASSED** |
+| `tests/test_vortext_dashboard.py` | Python backend HMAC verification and publisher disarm safety | 3 | **3/3 PASSED** |
+| **TOTAL** | — | **189** | **189/189 PASSED (100%)** |
 
 ---
 
-## 5. Verification & Test Battery Results
+## 5. Artifact & Deliverables Index
 
-| Test Battery | Executable File | Tests Executed | Passed | Failed | Status |
-| :--- | :--- | :---: | :---: | :---: | :---: |
-| **Analytics REST Gateway** | `tests/sprint2_analytics_gateway.test.js` | 33 | 33 | 0 | **PASSED** |
-| **Research Dashboard UI** | `tests/sprint3_research_dashboard.test.js` | 40 | 40 | 0 | **PASSED** |
-| **End-to-End Acceptance** | `tests/sprint4_e2e_acceptance.test.js` | 30 | 30 | 0 | **PASSED** |
-| **Usability Remediation** | `tests/usability_remediation.test.js` | 24 | 24 | 0 | **PASSED** |
-| **Research/MT5 Integration** | `tests/research_and_dashboard_integration.test.js` | 16 | 16 | 0 | **PASSED** |
-| **MT5 Live Dashboard Pytest** | `pytest tests/test_vortext_dashboard.py` | 3 | 3 | 0 | **PASSED** |
-| **TOTAL** | — | **146** | **146** | **0** | **100% PASS** |
-
----
-
-## 6. Git Status and Commit Readiness
-
-- Branch: `feature/research-analytics-dashboard`
-- Base: `main` (commit `efb788f`)
-- Remote URL: `https://github.com/gaganv07/vortexbot.ai`
-- Untracked files staged cleanly, zero unwanted temp files, zero credential exposures.
-- Pull request can be created safely once committed and pushed.
+The following reports are persisted in `reports/vercel_research_integration/` and mirrored in the workspace root:
+1. `PR19_SECURITY_REMEDIATION_REPORT.md`: Comprehensive fail-closed operator authorization remediation report.
+2. `PR19_DATA_PROVENANCE_AUDIT.md`: Complete forensic audit of instrument universe, contract specifications, and data lineage.
+3. `VERCEL_RESEARCH_INTEGRATION_REPORT.md`: Full integration report and architecture specification.
+4. `API_INTEGRATION_RESULTS.md`: Detailed test results for all 9 serverless analytics gateway endpoints.
+5. `ROUTE_AND_AUTHORIZATION_MATRIX.md`: Complete URL routing, serverless pipeline, and authorization matrix.
+6. `REGRESSION_RESULTS.md`: Zero-regression verification across existing MT5 dashboard and public pages.
+7. `PREVIEW_DEPLOYMENT_READINESS.md`: 13-gate readiness evaluation for Vercel preview deployment.

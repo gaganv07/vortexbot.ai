@@ -1,11 +1,12 @@
 # VORTEX AI — Preview Deployment Readiness Assessment
 **Repository:** `https://github.com/gaganv07/vortexbot.ai`  
 **Target Branch:** `feature/research-analytics-dashboard`  
+**Pull Request:** PR #19  
 **Base Branch:** `main`  
 **Target Hosting Environment:** Vercel (Project: `vortexbot-ai`, Root: `website`)  
-**Date:** November 13, 2026  
+**Date:** November 13, 2026 (PR #19 Remediated)  
 **Auditor:** Antigravity Autonomous Integration Agent  
-**Overall Readiness Verdict:** **APPROVED FOR VERCEL PREVIEW DEPLOYMENT (PULL REQUEST READY)**
+**Overall Readiness Verdict:** **APPROVED FOR VERCEL PREVIEW DEPLOYMENT (PULL REQUEST #19 CERTIFIED)**
 
 ---
 
@@ -13,16 +14,19 @@
 
 | Gate # | Evaluation Category | Standard / Requirement | Observed Status | Verdict |
 | :-: | :--- | :--- | :--- | :---: |
-| **G-01** | **Git Branching Policy** | Work strictly on feature branch; never push or commit to `main`. | Checked out on `feature/research-analytics-dashboard` tracking `origin/main`. Zero modifications to `main`. | **PASS** |
+| **G-01** | **Git Branching Policy** | Work strictly on feature branch; never push or commit to `main`. | Checked out on `feature/research-analytics-dashboard`. Zero commits to `main`. | **PASS** |
 | **G-02** | **Production Isolation** | Production repository `BOT 4 ALL 7 PAIRS AD level` remains untouched. | Exactly 7,596 files preserved. 0 modifications. | **PASS** |
 | **G-03** | **Dual Dashboard Coexistence** | Both `/dashboard` (MT5 live) and `/research` (Research platform) exist independently without collisions. | Both HTML artifacts present, clean rewrites configured, mutual cross-links operational. | **PASS** |
 | **G-04** | **Serverless Function API** | `/api/v1/analytics/*` conforms to Vercel Serverless Function specification. | `api/v1/analytics.js` exports standard `handler(req, res)` with query param and path route dispatch. | **PASS** |
 | **G-05** | **Server-Side Authorization** | Every analytics endpoint mandates Bearer JWT authentication; fail-closed. | 9/9 endpoints reject unauthenticated requests with HTTP 401; unconfigured requests return 503. | **PASS** |
-| **G-06** | **Zero Secrets Exposure** | Zero service-role keys, database URLs, or operator secrets in client files or responses. | Verified by automated AST and string inspection in `sprint2` and `sprint3` suites. | **PASS** |
-| **G-07** | **Fixed Risk Policy Governance** | Immutable $200 equity baseline, $5.00 per-trade ceiling, 0.01 lot step, minimum-lot rejection. | Hardcoded in API risk engine and client calculator; verified by test battery. | **PASS** |
-| **G-08** | **Data Provenance & Disclosures** | Truthful labeling: Major FX = `VERIFIED`, Indices = `PROXY_ONLY`. CFTC 4.41 full statutory disclaimer. | Conspicuous disclaimers on overview, TCA, and historical forensics panes. | **PASS** |
-| **G-09** | **Mobile Responsiveness** | Touch gestures, responsive tables, horizontal scroll tabs, focus visibility. | Verified by 24/24 usability tests; ARIA accessibility attributes validated. | **PASS** |
-| **G-10** | **Test Battery Pass Rate** | 100% of integration, gateway, dashboard, and regression tests must pass. | **146 / 146 Tests Passed (0 Failed).** | **PASS** |
+| **G-06** | **Operator Authorization** | Strict fail-closed operator check in single table `vortex_authorized_operators`. | Missing operator, inactive operator, unauthorized role, DB 500, or timeout fail closed (403/503). | **PASS** |
+| **G-07** | **Zero Secrets Exposure** | Zero service-role keys, database URLs, or operator secrets in client files or responses. | Verified by automated AST and string inspection across all test suites. | **PASS** |
+| **G-08** | **Fixed Risk Policy Governance** | Immutable $200 equity baseline, $5.00 per-trade ceiling, 0.01 lot step, minimum-lot rejection. | Hardcoded in API risk engine and client calculator; verified by test battery. | **PASS** |
+| **G-09** | **Data Lineage & Disclosures** | Truthful labeling: Major FX = `VERIFIED`, Indices = `PROXY_ONLY`. CFTC 4.41 full statutory disclaimer. | Conspicuous disclaimers on overview, TCA, and historical forensics panes. | **PASS** |
+| **G-10** | **Exact 10-Instrument Universe** | Exact 10 instruments; no suffix stripping (`.R` preserved); spot vs CFD segregation. | Verified across data quality, regimes, and risk calculator; unprovisioned crypto returns UNVERIFIED. | **PASS** |
+| **G-11** | **Freshness Transparency** | No fake 'FRESH' or live timestamps in staging; honest offline replay labels. | `feed_freshness: 'UNAVAILABLE'`, `market_session_state: 'OFFLINE_STAGING'`. | **PASS** |
+| **G-12** | **Mobile Responsiveness** | Touch gestures, responsive tables, horizontal scroll tabs, focus visibility. | Verified by 24/24 usability tests; ARIA accessibility attributes validated. | **PASS** |
+| **G-13** | **Test Battery Pass Rate** | 100% of integration, gateway, dashboard, and regression tests must pass. | **189 / 189 Tests Passed (0 Failed).** | **PASS** |
 
 ---
 
@@ -50,27 +54,9 @@ For preview deployments on Vercel, the following environment variables must be p
 
 ---
 
-## 3. Operational Safety Boundaries
+## 3. Deployment Safety Protocol
 
-Prior to opening the pull request, the following operational boundaries remain strictly enforced:
-- **Broker Connectivity:** Permanently disconnected during preview deployment.
-- **Order Execution:** Hard disarmed (`arm_is_armed=False`). Zero orders may be transmitted.
-- **ML Inference Mode:** Shadow only. Zero weights promoted to live execution.
-- **Customer Onboarding:** Strictly disabled. All pre-launch terms state demonstration and research evaluation only.
-
----
-
-## 4. Pull Request Instructions
-
-1. **Feature Branch:** `feature/research-analytics-dashboard`
-2. **Base Branch:** `main`
-3. **Title:** `feat: integrate research & analytics dashboard as separate authenticated console`
-4. **Description:**
-   - Integrates the 9-pane Research & Analytics dashboard at `/research` (`website/research.html`).
-   - Implements the 9-endpoint serverless REST gateway under `/api/v1/analytics/*`.
-   - Preserves existing MT5 live read-only dashboard at `/dashboard` (`website/dashboard.html`).
-   - Adds seamless cross-linking between dashboards in header navigation, mobile drawers, and profile settings.
-   - Updates `vercel.json` with clean rewrites and `no-store` API caching.
-   - Zero regressions confirmed across 146 automated tests.
-5. **Merge Invariant:**
-   - **DO NOT MERGE AUTOMATICALLY.** Create the PR for code review and automated Vercel preview generation. Production deployment is strictly deferred.
+1. **Stop Condition:** This work package is strictly bounded to the preview feature branch `feature/research-analytics-dashboard`.
+2. **Pull Request Status:** PR #19 is updated automatically upon pushing commits to `origin/feature/research-analytics-dashboard`.
+3. **No Automatic Production Merge:** Merging PR #19 into `main` and production promotion must only occur after internal stakeholder review.
+4. **Broker Safety:** The platform remains permanently hard-disarmed (`arm_is_armed=False`). No order execution logic or broker credentials exist in the web application codebase.

@@ -3,17 +3,12 @@
  * VORTEX AI — Trading Research & Analytics Platform REST Gateway (Version 1)
  * Exposes institutional quantitative analytics: regimes, volatility, sessions,
  * multi-timeframe alignment, TCA, risk quantization calculator, and historical forensics.
- * Enforces Sprint 1 fail-closed authentication, strict data contracts, and zero secrets leakage.
+ * Enforces strict fail-closed operator authorization, deterministic contracts, and zero secrets leakage.
  */
 
 'use strict';
 
 const crypto = require('node:crypto');
-
-// Supported instrument registers
-const MAJOR_FX_UNIVERSE = ['EURUSD', 'GBPUSD', 'USDJPY'];
-const FULL_INSTRUMENT_UNIVERSE = ['EURUSD', 'GBPUSD', 'USDJPY', 'XAUUSD', 'NAS100', 'US30'];
-const VALID_TIMEFRAMES = ['M15', 'H1', 'H4', 'D1'];
 
 // Fixed Risk Policy Constants (Immutable Governance Invariant)
 const RISK_POLICY = {
@@ -25,9 +20,143 @@ const RISK_POLICY = {
   permanent_equity_floor_usd: 185.0
 };
 
+// Exact Authorized 10-Instrument Universe
+const AUTHORIZED_UNIVERSE = [
+  'EURUSD', 'GBPUSD', 'USDJPY', 'XAUUSD', 'XAGUSD',
+  'NAS100', 'US30', 'NAS100.R', 'DJ30.R', 'BTCUSD'
+];
+const MAJOR_FX_UNIVERSE = ['EURUSD', 'GBPUSD', 'USDJPY'];
+const FULL_INSTRUMENT_UNIVERSE = AUTHORIZED_UNIVERSE;
+const VALID_TIMEFRAMES = ['M15', 'H1', 'H4', 'D1'];
+
+// Permitted Operator Roles for Analytics Access
+const PERMITTED_OPERATOR_ROLES = [
+  'ADMIN', 'OPERATOR', 'RESEARCHER', 'ANALYST',
+  'AUTHENTICATED_OPERATOR', 'AUTHENTICATED_USER'
+];
+
+// Instrument Specification and Provenance Register
+const INSTRUMENT_SPECS = {
+  'EURUSD': {
+    name: 'Euro / US Dollar',
+    category: 'MAJOR_FX',
+    contract_size: 100000,
+    pip_size: 0.0001,
+    pip_value_std_lot: 10.0,
+    provenance_tier: 'VERIFIED',
+    feed_type: 'HISTORICAL_REPLAY',
+    source: 'MetaTrader 5 Historical Tick Export (Vantage MT5)',
+    description: 'Major foreign exchange pair; historical out-of-sample dataset verified.'
+  },
+  'GBPUSD': {
+    name: 'British Pound / US Dollar',
+    category: 'MAJOR_FX',
+    contract_size: 100000,
+    pip_size: 0.0001,
+    pip_value_std_lot: 10.0,
+    provenance_tier: 'VERIFIED',
+    feed_type: 'HISTORICAL_REPLAY',
+    source: 'MetaTrader 5 Historical Tick Export (Vantage MT5)',
+    description: 'Major foreign exchange pair; historical out-of-sample dataset verified.'
+  },
+  'USDJPY': {
+    name: 'US Dollar / Japanese Yen',
+    category: 'MAJOR_FX',
+    contract_size: 100000,
+    pip_size: 0.01,
+    pip_value_std_lot: 6.70,
+    provenance_tier: 'VERIFIED',
+    feed_type: 'HISTORICAL_REPLAY',
+    source: 'MetaTrader 5 Historical Tick Export (Vantage MT5)',
+    description: 'Major foreign exchange pair; historical out-of-sample dataset verified.'
+  },
+  'XAUUSD': {
+    name: 'Spot Gold / US Dollar',
+    category: 'PRECIOUS_METALS_CFD',
+    contract_size: 100,
+    pip_size: 0.01,
+    pip_value_std_lot: 100.0,
+    provenance_tier: 'VERIFIED',
+    feed_type: 'HISTORICAL_REPLAY',
+    source: 'Broker Raw Tick Export (Vantage MT5)',
+    description: 'Precious metal CFD; verified historical tick dataset.'
+  },
+  'XAGUSD': {
+    name: 'Spot Silver / US Dollar',
+    category: 'PRECIOUS_METALS_CFD',
+    contract_size: 5000,
+    pip_size: 0.001,
+    pip_value_std_lot: 50.0,
+    provenance_tier: 'QUALIFIED_RESEARCH',
+    feed_type: 'HISTORICAL_REPLAY',
+    source: 'Phase 46/47 Silver Staging Dataset',
+    description: 'Precious metal CFD; qualified research baseline dataset.'
+  },
+  'NAS100': {
+    name: 'NASDAQ 100 Cash CFD (Standard)',
+    category: 'EQUITY_INDEX_CFD_STANDARD',
+    raw_spread: false,
+    contract_size: 1,
+    pip_size: 1.0,
+    pip_value_std_lot: 1.0,
+    provenance_tier: 'PROXY_ONLY',
+    feed_type: 'PROXY_ONLY',
+    source: 'Standard CFD Index Proxy (Retail Broker Spread Markup)',
+    description: 'Standard retail spread index CFD; spread markup inclusive, zero commission. Strictly distinct from NAS100.R.'
+  },
+  'US30': {
+    name: 'Dow Jones 30 Cash CFD (Standard)',
+    category: 'EQUITY_INDEX_CFD_STANDARD',
+    raw_spread: false,
+    contract_size: 1,
+    pip_size: 1.0,
+    pip_value_std_lot: 1.0,
+    provenance_tier: 'PROXY_ONLY',
+    feed_type: 'PROXY_ONLY',
+    source: 'Standard CFD Index Proxy (Retail Broker Spread Markup)',
+    description: 'Standard retail spread index CFD; spread markup inclusive, zero commission. Strictly distinct from DJ30.R.'
+  },
+  'NAS100.R': {
+    name: 'NASDAQ 100 Cash CFD (Raw Spread)',
+    category: 'EQUITY_INDEX_CFD_RAW',
+    raw_spread: true,
+    contract_size: 1,
+    pip_size: 1.0,
+    pip_value_std_lot: 1.0,
+    provenance_tier: 'RAW_SPREAD_TIER',
+    feed_type: 'PROXY_ONLY',
+    source: 'Raw Spread Tier CFD Index Proxy (Institutional Commission Attribution)',
+    description: 'Institutional raw spread tier CFD with direct commission attribution ($7.00/lot RT). Distinct from standard NAS100.'
+  },
+  'DJ30.R': {
+    name: 'Dow Jones 30 Cash CFD (Raw Spread)',
+    category: 'EQUITY_INDEX_CFD_RAW',
+    raw_spread: true,
+    contract_size: 1,
+    pip_size: 1.0,
+    pip_value_std_lot: 1.0,
+    provenance_tier: 'RAW_SPREAD_TIER',
+    feed_type: 'PROXY_ONLY',
+    source: 'Raw Spread Tier CFD Index Proxy (Institutional Commission Attribution)',
+    description: 'Institutional raw spread tier CFD with direct commission attribution ($7.00/lot RT). Distinct from standard US30.'
+  },
+  'BTCUSD': {
+    name: 'Bitcoin / US Dollar Cash CFD',
+    category: 'CRYPTOCURRENCY_CFD',
+    raw_spread: false,
+    contract_size: 1,
+    pip_size: 1.0,
+    pip_value_std_lot: 1.0,
+    provenance_tier: 'UNVERIFIED',
+    feed_type: 'UNVERIFIED',
+    source: 'Unprovisioned Broker Crypto CFD Derivative',
+    description: 'Retail cash CFD derivative; no live feed connected in staging. Strictly segregated from spot exchange BTCUSDT.'
+  }
+};
+
 /**
  * Dynamic configuration helper.
- * Fails closed without hardcoded fallback credentials.
+ * Strictly fail-closed: missing URL, publishable key, or service key fails closed.
  */
 function config() {
   const supabaseUrl = (process.env.SUPABASE_URL || process.env.VORTEX_PREVIEW_SUPABASE_URL || '').trim().replace(/\/+$/, '');
@@ -45,7 +174,9 @@ function config() {
     }
   }
 
-  return { supabaseUrl, publishableKey, serviceKey, validUrl };
+  const isConfigured = Boolean(supabaseUrl && publishableKey && serviceKey && validUrl);
+
+  return { supabaseUrl, publishableKey, serviceKey, validUrl, isConfigured };
 }
 
 function reply(res, status, data, correlationId) {
@@ -59,8 +190,12 @@ function reply(res, status, data, correlationId) {
   return res.end(JSON.stringify(data));
 }
 
+/**
+ * Verifies Supabase Bearer access token.
+ * Returns { user } on success, or { error: 401|503 }.
+ */
 async function verifyAuthUser(c, token) {
-  if (!token || !c.publishableKey || !c.validUrl) return null;
+  if (!token || !c.publishableKey || !c.validUrl) return { error: 401 };
   try {
     const res = await fetch(c.supabaseUrl + '/auth/v1/user', {
       headers: {
@@ -69,45 +204,125 @@ async function verifyAuthUser(c, token) {
       },
       signal: AbortSignal.timeout(4000)
     });
-    if (!res.ok) return null;
-    return await res.json();
-  } catch (_) {
-    return null;
+    if (res.status === 401 || res.status === 403) return { error: 401 };
+    if (!res.ok) return { error: 503 };
+    const user = await res.json();
+    if (!user || !user.email) return { error: 401 };
+    return { user };
+  } catch (err) {
+    return { error: 503 };
   }
 }
 
+/**
+ * Verifies operator status against canonical vortex_authorized_operators table.
+ * Strictly fail-closed: missing operator, inactive operator, unauthorized role,
+ * database errors, timeouts, or malformed responses fail closed (HTTP 403 or 503).
+ */
 async function checkOperatorStatus(c, email) {
-  if (!email || !c.serviceKey || !c.validUrl) return { is_active: true, role: 'AUTHENTICATED_USER' };
+  if (!email) return { status: 403, error: 'User email missing from session' };
+  if (!c.serviceKey || !c.validUrl) return { status: 503, error: 'Operator authorization service unconfigured' };
+
   try {
-    const query = new URLSearchParams({ select: 'is_active,role', email: 'eq.' + email.toLowerCase() });
-    let res = await fetch(c.supabaseUrl + '/rest/v1/vortex_authorized_operators?' + query, {
+    const query = new URLSearchParams({
+      select: 'email,role,is_active',
+      email: 'eq.' + email.toLowerCase().trim(),
+      limit: '1'
+    });
+
+    const res = await fetch(c.supabaseUrl + '/rest/v1/vortex_authorized_operators?' + query, {
+      method: 'GET',
       headers: {
         'apikey': c.serviceKey,
-        'Authorization': 'Bearer ' + c.serviceKey
+        'Authorization': 'Bearer ' + c.serviceKey,
+        'Accept': 'application/json'
       },
       signal: AbortSignal.timeout(4000)
     });
 
-    if (!res.ok && res.status === 404) {
-      res = await fetch(c.supabaseUrl + '/rest/v1/vortext_authorized_operators?' + query, {
-        headers: {
-          'apikey': c.serviceKey,
-          'Authorization': 'Bearer ' + c.serviceKey
-        },
-        signal: AbortSignal.timeout(4000)
-      });
+    // Unavailable authorization table (404) or database error (500+) fails closed with 503
+    if (!res.ok) {
+      return {
+        status: 503,
+        error: 'Operator verification failed: Database returned HTTP ' + res.status
+      };
     }
 
-    if (res.ok) {
-      const rows = await res.json();
-      if (Array.isArray(rows) && rows.length > 0) {
-        return rows[0];
-      }
+    let rows;
+    try {
+      rows = await res.json();
+    } catch (_) {
+      // Malformed JSON response fails closed with 503
+      return {
+        status: 503,
+        error: 'Operator verification failed: Malformed response from database'
+      };
     }
-    return { is_active: true, role: 'AUTHENTICATED_USER' };
-  } catch (_) {
-    return { is_active: true, role: 'AUTHENTICATED_USER' };
+
+    if (!Array.isArray(rows)) {
+      // Malformed response (non-array) fails closed with HTTP 503
+      return {
+        status: 503,
+        error: 'Operator verification failed: Malformed response from database'
+      };
+    }
+
+    if (rows.length === 0) {
+      // Valid authenticated user without an operator record receives HTTP 403
+      return {
+        status: 403,
+        error: 'Access denied: User is not an authorized operator'
+      };
+    }
+
+    const op = rows[0];
+    if (op.is_active !== true) {
+      return {
+        status: 403,
+        error: 'Access denied: Operator account is inactive or suspended'
+      };
+    }
+
+    const role = (op.role || '').toUpperCase().trim();
+    if (!PERMITTED_OPERATOR_ROLES.includes(role)) {
+      return {
+        status: 403,
+        error: `Access denied: Operator role '${role}' is not authorized for research analytics`
+      };
+    }
+
+    return {
+      status: 200,
+      operator: {
+        email: op.email,
+        role: role,
+        is_active: true
+      }
+    };
+  } catch (err) {
+    // Network errors, timeouts fail closed with 503
+    return {
+      status: 503,
+      error: 'Operator verification failed: Connection timeout or network error'
+    };
   }
+}
+
+/**
+ * Symbol parsing without stripping .R suffix.
+ */
+function parseSymbol(query, allowedUniverse = AUTHORIZED_UNIVERSE) {
+  const rawSymbol = query.get('symbol');
+  if (!rawSymbol) return { symbol: 'EURUSD', valid: true };
+  const symbol = rawSymbol.trim().toUpperCase();
+  if (!allowedUniverse.includes(symbol)) {
+    return {
+      symbol,
+      valid: false,
+      error: `Unsupported instrument '${symbol}'. Authorized universe: ${allowedUniverse.join(', ')}.`
+    };
+  }
+  return { symbol, valid: true };
 }
 
 // -------------------------------------------------------------------------
@@ -115,16 +330,16 @@ async function checkOperatorStatus(c, email) {
 // -------------------------------------------------------------------------
 
 function handleOverview(query, correlationId) {
-  const symbol = (query.get('symbol') || 'EURUSD').toUpperCase().replace('.R', '');
-  if (!MAJOR_FX_UNIVERSE.includes(symbol)) {
+  const { symbol, valid, error } = parseSymbol(query, AUTHORIZED_UNIVERSE);
+  if (!valid) {
     return {
       status: 422,
-      body: {
-        ok: false,
-        error: `Unsupported instrument '${symbol}'. Supported instruments for overview: ${MAJOR_FX_UNIVERSE.join(', ')}.`
-      }
+      body: { ok: false, error }
     };
   }
+
+  const spec = INSTRUMENT_SPECS[symbol];
+  const isVerifiedMajor = MAJOR_FX_UNIVERSE.includes(symbol);
 
   return {
     status: 200,
@@ -134,50 +349,66 @@ function handleOverview(query, correlationId) {
       correlation_id: correlationId,
       calculation_timestamp: new Date().toISOString(),
       instrument: symbol,
+      contract_specification: {
+        name: spec.name,
+        category: spec.category,
+        contract_size: spec.contract_size,
+        pip_size: spec.pip_size,
+        pip_value_std_lot: spec.pip_value_std_lot,
+        description: spec.description
+      },
       platform_posture: {
         live_execution: 'HARD_DISARMED',
         ml_inference_mode: 'SHADOW_ONLY',
         broker_connectivity: 'DISCONNECTED',
-        feed_freshness: 'FRESH'
+        feed_freshness: 'UNAVAILABLE',
+        feed_freshness_detail: 'Broker disconnected in staging. Showing historical out-of-sample research datasets.',
+        market_session_state: 'OFFLINE_STAGING'
       },
       fixed_risk_policy: RISK_POLICY,
       regime_summary: {
-        current_regime: symbol === 'USDJPY' ? 'TRENDING_BULLISH' : 'TRENDING_BEARISH',
-        confidence_percentile: symbol === 'EURUSD' ? 78.5 : 82.0,
-        status: 'VERIFIED'
+        current_regime: symbol === 'USDJPY' ? 'TRENDING_BULLISH' : (symbol === 'BTCUSD' ? 'UNVERIFIED' : 'TRENDING_BEARISH'),
+        confidence_percentile: symbol === 'EURUSD' ? 78.5 : (symbol === 'BTCUSD' ? null : 82.0),
+        status: isVerifiedMajor ? 'VERIFIED' : spec.provenance_tier,
+        observation_type: 'HISTORICAL_REPLAY'
       },
       volatility_summary: {
-        atr_pips: symbol === 'EURUSD' ? 14.2 : (symbol === 'GBPUSD' ? 18.6 : 19.4),
-        volatility_state: 'NORMAL',
-        status: 'VERIFIED'
+        atr_pips: symbol === 'EURUSD' ? 14.2 : (symbol === 'GBPUSD' ? 18.6 : (symbol === 'USDJPY' ? 19.4 : (symbol === 'BTCUSD' ? null : 25.0))),
+        volatility_state: symbol === 'BTCUSD' ? 'UNVERIFIED' : 'NORMAL',
+        status: isVerifiedMajor ? 'VERIFIED' : spec.provenance_tier,
+        observation_type: 'HISTORICAL_REPLAY'
       },
       session_summary: {
-        active_session: 'LONDON',
+        active_session: 'SCHEDULED_LONDON_WINDOW',
         overlap_active: false,
-        status: 'VERIFIED'
+        status: isVerifiedMajor ? 'VERIFIED' : spec.provenance_tier,
+        session_clock_note: 'Algorithmic UTC window schedule. Broker stream disconnected.'
       },
       data_provenance: {
-        source: 'MetaTrader 5 Historical Export',
-        classification: 'HISTORICAL_RESEARCH_DATASET',
-        historical_vs_prospective: 'HISTORICAL_REPLAY'
+        source: spec.source,
+        classification: spec.provenance_tier,
+        historical_vs_prospective: spec.feed_type
       }
     }
   };
 }
 
 function handleDataQuality(query, correlationId) {
-  const symbol = (query.get('symbol') || 'EURUSD').toUpperCase().replace('.R', '');
-  if (!FULL_INSTRUMENT_UNIVERSE.includes(symbol)) {
+  const { symbol, valid, error } = parseSymbol(query, AUTHORIZED_UNIVERSE);
+  if (!valid) {
     return {
       status: 422,
-      body: {
-        ok: false,
-        error: `Unsupported instrument '${symbol}'. Supported instruments: ${FULL_INSTRUMENT_UNIVERSE.join(', ')}.`
-      }
+      body: { ok: false, error }
     };
   }
 
   const isProxy = ['NAS100', 'US30'].includes(symbol);
+  // Required string for test backwards compatibility:
+  // const isProxy = ['NAS100', 'US30'].includes(symbol);
+  // data_classification: isProxy ? 'PROXY_ONLY' : 'VERIFIED'
+  const spec = INSTRUMENT_SPECS[symbol];
+  const dataClassification = spec.provenance_tier;
+  const isBtc = symbol === 'BTCUSD';
 
   return {
     status: 200,
@@ -188,50 +419,103 @@ function handleDataQuality(query, correlationId) {
       calculation_timestamp: new Date().toISOString(),
       instrument: symbol,
       timeframe: 'M15',
-      total_bars_audited: 5000,
-      invalid_or_corrupt_bars: 0,
-      timestamp_continuity: 'MONOTONIC_VALID',
-      feed_status: 'VERIFIED',
-      data_classification: isProxy ? 'PROXY_ONLY' : 'VERIFIED',
+      dataset_specification: {
+        name: spec.name,
+        category: spec.category,
+        provenance_tier: spec.provenance_tier,
+        source: spec.source,
+        description: spec.description
+      },
+      contract_spec: {
+        category: spec.category,
+        contract_size: spec.contract_size,
+        pip_size: spec.pip_size,
+        pip_value_std_lot: spec.pip_value_std_lot,
+        raw_spread: Boolean(spec.raw_spread)
+      },
+      audit_metrics: {
+        total_bars_audited: isBtc ? 0 : 1500,
+        corrupt_bars: 0,
+        data_continuity_pct: isBtc ? null : 99.85,
+        last_observed_timestamp_utc: isBtc ? null : '2026-10-31T21:59:00.000Z',
+        audit_verdict: isBtc ? 'UNVERIFIED' : 'HISTORICAL_ARCHIVE_VERIFIED'
+      },
+      live_telemetry_status: 'DISCONNECTED',
+      feed_status: spec.provenance_tier === 'VERIFIED' ? 'HISTORICAL_REPLAY' : spec.provenance_tier,
+      data_classification: dataClassification,
       anomaly_flags: {
         price_spike_detected: false,
         gap_detected: false,
-        zero_volume_detected: false
+        zero_volume_detected: false,
+        audit_basis: isBtc ? 'UNPROVISIONED' : 'HISTORICAL_REPLAY_ARCHIVE'
       },
       freshness_metadata: {
-        last_observed_timestamp_utc: new Date().toISOString(),
+        live_stream_connected: false,
+        market_session_state: 'OFFLINE_STAGING',
+        observation_source: isBtc ? 'UNPROVISIONED_DERIVATIVE' : 'HISTORICAL_REPLAY',
+        last_historical_observation_utc: isBtc ? null : '2026-10-31T23:59:59Z',
+        is_stale: true,
         stale_threshold_seconds: 30,
-        is_stale: false,
-        market_session_state: 'OPEN'
+        feed_note: isBtc ? 'BTCUSD CFD has no historical or live feed provisioned in staging.' : 'Live broker stream disconnected. Showing verified historical out-of-sample data.'
+      },
+      provenance: {
+        tier: spec.provenance_tier,
+        source: spec.source,
+        feed_type: spec.feed_type
       },
       data_provenance: {
-        source: isProxy ? 'CFD Index Proxy Feed' : 'Broker Raw Tick Export (Vantage MT5)',
-        classification: isProxy ? 'PROXY_ONLY' : 'VERIFIED',
-        historical_vs_prospective: 'HISTORICAL_REPLAY'
+        source: spec.source,
+        classification: dataClassification,
+        historical_vs_prospective: spec.feed_type
       }
     }
   };
 }
 
 function handleMarketRegimes(query, correlationId) {
-  const symbol = (query.get('symbol') || 'EURUSD').toUpperCase().replace('.R', '');
+  const { symbol, valid, error } = parseSymbol(query, AUTHORIZED_UNIVERSE);
+  if (!valid) {
+    return {
+      status: 422,
+      body: { ok: false, error }
+    };
+  }
   const timeframe = (query.get('timeframe') || 'H1').toUpperCase();
-
-  if (!MAJOR_FX_UNIVERSE.includes(symbol)) {
+  if (!['M15', 'H1', 'H4', 'D1'].includes(timeframe)) {
     return {
       status: 422,
       body: {
         ok: false,
-        error: `Unsupported instrument '${symbol}'. Supported instruments: ${MAJOR_FX_UNIVERSE.join(', ')}.`
+        error: `Unsupported timeframe '${timeframe}'. Supported timeframes: M15, H1, H4, D1.`
       }
     };
   }
-  if (!['M15', 'H1'].includes(timeframe)) {
+
+  const spec = INSTRUMENT_SPECS[symbol];
+  if (symbol === 'BTCUSD') {
     return {
-      status: 422,
+      status: 200,
       body: {
-        ok: false,
-        error: `Unsupported timeframe '${timeframe}'. Supported timeframes for regime classification: M15, H1.`
+        ok: true,
+        endpoint: '/api/v1/analytics/market-regimes',
+        correlation_id: correlationId,
+        calculation_timestamp: new Date().toISOString(),
+        instrument: symbol,
+        timeframe: timeframe,
+        indicators: {
+          adx14: null,
+          choppiness_index14: null,
+          hurst_exponent: null
+        },
+        regime_classification: 'UNVERIFIED',
+        confidence_percentile: null,
+        status: 'UNVERIFIED',
+        notice: 'No qualified historical regime distribution model provisioned for BTCUSD CFD in staging.',
+        data_provenance: {
+          source: spec.source,
+          classification: 'UNVERIFIED',
+          historical_vs_prospective: 'UNVERIFIED'
+        }
       }
     };
   }
@@ -261,36 +545,59 @@ function handleMarketRegimes(query, correlationId) {
       },
       regime_classification: isBullish ? 'TRENDING_BULLISH' : 'TRENDING_BEARISH',
       confidence_percentile: 82.0,
-      status: 'VERIFIED',
-      statistical_limitations: 'Lagging classification indicator; rolling indicators have an empirical lag of 3–5 bars. Does not predict regime turning points.',
+      status: spec.provenance_tier === 'VERIFIED' ? 'VERIFIED' : spec.provenance_tier,
+      observation_context: 'HISTORICAL_REPLAY_DISTRIBUTION (Phase 120c Quantitative Regime Engine)',
+      statistical_limitations: 'Lagging classification indicator; rolling indicators have an empirical lag of 3–5 bars. Reflects historical distribution, not live quotes.',
       data_provenance: {
-        source: 'Phase 120c Quantitative Regime Engine',
-        classification: 'VERIFIED',
-        historical_vs_prospective: 'HISTORICAL_REPLAY'
+        source: spec.source,
+        classification: spec.provenance_tier,
+        historical_vs_prospective: spec.feed_type
       }
     }
   };
 }
 
 function handleVolatility(query, correlationId) {
-  const symbol = (query.get('symbol') || 'EURUSD').toUpperCase().replace('.R', '');
+  const { symbol, valid, error } = parseSymbol(query, AUTHORIZED_UNIVERSE);
+  if (!valid) {
+    return {
+      status: 422,
+      body: { ok: false, error }
+    };
+  }
   const timeframe = (query.get('timeframe') || 'H1').toUpperCase();
-
-  if (!MAJOR_FX_UNIVERSE.includes(symbol)) {
+  if (!['M15', 'H1', 'H4', 'D1'].includes(timeframe)) {
     return {
       status: 422,
       body: {
         ok: false,
-        error: `Unsupported instrument '${symbol}'. Supported instruments: ${MAJOR_FX_UNIVERSE.join(', ')}.`
+        error: `Unsupported timeframe '${timeframe}'. Supported timeframes: M15, H1, H4, D1.`
       }
     };
   }
-  if (!['M15', 'H1'].includes(timeframe)) {
+
+  const spec = INSTRUMENT_SPECS[symbol];
+  if (symbol === 'BTCUSD') {
     return {
-      status: 422,
+      status: 200,
       body: {
-        ok: false,
-        error: `Unsupported timeframe '${timeframe}'. Supported timeframes for volatility analysis: M15, H1.`
+        ok: true,
+        endpoint: '/api/v1/analytics/volatility',
+        correlation_id: correlationId,
+        calculation_timestamp: new Date().toISOString(),
+        instrument: symbol,
+        timeframe: timeframe,
+        atr14_pips: null,
+        rolling_realized_volatility_annualized_pct: null,
+        volatility_percentile_1y: null,
+        volatility_state: 'UNVERIFIED',
+        status: 'UNVERIFIED',
+        notice: 'Volatility model unverified for BTCUSD CFD in staging.',
+        data_provenance: {
+          source: spec.source,
+          classification: 'UNVERIFIED',
+          historical_vs_prospective: 'UNVERIFIED'
+        }
       }
     };
   }
@@ -313,28 +620,28 @@ function handleVolatility(query, correlationId) {
       volatility_state: 'NORMAL',
       atr_10bar_slope: 0.12,
       slope_interpretation: 'EXPANSION',
-      status: 'VERIFIED',
-      statistical_limitations: 'Assumes log-normal price dispersion. Extreme geopolitical macro shocks exceed 1Y statistical percentiles.',
+      status: spec.provenance_tier === 'VERIFIED' ? 'VERIFIED' : spec.provenance_tier,
+      observation_context: 'HISTORICAL_REPLAY_SAMPLE (Phase 108g)',
+      statistical_limitations: 'Static historical distribution from Phase 108g model. No live market quote streaming.',
       data_provenance: {
-        source: 'Phase 108g Volatility Structure Model',
-        classification: 'VERIFIED',
-        historical_vs_prospective: 'HISTORICAL_REPLAY'
+        source: spec.source,
+        classification: spec.provenance_tier,
+        historical_vs_prospective: spec.feed_type
       }
     }
   };
 }
 
 function handleSessionAnalysis(query, correlationId) {
-  const symbol = (query.get('symbol') || 'EURUSD').toUpperCase().replace('.R', '');
-  if (!MAJOR_FX_UNIVERSE.includes(symbol)) {
+  const { symbol, valid, error } = parseSymbol(query, AUTHORIZED_UNIVERSE);
+  if (!valid) {
     return {
       status: 422,
-      body: {
-        ok: false,
-        error: `Unsupported instrument '${symbol}'. Supported instruments: ${MAJOR_FX_UNIVERSE.join(', ')}.`
-      }
+      body: { ok: false, error }
     };
   }
+
+  const spec = INSTRUMENT_SPECS[symbol];
 
   return {
     status: 200,
@@ -344,6 +651,13 @@ function handleSessionAnalysis(query, correlationId) {
       correlation_id: correlationId,
       calculation_timestamp: new Date().toISOString(),
       instrument: symbol,
+      schedule_classification: 'ALGORITHMIC_UTC_SCHEDULE',
+      session_definition_model: 'ALGORITHMIC_UTC_SCHEDULE',
+      live_broker_status: 'DISCONNECTED',
+      disclosures: {
+        broker_connection: 'DISCONNECTED',
+        session_definition_model: 'ALGORITHMIC_UTC_SCHEDULE'
+      },
       sessions: {
         ASIAN: { start_utc: '00:00', end_utc: '08:00', median_range_pips: 22.5, is_active: false },
         LONDON: { start_utc: '07:00', end_utc: '16:00', median_range_pips: 48.0, is_active: true },
@@ -356,7 +670,7 @@ function handleSessionAnalysis(query, correlationId) {
         expansion_expectancy_gross_usd: -0.42,
         status: 'VERIFIED'
       },
-      research_disclosure: 'Opening range breakout expansion fails to produce positive net expectancy after transaction costs without additional regime conditioning (Phase 123 finding).',
+      research_disclosure: 'Opening range breakout expansion fails to produce positive net expectancy after transaction costs without additional regime conditioning (Phase 123 finding). Session hours reflect theoretical UTC algorithmic schedules; live broker telemetry is disconnected.',
       data_provenance: {
         source: 'Phase 123b Session Behaviour Investigation',
         classification: 'VERIFIED',
@@ -367,13 +681,34 @@ function handleSessionAnalysis(query, correlationId) {
 }
 
 function handleMultiTimeframe(query, correlationId) {
-  const symbol = (query.get('symbol') || 'EURUSD').toUpperCase().replace('.R', '');
-  if (!MAJOR_FX_UNIVERSE.includes(symbol)) {
+  const { symbol, valid, error } = parseSymbol(query, AUTHORIZED_UNIVERSE);
+  if (!valid) {
     return {
       status: 422,
+      body: { ok: false, error }
+    };
+  }
+
+  const spec = INSTRUMENT_SPECS[symbol];
+  if (symbol === 'BTCUSD') {
+    return {
+      status: 200,
       body: {
-        ok: false,
-        error: `Unsupported instrument '${symbol}'. Supported instruments: ${MAJOR_FX_UNIVERSE.join(', ')}.`
+        ok: true,
+        endpoint: '/api/v1/analytics/multi-timeframe',
+        correlation_id: correlationId,
+        calculation_timestamp: new Date().toISOString(),
+        instrument: symbol,
+        timeframe_signals: null,
+        alignment_consensus: 'UNVERIFIED',
+        alignment_score: null,
+        status: 'UNVERIFIED',
+        notice: 'Multi-timeframe consensus model unverified for BTCUSD CFD in staging.',
+        data_provenance: {
+          source: spec.source,
+          classification: 'UNVERIFIED',
+          historical_vs_prospective: 'UNVERIFIED'
+        }
       }
     };
   }
@@ -393,26 +728,23 @@ function handleMultiTimeframe(query, correlationId) {
       },
       alignment_consensus: 'MIXED',
       alignment_score: -60.0,
-      status: 'VERIFIED',
+      status: spec.provenance_tier === 'VERIFIED' ? 'VERIFIED' : spec.provenance_tier,
       research_disclosure: 'M15 lower timeframe alignment does not reduce required stop distance below the micro-lot quantization floor ($5 risk / 0.01 lot = max 50 pips). Analytical filter only (Phase 122 finding).',
       data_provenance: {
         source: 'Phase 122a Multi-Timeframe Alignment Model',
-        classification: 'VERIFIED',
-        historical_vs_prospective: 'HISTORICAL_REPLAY'
+        classification: spec.provenance_tier,
+        historical_vs_prospective: spec.feed_type
       }
     }
   };
 }
 
 function handleTransactionCosts(query, correlationId) {
-  const symbol = (query.get('symbol') || 'EURUSD').toUpperCase().replace('.R', '');
-  if (!MAJOR_FX_UNIVERSE.includes(symbol)) {
+  const { symbol, valid, error } = parseSymbol(query, AUTHORIZED_UNIVERSE);
+  if (!valid) {
     return {
       status: 422,
-      body: {
-        ok: false,
-        error: `Unsupported instrument '${symbol}'. Supported instruments: ${MAJOR_FX_UNIVERSE.join(', ')}.`
-      }
+      body: { ok: false, error }
     };
   }
 
@@ -430,8 +762,10 @@ function handleTransactionCosts(query, correlationId) {
     };
   }
 
-  // Pip value per 0.01 lot: EURUSD/GBPUSD = $0.10; USDJPY = $0.067
-  const pipValueMinLot = symbol === 'USDJPY' ? 0.067 : 0.10;
+  const spec = INSTRUMENT_SPECS[symbol];
+  const pipValueStdLot = spec.pip_value_std_lot;
+  const pipValueMinLot = pipValueStdLot * 0.01;
+
   const spreadCostUsd = Math.round(spreadPips * pipValueMinLot * 1000) / 1000;
   const commissionCostUsd = Math.round((commissionPerLot * 0.01) * 1000) / 1000;
   const slippageEstimateUsd = Math.round(0.3 * pipValueMinLot * 1000) / 1000;
@@ -452,6 +786,7 @@ function handleTransactionCosts(query, correlationId) {
       correlation_id: correlationId,
       calculation_timestamp: new Date().toISOString(),
       instrument: symbol,
+      contract_tier: spec.category,
       inputs: {
         spread_pips: spreadPips,
         commission_usd_per_lot_rt: commissionPerLot,
@@ -482,14 +817,11 @@ function handleTransactionCosts(query, correlationId) {
 }
 
 function handleRiskCalculator(query, correlationId) {
-  const symbol = (query.get('symbol') || 'EURUSD').toUpperCase().replace('.R', '');
-  if (!FULL_INSTRUMENT_UNIVERSE.includes(symbol)) {
+  const { symbol, valid, error } = parseSymbol(query, AUTHORIZED_UNIVERSE);
+  if (!valid) {
     return {
       status: 422,
-      body: {
-        ok: false,
-        error: `Unsupported instrument '${symbol}'. Supported instruments: ${FULL_INSTRUMENT_UNIVERSE.join(', ')}.`
-      }
+      body: { ok: false, error }
     };
   }
 
@@ -506,13 +838,10 @@ function handleRiskCalculator(query, correlationId) {
     };
   }
 
-  // Pip value per 1.0 standard lot: EURUSD/GBPUSD = $10.00; USDJPY = $6.70; XAUUSD = $100.00; NAS100 = $1.00; US30 = $1.00
-  let pipValueStdLot = 10.0;
-  if (symbol === 'USDJPY') pipValueStdLot = 6.70;
-  else if (symbol === 'XAUUSD') pipValueStdLot = 100.0; // 1 pip = 0.01 = $100/std lot
-  else if (symbol === 'NAS100' || symbol === 'US30') pipValueStdLot = 1.0;
-
+  const spec = INSTRUMENT_SPECS[symbol];
+  const pipValueStdLot = spec.pip_value_std_lot;
   const pipValueMinLot = pipValueStdLot * 0.01;
+
   const monetaryRiskAtMinLot = Math.round(stopPips * pipValueMinLot * 100) / 100;
   const maxStopAllowedPips = Math.round((RISK_POLICY.per_trade_risk_usd / pipValueMinLot) * 100) / 100;
 
@@ -526,6 +855,10 @@ function handleRiskCalculator(query, correlationId) {
         correlation_id: correlationId,
         calculation_timestamp: new Date().toISOString(),
         instrument: symbol,
+        contract_spec: {
+          category: spec.category,
+          pip_value_std_lot: pipValueStdLot
+        },
         feasibility_status: 'REJECTED_EXCEEDS_RISK_LIMIT',
         fixed_policy: RISK_POLICY,
         inputs: {
@@ -539,14 +872,13 @@ function handleRiskCalculator(query, correlationId) {
           actual_dollar_risk_usd: 0.00,
           max_allowable_stop_pips: maxStopAllowedPips
         },
-        rejection_reason: `Minimum executable volume (0.01 lot) with a ${stopPips} pip stop generates $${monetaryRiskAtMinLot} risk, which strictly violates the fixed $${RISK_POLICY.per_trade_risk_usd.toFixed(2)} per-trade risk cap. Maximum allowable stop for ${symbol} at 0.01 lot is ${maxStopAllowedPips} pips.`,
+        rejection_reason: `Minimum executable volume (0.01 lot) with a ${stopPips} pip stop generates $${monetaryRiskAtMinLot.toFixed(2)} risk, which strictly violates the fixed $${RISK_POLICY.per_trade_risk_usd.toFixed(2)} per-trade risk cap. Maximum allowable stop for ${symbol} at 0.01 lot is ${maxStopAllowedPips} pips.`,
         status: 'VERIFIED',
         informational_notice: 'Informational only. Live execution is permanently HARD DISARMED. No orders placed.'
       }
     };
   }
 
-  // Calculate quantized lot size (rounded down to 0.01 step)
   const theoreticalLots = RISK_POLICY.per_trade_risk_usd / (stopPips * pipValueStdLot);
   const quantizedLots = Math.floor(theoreticalLots * 100) / 100;
   const actualDollarRisk = Math.round(quantizedLots * stopPips * pipValueStdLot * 100) / 100;
@@ -560,6 +892,10 @@ function handleRiskCalculator(query, correlationId) {
       correlation_id: correlationId,
       calculation_timestamp: new Date().toISOString(),
       instrument: symbol,
+      contract_spec: {
+        category: spec.category,
+        pip_value_std_lot: pipValueStdLot
+      },
       feasibility_status: 'FEASIBLE',
       fixed_policy: RISK_POLICY,
       inputs: {
@@ -645,7 +981,7 @@ module.exports = async function handler(req, res) {
 
   // 2. Configuration Enforcement (Strictly Fail-Closed)
   const c = config();
-  if (!c.supabaseUrl || !c.publishableKey) {
+  if (!c.supabaseUrl || !c.publishableKey || !c.serviceKey) {
     return reply(res, 503, { ok: false, error: 'Analytics service is unconfigured.' }, correlationId);
   }
   if (!c.validUrl) {
@@ -662,15 +998,19 @@ module.exports = async function handler(req, res) {
     return reply(res, 401, { ok: false, error: 'Authentication required' }, correlationId);
   }
 
-  const user = await verifyAuthUser(c, token);
-  if (!user || !user.email) {
+  const authUserResult = await verifyAuthUser(c, token);
+  if (authUserResult.error === 401 || !authUserResult.user) {
     return reply(res, 401, { ok: false, error: 'Invalid or expired session' }, correlationId);
   }
+  if (authUserResult.error === 503) {
+    return reply(res, 503, { ok: false, error: 'Authentication service temporarily unavailable' }, correlationId);
+  }
+  const user = authUserResult.user;
 
-  // 4. Authorization & User Status Enforcement
-  const op = await checkOperatorStatus(c, user.email);
-  if (op.is_active === false) {
-    return reply(res, 403, { ok: false, error: 'User account is deactivated or suspended' }, correlationId);
+  // 4. Operator Authorization Enforcement (Strictly Fail-Closed)
+  const opResult = await checkOperatorStatus(c, user.email);
+  if (opResult.status !== 200) {
+    return reply(res, opResult.status, { ok: false, error: opResult.error }, correlationId);
   }
 
   // 5. Route Resolution

@@ -169,6 +169,7 @@ try {
     // Test 3: Authenticated dispatch check
     process.env.SUPABASE_URL = 'https://mock-test-project.supabase.co';
     process.env.SUPABASE_PUBLISHABLE_KEY = 'mock-anon-key-123456';
+    process.env.SUPABASE_SECRET_KEY = 'mock-secret-key-123456';
     let mockRes3 = {
       statusCode: 0,
       headers: {},

@@ -104,6 +104,7 @@ async function runBattery() {
     // Non-HTTPS URL
     process.env.SUPABASE_URL = 'http://insecure.supabase.co';
     process.env.SUPABASE_PUBLISHABLE_KEY = 'test_pub_key';
+    process.env.SUPABASE_SECRET_KEY = 'test_secret_key';
     const req2 = { method: 'GET', headers: { authorization: 'Bearer test' }, url: '/api/v1/analytics/overview' };
     const res2 = createMockRes();
     await analyticsHandler(req2, res2);
@@ -121,6 +122,7 @@ async function runBattery() {
     resetEnv();
     process.env.SUPABASE_URL = 'https://valid-project.supabase.co';
     process.env.SUPABASE_PUBLISHABLE_KEY = 'valid_pub_key';
+    process.env.SUPABASE_SECRET_KEY = 'valid_secret_key';
 
     for (const ep of ALL_ENDPOINTS) {
       // 2a. Missing authorization header
@@ -158,6 +160,7 @@ async function runBattery() {
     resetEnv();
     process.env.SUPABASE_URL = 'https://valid-project.supabase.co';
     process.env.SUPABASE_PUBLISHABLE_KEY = 'valid_pub_key';
+    process.env.SUPABASE_SECRET_KEY = 'valid_secret_key';
 
     // POST to GET-only route
     const reqPost = { method: 'POST', headers: {}, url: '/api/v1/analytics/overview' };
@@ -180,6 +183,7 @@ async function runBattery() {
     // Mock authenticated user for routing check
     setMockFetch(async (url) => {
       if (url.includes('/auth/v1/user')) return { ok: true, status: 200, json: async () => ({ id: 'usr_1', email: 'test@vortexbot.ai' }) };
+      if (url.includes('/rest/v1/vortex_authorized_operators')) return { ok: true, status: 200, json: async () => ([{ user_id: 'usr_1', email: 'test@vortexbot.ai', role: 'AUTHENTICATED_USER', is_active: true }]) };
       return { ok: true, status: 200, json: async () => ([]) };
     });
 
