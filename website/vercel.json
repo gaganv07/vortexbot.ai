@@ -24,6 +24,15 @@
           "value": "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self' data:; connect-src 'self' https://*.supabase.co wss://*.supabase.co; object-src 'none'; base-uri 'self'; frame-ancestors 'none'; form-action 'self'; upgrade-insecure-requests"
         }
       ]
+    },
+    {
+      "source": "/api/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-store, max-age=0"
+        }
+      ]
     }
   ],
   "rewrites": [
@@ -34,6 +43,10 @@
     {
       "source": "/dashboard",
       "destination": "/dashboard.html"
+    },
+    {
+      "source": "/research",
+      "destination": "/research.html"
     },
     {
       "source": "/account",
@@ -62,6 +75,14 @@
     {
       "source": "/terms",
       "destination": "/terms.html"
+    },
+    {
+      "source": "/api/v1/analytics/:path*",
+      "destination": "/api/v1/analytics.js?route=:path*"
+    },
+    {
+      "source": "/api/v1/analytics",
+      "destination": "/api/v1/analytics.js"
     }
   ]
 }

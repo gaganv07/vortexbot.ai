@@ -101,7 +101,11 @@ button,.btn,.submit,.provider,.back-to-top{box-shadow:none!important}button.prim
   let appleEnabled = false;
   let emailEnabled = false;
   const requestedNext = new URLSearchParams(window.location.search).get("next");
-  const nextPage = ["dashboard.html", "account.html"].includes(requestedNext) ? requestedNext : "dashboard.html";
+  const allowedNext = ["dashboard.html", "account.html", "research.html", "dashboard", "account", "research"];
+  let nextPage = "dashboard.html";
+  if (requestedNext && allowedNext.includes(requestedNext)) {
+    nextPage = requestedNext.endsWith(".html") ? requestedNext : requestedNext + ".html";
+  }
   // Complete authentication on the same origin the user loaded the login page from.
   // A relative URL keeps preview, production and localhost deployments working without
   // hardcoding a single canonical domain. A localhost origin is safe here because the

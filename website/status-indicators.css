@@ -1,0 +1,128 @@
+/* VORTEX AI — Status Indicator Badges & Alerts */
+
+/* Feed Freshness Badges */
+.status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 8px;
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.status-badge-connected {
+  background: #092c21;
+  color: #00e6ad;
+  border: 1px solid #17654c;
+}
+.status-badge-stale {
+  background: #2b1f09;
+  color: #ffd58a;
+  border: 1px solid #735017;
+}
+.status-badge-disconnected {
+  background: #261111;
+  color: #ff9191;
+  border: 1px solid #662626;
+}
+.status-badge-unavailable {
+  background: #1e1926;
+  color: #d1b8ff;
+  border: 1px solid #4a3869;
+}
+
+/* Account Mode Badges (Authoritative broker trade_mode) */
+.mode-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.mode-badge-demo {
+  background: #0d2238;
+  color: #70b8ff;
+  border: 1px solid #1f4f80;
+}
+.mode-badge-real {
+  background: #361730;
+  color: #ff85ea;
+  border: 1px solid #752968;
+}
+.mode-badge-unknown {
+  background: #18221f;
+  color: #92aba0;
+  border: 1px solid #2d3f39;
+}
+
+/* Execution State Badges */
+.exec-badge-disarmed {
+  background: #241607;
+  color: #ffc453;
+  border: 1px solid #6b4512;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 750;
+}
+
+/* Data Provenance Badges */
+.prov-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+.prov-badge-verified {
+  background: #0a2118;
+  color: #40f2bf;
+  border: 1px solid #1b4f3c;
+}
+.prov-badge-cache {
+  background: #261d0b;
+  color: #e6b86a;
+  border: 1px solid #5e461b;
+}
+
+/* Stale or Disconnected Warning Alert Box */
+.telemetry-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 18px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.telemetry-alert-stale {
+  background: #211909;
+  border: 1px solid #664913;
+  color: #ffdf9e;
+}
+.telemetry-alert-disconnected {
+  background: #240c0c;
+  border: 1px solid #701c1c;
+  color: #ffb8b8;
+}
+.telemetry-alert-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
