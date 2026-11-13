@@ -154,62 +154,181 @@ const INSTRUMENT_SPECS = {
   }
 };
 
+const STAGING_PROJECT_REF = 'xtyszeuvtfcgognkrwxv';
+const PRODUCTION_PROJECT_REF = 'bucziqekzyrttgcoxtas';
+const SUPPORTED_LOCAL_REFS = Object.freeze([STAGING_PROJECT_REF, PRODUCTION_PROJECT_REF]);
+
 /**
- * Dynamic configuration helper.
- * Strictly fail-closed: missing URL, publishable key, or service key fails closed.
+ * Validates Supabase project URL binding against execution environment.
+ * Strictly fail-closed: enforces HTTPS, canonical project reference,
+ * strict URL structure (no credentials, port, path, query, fragment),
+ * and environment scoping (Preview -> Staging, Production -> Production,
+ * Local Development -> Explicit matching reference).
+ *
+ * @param {string} supabaseUrl - Raw Supabase URL string
+ * @returns {{ valid: boolean, error?: string, projectRef?: string, environment?: string }}
+ */
+function validateSupabaseProjectBinding(supabaseUrl) {
+  if (!supabaseUrl || typeof supabaseUrl !== 'string') {
+    return { valid: false, error: 'Supabase URL missing or invalid' };
+  }
+
+  const rawUrl = supabaseUrl.trim();
+  let parsed;
+  try {
+    parsed = new URL(rawUrl);
+  } catch (_) {
+    return { valid: false, error: 'Malformed URL' };
+  }
+
+  // 1. Strict Protocol Enforcement
+  if (parsed.protocol !== 'https:') {
+    return { valid: false, error: 'Insecure protocol: HTTPS is strictly required' };
+  }
+
+  // 2. Strict URL Structure Enforcement (no credentials, custom port, path, query, fragment)
+  if (parsed.username || parsed.password) {
+    return { valid: false, error: 'URL contains credentials which are forbidden' };
+  }
+  if (parsed.port) {
+    return { valid: false, error: 'Custom ports are forbidden' };
+  }
+  if (parsed.pathname && parsed.pathname !== '/' && parsed.pathname !== '') {
+    return { valid: false, error: 'URL contains path components which are forbidden' };
+  }
+  if (parsed.search) {
+    return { valid: false, error: 'URL contains query parameters which are forbidden' };
+  }
+  if (parsed.hash) {
+    return { valid: false, error: 'URL contains fragment which is forbidden' };
+  }
+
+  // 3. Supabase Domain Structure Enforcement
+  const hostname = parsed.hostname.toLowerCase();
+  const hostParts = hostname.split('.');
+  if (hostParts.length !== 3 || hostParts[1] !== 'supabase' || !['co', 'in'].includes(hostParts[2])) {
+    return { valid: false, error: 'Hostname is not a valid Supabase domain' };
+  }
+
+  const extractedRef = hostParts[0];
+  if (!/^[a-z0-9_-]{1,64}$/.test(extractedRef)) {
+    return { valid: false, error: 'Invalid Supabase project reference format' };
+  }
+
+  // 4. Environment Scoping & Project Binding
+  const vercelEnv = (process.env.VERCEL_ENV || '').trim().toLowerCase();
+  const isExplicitLocalDev = vercelEnv === 'development' ||
+    process.env.VORTEX_LOCAL_DEV === 'true' ||
+    process.env.VORTEX_ALLOW_LOCAL_DEV === 'true';
+
+  if (vercelEnv === 'preview') {
+    // Preview environment must bind strictly to staging project
+    if (extractedRef !== STAGING_PROJECT_REF) {
+      return {
+        valid: false,
+        error: `Preview environment rejection: project '${extractedRef}' does not match expected staging reference '${STAGING_PROJECT_REF}'`
+      };
+    }
+    return { valid: true, projectRef: extractedRef, environment: 'preview' };
+  }
+
+  if (vercelEnv === 'production') {
+    // Production environment must bind strictly to production project
+    if (extractedRef !== PRODUCTION_PROJECT_REF) {
+      return {
+        valid: false,
+        error: `Production environment rejection: project '${extractedRef}' does not match expected production reference '${PRODUCTION_PROJECT_REF}'`
+      };
+    }
+    return { valid: true, projectRef: extractedRef, environment: 'production' };
+  }
+
+  if (isExplicitLocalDev) {
+    // Local development requires explicit project reference
+    const explicitRef = (
+      process.env.SUPABASE_PROJECT_REF ||
+      process.env.VORTEX_EXPECTED_SUPABASE_PROJECT_REF ||
+      process.env.EXPECTED_SUPABASE_PROJECT_REF ||
+      ''
+    ).trim().toLowerCase();
+
+    if (!explicitRef) {
+      return { valid: false, error: 'Local development rejection: missing explicit project reference' };
+    }
+
+    if (!SUPPORTED_LOCAL_REFS.includes(explicitRef)) {
+      return {
+        valid: false,
+        error: `Local development rejection: unsupported project reference '${explicitRef}'. Supported: ${SUPPORTED_LOCAL_REFS.join(', ')}`
+      };
+    }
+
+    if (explicitRef !== extractedRef) {
+      return {
+        valid: false,
+        error: `Local development rejection: explicit project reference '${explicitRef}' does not match URL project reference '${extractedRef}'`
+      };
+    }
+
+    return { valid: true, projectRef: extractedRef, environment: 'development' };
+  }
+
+  // Unknown environment (missing or invalid VERCEL_ENV outside explicit local dev)
+  return {
+    valid: false,
+    error: `Unknown environment rejection: missing or invalid VERCEL_ENV '${vercelEnv}' outside explicit local development`
+  };
+}
+
+/**
+ * Resolves the expected Supabase project reference based on environment scoping.
+ * Preview -> 'xtyszeuvtfcgognkrwxv'
+ * Production -> 'bucziqekzyrttgcoxtas'
+ * Local Development -> declared via VORTEX_EXPECTED_SUPABASE_PROJECT_REF or SUPABASE_PROJECT_REF
+ * Unknown / unspecified environments fail closed (returns null).
  */
 function expectedSupabaseProjectRef() {
   const deploymentEnv = (process.env.VERCEL_ENV || '').trim().toLowerCase();
 
-  if (deploymentEnv === 'preview') return 'xtyszeuvtfcgognkrwxv';
-  if (deploymentEnv === 'production') return 'bucziqekzyrttgcoxtas';
+  if (deploymentEnv === 'preview') return STAGING_PROJECT_REF;
+  if (deploymentEnv === 'production') return PRODUCTION_PROJECT_REF;
 
   // Local development must explicitly declare which isolated project it expects.
-  // Unknown/unspecified deployment environments fail closed.
-  if (!deploymentEnv && process.env.NODE_ENV === 'development') {
-    const localRef = (process.env.VORTEX_EXPECTED_SUPABASE_PROJECT_REF || '').trim().toLowerCase();
-    if (localRef === 'xtyszeuvtfcgognkrwxv' || localRef === 'bucziqekzyrttgcoxtas') {
+  // Supports VERCEL_ENV=development, VORTEX_LOCAL_DEV=true, or NODE_ENV=development outside Vercel.
+  const isLocalDev = deploymentEnv === 'development' ||
+    process.env.VORTEX_LOCAL_DEV === 'true' ||
+    process.env.VORTEX_ALLOW_LOCAL_DEV === 'true' ||
+    (!deploymentEnv && process.env.NODE_ENV === 'development');
+
+  if (isLocalDev) {
+    const localRef = (
+      process.env.VORTEX_EXPECTED_SUPABASE_PROJECT_REF ||
+      process.env.SUPABASE_PROJECT_REF ||
+      process.env.EXPECTED_SUPABASE_PROJECT_REF ||
+      ''
+    ).trim().toLowerCase();
+    if (SUPPORTED_LOCAL_REFS.includes(localRef)) {
       return localRef;
     }
   }
 
+  // Unknown/unspecified deployment environments fail closed.
   return null;
 }
 
 function config() {
-  const supabaseUrl = (process.env.SUPABASE_URL || process.env.VORTEX_PREVIEW_SUPABASE_URL || '').trim().replace(/\\/+$/, '');
+  const supabaseUrl = (process.env.SUPABASE_URL || process.env.VORTEX_PREVIEW_SUPABASE_URL || '').trim().replace(/\/+$/, '');
   const publishableKey = (process.env.SUPABASE_PUBLISHABLE_KEY || '').trim().replace(/[\r\n\s]+/g, '');
   const serviceKey = (process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.VORTEX_PREVIEW_SUPABASE_SERVICE_ROLE_KEY || '').trim().replace(/[\r\n\s]+/g, '');
 
-  let validUrl = false;
-  if (supabaseUrl) {
-    try {
-      const parsed = new URL(supabaseUrl);
-      const expectedProjectRef = expectedSupabaseProjectRef();
-      const hostname = parsed.hostname.toLowerCase();
-      const exactStagingHost = 'xtyszeuvtfcgognkrwxv.supabase.co';
-      const exactProductionHost = 'bucziqekzyrttgcoxtas.supabase.co';
-      const expectedHost = expectedProjectRef === 'xtyszeuvtfcgognkrwxv'
-        ? exactStagingHost
-        : (expectedProjectRef === 'bucziqekzyrttgcoxtas' ? exactProductionHost : '');
-
-      validUrl = parsed.protocol === 'https:' &&
-        parsed.port === '' &&
-        parsed.username === '' &&
-        parsed.password === '' &&
-        Boolean(expectedHost) &&
-        hostname === expectedHost &&
-        (parsed.pathname === '' || parsed.pathname === '/') &&
-        parsed.search === '' &&
-        parsed.hash === '';
-    } catch (_) {
-      validUrl = false;
-    }
-  }
+  const binding = validateSupabaseProjectBinding(supabaseUrl);
+  const validUrl = binding.valid;
+  const projectRef = binding.projectRef || null;
+  const bindingError = binding.error || null;
 
   const isConfigured = Boolean(supabaseUrl && publishableKey && serviceKey && validUrl);
 
-  return { supabaseUrl, publishableKey, serviceKey, validUrl, isConfigured };
+  return { supabaseUrl, publishableKey, serviceKey, validUrl, projectRef, bindingError, isConfigured };
 }
 
 function reply(res, status, data, correlationId) {
@@ -1003,7 +1122,7 @@ function handleHistoricalForensics(query, correlationId) {
 // Main Serverless Request Handler
 // -------------------------------------------------------------------------
 
-module.exports = async function handler(req, res) {
+async function handler(req, res) {
   const correlationId = 'req_' + crypto.randomBytes(8).toString('hex');
 
   // 1. HTTP Method Enforcement
@@ -1093,4 +1212,12 @@ module.exports = async function handler(req, res) {
   }
 
   return reply(res, result.status, result.body, correlationId);
-};
+}
+
+handler.validateSupabaseProjectBinding = validateSupabaseProjectBinding;
+handler.expectedSupabaseProjectRef = expectedSupabaseProjectRef;
+handler.STAGING_PROJECT_REF = STAGING_PROJECT_REF;
+handler.PRODUCTION_PROJECT_REF = PRODUCTION_PROJECT_REF;
+handler.SUPPORTED_LOCAL_REFS = SUPPORTED_LOCAL_REFS;
+
+module.exports = handler;

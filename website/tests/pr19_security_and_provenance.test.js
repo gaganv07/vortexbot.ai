@@ -72,6 +72,7 @@ function restoreFetch() {
 
 // Environment management
 const originalEnv = { ...process.env };
+const STAGING_URL = 'https://xtyszeuvtfcgognkrwxv.supabase.co';
 function resetEnv() {
   process.env = { ...originalEnv };
   delete process.env.SUPABASE_URL;
@@ -80,6 +81,7 @@ function resetEnv() {
   delete process.env.SUPABASE_SECRET_KEY;
   delete process.env.SUPABASE_SERVICE_ROLE_KEY;
   delete process.env.VORTEX_PREVIEW_SUPABASE_SERVICE_ROLE_KEY;
+  process.env.VERCEL_ENV = 'preview';
 }
 
 let passedTests = 0;
@@ -108,7 +110,7 @@ async function runTests() {
   // 1a. Missing service key returns 503
   {
     resetEnv();
-    process.env.SUPABASE_URL = 'https://mock-test.supabase.co';
+    process.env.SUPABASE_URL = STAGING_URL;
     process.env.SUPABASE_PUBLISHABLE_KEY = 'mock_pub_key';
     // SUPABASE_SECRET_KEY deliberately omitted
     const req = { method: 'GET', url: '/api/v1/analytics/overview', headers: { authorization: 'Bearer test.token' } };
@@ -123,7 +125,7 @@ async function runTests() {
   // 1b. Missing publishable key returns 503
   {
     resetEnv();
-    process.env.SUPABASE_URL = 'https://mock-test.supabase.co';
+    process.env.SUPABASE_URL = STAGING_URL;
     process.env.SUPABASE_SECRET_KEY = 'mock_service_key';
     const req = { method: 'GET', url: '/api/v1/analytics/overview', headers: { authorization: 'Bearer test.token' } };
     const res = createMockRes();
@@ -166,7 +168,7 @@ async function runTests() {
   // 1e. Invalid or expired token returns 401
   {
     resetEnv();
-    process.env.SUPABASE_URL = 'https://mock-test.supabase.co';
+    process.env.SUPABASE_URL = STAGING_URL;
     process.env.SUPABASE_PUBLISHABLE_KEY = 'mock_pub_key';
     process.env.SUPABASE_SECRET_KEY = 'mock_service_key';
     setMockFetch(async (url) => {
@@ -189,7 +191,7 @@ async function runTests() {
   // 1f. Valid JWT but user has NO record in vortex_authorized_operators returns 403 (Strictly NO fallback)
   {
     resetEnv();
-    process.env.SUPABASE_URL = 'https://mock-test.supabase.co';
+    process.env.SUPABASE_URL = STAGING_URL;
     process.env.SUPABASE_PUBLISHABLE_KEY = 'mock_pub_key';
     process.env.SUPABASE_SECRET_KEY = 'mock_service_key';
     setMockFetch(async (url) => {
@@ -215,7 +217,7 @@ async function runTests() {
   // 1g. Valid JWT but operator record has is_active: false returns 403
   {
     resetEnv();
-    process.env.SUPABASE_URL = 'https://mock-test.supabase.co';
+    process.env.SUPABASE_URL = STAGING_URL;
     process.env.SUPABASE_PUBLISHABLE_KEY = 'mock_pub_key';
     process.env.SUPABASE_SECRET_KEY = 'mock_service_key';
     setMockFetch(async (url) => {
@@ -241,7 +243,7 @@ async function runTests() {
   // 1h. Valid JWT and is_active: true, but unauthorized role returns 403
   {
     resetEnv();
-    process.env.SUPABASE_URL = 'https://mock-test.supabase.co';
+    process.env.SUPABASE_URL = STAGING_URL;
     process.env.SUPABASE_PUBLISHABLE_KEY = 'mock_pub_key';
     process.env.SUPABASE_SECRET_KEY = 'mock_service_key';
     setMockFetch(async (url) => {
@@ -267,7 +269,7 @@ async function runTests() {
   // 1i. Database HTTP 500 error fails closed with HTTP 503
   {
     resetEnv();
-    process.env.SUPABASE_URL = 'https://mock-test.supabase.co';
+    process.env.SUPABASE_URL = STAGING_URL;
     process.env.SUPABASE_PUBLISHABLE_KEY = 'mock_pub_key';
     process.env.SUPABASE_SECRET_KEY = 'mock_service_key';
     setMockFetch(async (url) => {
@@ -293,7 +295,7 @@ async function runTests() {
   // 1j. Database timeout / network exception fails closed with HTTP 503
   {
     resetEnv();
-    process.env.SUPABASE_URL = 'https://mock-test.supabase.co';
+    process.env.SUPABASE_URL = STAGING_URL;
     process.env.SUPABASE_PUBLISHABLE_KEY = 'mock_pub_key';
     process.env.SUPABASE_SECRET_KEY = 'mock_service_key';
     setMockFetch(async (url) => {
@@ -319,7 +321,7 @@ async function runTests() {
   // 1k. Database returns malformed non-array JSON fails closed with HTTP 503
   {
     resetEnv();
-    process.env.SUPABASE_URL = 'https://mock-test.supabase.co';
+    process.env.SUPABASE_URL = STAGING_URL;
     process.env.SUPABASE_PUBLISHABLE_KEY = 'mock_pub_key';
     process.env.SUPABASE_SECRET_KEY = 'mock_service_key';
     setMockFetch(async (url) => {
@@ -345,7 +347,7 @@ async function runTests() {
   // 1l. Active operator with valid role succeeds with HTTP 200
   {
     resetEnv();
-    process.env.SUPABASE_URL = 'https://mock-test.supabase.co';
+    process.env.SUPABASE_URL = STAGING_URL;
     process.env.SUPABASE_PUBLISHABLE_KEY = 'mock_pub_key';
     process.env.SUPABASE_SECRET_KEY = 'mock_service_key';
     setMockFetch(async (url) => {
@@ -375,7 +377,7 @@ async function runTests() {
 
   function setupAuth() {
     resetEnv();
-    process.env.SUPABASE_URL = 'https://mock-test.supabase.co';
+    process.env.SUPABASE_URL = STAGING_URL;
     process.env.SUPABASE_PUBLISHABLE_KEY = 'mock_pub_key';
     process.env.SUPABASE_SECRET_KEY = 'mock_service_key';
     setMockFetch(async (url) => {
@@ -596,7 +598,7 @@ async function runTests() {
     test('3e. Response JSON contains zero leaked secrets or internal credentials',
       !bodyStr.includes('mock_service_key') &&
       !bodyStr.includes('mock_pub_key') &&
-      !bodyStr.includes('https://mock-test.supabase.co'),
+      !bodyStr.includes(STAGING_URL),
       'Clean response payload'
     );
   }

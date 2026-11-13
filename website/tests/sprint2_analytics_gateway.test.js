@@ -43,9 +43,11 @@ function createMockRes() {
 }
 
 const origEnv = Object.assign({}, process.env);
+const STAGING_URL = 'https://xtyszeuvtfcgognkrwxv.supabase.co';
 
 function resetEnv() {
   process.env = Object.assign({}, origEnv);
+  process.env.VERCEL_ENV = 'preview';
 }
 
 let mockFetchHandler = null;
@@ -120,7 +122,7 @@ async function runBattery() {
   console.log('\n--- 2. Authentication Enforcement on Every Endpoint ---');
   {
     resetEnv();
-    process.env.SUPABASE_URL = 'https://valid-project.supabase.co';
+    process.env.SUPABASE_URL = STAGING_URL;
     process.env.SUPABASE_PUBLISHABLE_KEY = 'valid_pub_key';
     process.env.SUPABASE_SECRET_KEY = 'valid_secret_key';
 
@@ -158,7 +160,7 @@ async function runBattery() {
   console.log('\n--- 3. HTTP Method Enforcement & Unknown Routes ---');
   {
     resetEnv();
-    process.env.SUPABASE_URL = 'https://valid-project.supabase.co';
+    process.env.SUPABASE_URL = STAGING_URL;
     process.env.SUPABASE_PUBLISHABLE_KEY = 'valid_pub_key';
     process.env.SUPABASE_SECRET_KEY = 'valid_secret_key';
 
@@ -202,7 +204,7 @@ async function runBattery() {
   // Setup valid mock auth environment for endpoint verification
   function setupValidAuth() {
     resetEnv();
-    process.env.SUPABASE_URL = 'https://valid-project.supabase.co';
+    process.env.SUPABASE_URL = STAGING_URL;
     process.env.SUPABASE_PUBLISHABLE_KEY = 'valid_pub_key';
     process.env.SUPABASE_SECRET_KEY = 'valid_secret_key';
 
@@ -473,7 +475,7 @@ async function runBattery() {
     );
 
     report('Security: Response never leaks service keys, anon keys, or database URLs',
-      !bodyStr.includes('valid_secret_key') && !bodyStr.includes('valid_pub_key') && !bodyStr.includes('valid-project.supabase.co'),
+      !bodyStr.includes('valid_secret_key') && !bodyStr.includes('valid_pub_key') && !bodyStr.includes(STAGING_URL),
       `Secret leak detected in: ${bodyStr}`
     );
     restoreFetch();

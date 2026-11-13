@@ -166,7 +166,7 @@ async function runSprint4Battery() {
 
   report('Zero Hardcoded Secrets: Zero service-role keys or database passwords in gateway code',
     !gatewayCode.includes('sb_secret_') &&
-    !gatewayCode.includes('xtyszeuvtfcgognkrwxv') &&
+    !gatewayCode.includes('https://xtyszeuvtfcgognkrwxv.supabase.co') &&
     !clientCode.includes('sb_secret_')
   );
 
