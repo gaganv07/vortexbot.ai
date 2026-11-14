@@ -212,6 +212,16 @@ async function verifyAuthUser(c, token) {
   }
 }
 
+function serviceApiHeaders(serviceKey, extra) {
+  const headers = Object.assign({ apikey: serviceKey, Accept: 'application/json' }, extra || {});
+  // Modern Supabase opaque secret keys must NOT be sent in Authorization: Bearer.
+  // Legacy JWT service-role keys (starting with eyJ) retain Authorization: Bearer for backward compatibility.
+  if (typeof serviceKey === 'string' && serviceKey.startsWith('eyJ')) {
+    headers.Authorization = 'Bearer ' + serviceKey;
+  }
+  return headers;
+}
+
 /**
  * Verifies operator status against canonical vortex_authorized_operators table.
  * Strictly fail-closed: missing operator, inactive operator, unauthorized role,
@@ -230,11 +240,7 @@ async function checkOperatorStatus(c, email) {
 
     const res = await fetch(c.supabaseUrl + '/rest/v1/vortex_authorized_operators?' + query, {
       method: 'GET',
-      headers: {
-        'apikey': c.serviceKey,
-        'Authorization': 'Bearer ' + c.serviceKey,
-        'Accept': 'application/json'
-      },
+      headers: serviceApiHeaders(c.serviceKey),
       signal: AbortSignal.timeout(4000)
     });
 
@@ -1065,5 +1071,6 @@ handler.expectedSupabaseProjectRef = expectedSupabaseProjectRef;
 handler.STAGING_PROJECT_REF = STAGING_PROJECT_REF;
 handler.PRODUCTION_PROJECT_REF = PRODUCTION_PROJECT_REF;
 handler.SUPPORTED_LOCAL_REFS = SUPPORTED_LOCAL_REFS;
+handler.serviceApiHeaders = serviceApiHeaders;
 
 module.exports = handler;

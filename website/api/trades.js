@@ -298,8 +298,11 @@ async function getUser(c, token) {
 
 function serviceApiHeaders(c, extra) {
   const headers = Object.assign({ apikey: c.secretKey, Accept: 'application/json' }, extra || {});
-  // Supabase REST requires the service key in both apikey and Bearer authorization headers.
-  headers.Authorization = 'Bearer ' + c.secretKey;
+  // Modern Supabase secret keys (sb_secret_...) are opaque tokens and must NOT be sent in Authorization: Bearer.
+  // Legacy JWT service-role keys (starting with eyJ) retain Authorization: Bearer for backward compatibility.
+  if (typeof c.secretKey === 'string' && c.secretKey.startsWith('eyJ')) {
+    headers.Authorization = 'Bearer ' + c.secretKey;
+  }
   return headers;
 }
 
@@ -634,5 +637,6 @@ handler.SUPPORTED_LOCAL_REFS = SUPPORTED_LOCAL_REFS;
 handler.getConfig = config;
 handler.readyForIngest = readyForIngest;
 handler.readyForRead = readyForRead;
+handler.serviceApiHeaders = serviceApiHeaders;
 
 module.exports = handler;
