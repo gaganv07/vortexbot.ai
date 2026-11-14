@@ -62,12 +62,28 @@
           publishableKey: cfg.publishableKey
         };
 
+        // Standard Supabase session storage: align storage key with login.html, dashboard.html,
+        // and account.html (which use Supabase SDK default sb-<project_ref>-auth-token).
+        // Backward-compatibility: if legacy vortex_auth_session exists in localStorage, migrate it.
+        try {
+          if (typeof localStorage !== 'undefined' && cfg.supabaseUrl) {
+            const hostParts = new URL(cfg.supabaseUrl).hostname.toLowerCase().split('.');
+            const projectRef = hostParts[0];
+            const standardKey = 'sb-' + projectRef + '-auth-token';
+            if (!localStorage.getItem(standardKey)) {
+              const legacySession = localStorage.getItem('vortex_auth_session') || localStorage.getItem('vortext_auth_session');
+              if (legacySession) {
+                localStorage.setItem(standardKey, legacySession);
+              }
+            }
+          }
+        } catch (_) {}
+
         supabaseClient = sdk.createClient(cfg.supabaseUrl, cfg.publishableKey, {
           auth: {
             persistSession: true,
             autoRefreshToken: true,
-            detectSessionInUrl: true,
-            storageKey: 'vortex_auth_session'
+            detectSessionInUrl: true
           }
         });
 
@@ -380,10 +396,16 @@
         remoteError = new Error('Supabase Auth client unavailable for remote sign-out');
       }
 
-      // Safe local credentials cleanup across both vortex_* and legacy vortext_* keys
+      // Safe local credentials cleanup across standard, vortex_* and legacy vortext_* keys
       let localCleared = false;
       try {
         if (typeof localStorage !== 'undefined') {
+          if (activeConfig && activeConfig.supabaseUrl) {
+            try {
+              const ref = new URL(activeConfig.supabaseUrl).hostname.split('.')[0];
+              localStorage.removeItem('sb-' + ref + '-auth-token');
+            } catch (_) {}
+          }
           localStorage.removeItem('vortex_token');
           localStorage.removeItem('vortext_token');
           localStorage.removeItem('vortex_user');

@@ -72,6 +72,8 @@ dist/
 *.egg-info/
 *.egg
 *.whl
+.vercel/
+.vercelignore
 
 # ── Jupyter Notebooks ────────────────────────────────────────
 .ipynb_checkpoints/

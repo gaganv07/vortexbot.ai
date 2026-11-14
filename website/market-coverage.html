@@ -18,12 +18,20 @@ main{padding:72px 0 88px}.eyebrow{color:#2563eb;font-size:11px;font-weight:800;l
 </head>
 <body>
 <header class="site-header"><div class="wrap"><nav class="nav" aria-label="Main navigation">
-<a class="brand-link" href="/" aria-label="VORTEX AI home"><img class="brand-logo" src="/vortext-ai-logo.webp?v=20261112-1" alt="VORTEX AI"></a>
+<a class="brand-link" href="/" aria-label="VORTEX AI home"><img class="brand-logo" src="/vortex-ai-logo.webp?v=20261114-1" alt="VORTEX AI"></a>
 <div class="nav-links" id="site-links">
-<a href="/#features">Platform</a><a href="/research.html">Research</a><a href="/market-coverage.html" aria-current="page">Market coverage</a><a href="/#how-it-works">How it works</a><a href="/getting-started.html">Getting started</a><a href="/faq.html">FAQ</a><a href="/contact.html">Contact</a>
-<a class="mobile-only" href="/login.html">Sign in</a><a class="mobile-only mobile-nav-primary" href="/login.html?next=dashboard.html">Open dashboard</a>
+<a href="/#features">Platform</a>
+<a href="/research">Research</a>
+<a href="/market-coverage" aria-current="page">Market coverage</a>
+<a href="/#how-it-works">How it works</a>
+<a href="/pricing">Plans</a>
+<a href="/getting-started">Getting started</a>
+<a href="/faq">FAQ</a>
+<a href="/contact">Contact</a>
+<a class="mobile-only mobile-nav-action" href="/login">Sign in</a>
+<a class="mobile-only mobile-nav-action mobile-nav-primary" href="/login?next=dashboard">Open dashboard</a>
 </div>
-<div class="nav-actions"><a class="btn btn-outline" href="/login.html">Sign in</a><a class="btn btn-primary" href="/login.html?next=dashboard.html">Open dashboard</a><button class="menu-toggle" id="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="site-links"><span></span><span></span><span></span></button></div>
+<div class="nav-actions"><a class="btn btn-outline" href="/login">Sign in</a><a class="btn btn-primary" href="/login?next=dashboard">Open dashboard</a><button class="menu-toggle" id="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="site-links"><span></span><span></span><span></span></button></div>
 </nav></div></header>
 <main class="wrap">
 <section class="intro"><div class="eyebrow">Configured instrument scope</div><h1>Market coverage</h1><p>VORTEX AI is currently configured to monitor seven instruments through its MT5 integration. Actual availability depends on the connected broker, account permissions, symbol naming and trading hours.</p></section>
@@ -37,9 +45,9 @@ main{padding:72px 0 88px}.eyebrow{color:#2563eb;font-size:11px;font-weight:800;l
 <article class="instrument"><div class="symbol">US30</div><div class="category">Dow Jones 30 index CFD (broker naming may vary)</div><span class="status">Configured instrument</span></article>
 <article class="instrument"><div class="symbol">BTCUSD</div><div class="category">Bitcoin / US dollar</div><span class="status">Configured instrument</span></article>
 </section>
-<section class="section"><h2>Broker compatibility is account-specific</h2><p>A symbol appearing in a broker's MT5 terminal does not by itself establish compatibility. The exact broker server, account type, symbol suffix, contract specification, trading hours and available market history must be verified before the integration can be considered supported.</p><ul><li>Confirm the exact symbol and any broker-specific suffix.</li><li>Check contract size, tick size, spread, margin, commission and trading schedule with the broker.</li><li>Verify that the account type and server provide the data required by the integration.</li></ul><div class="actions"><a class="btn btn-primary" href="/getting-started.html">Read setup guide</a><a class="btn btn-outline" href="/contact.html">Contact support</a></div></section>
+<section class="section"><h2>Broker compatibility is account-specific</h2><p>A symbol appearing in a broker's MT5 terminal does not by itself establish compatibility. The exact broker server, account type, symbol suffix, contract specification, trading hours and available market history must be verified before the integration can be considered supported.</p><ul><li>Confirm the exact symbol and any broker-specific suffix.</li><li>Check contract size, tick size, spread, margin, commission and trading schedule with the broker.</li><li>Verify that the account type and server provide the data required by the integration.</li></ul><div class="actions"><a class="btn btn-primary" href="/getting-started">Read setup guide</a><a class="btn btn-outline" href="/contact">Contact support</a></div></section>
 </main>
-<footer><div class="wrap footer"><span>© VORTEX AI · Restricted preview · Trading involves risk.</span><div class="footer-links"><a href="/">Home</a><a href="/market-coverage.html">Market coverage</a><a href="/getting-started.html">Getting started</a><a href="/faq.html">FAQ</a><a href="/contact.html">Contact</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a></div></div></footer>
+<footer><div class="wrap footer"><span>© VORTEX AI · Restricted preview · Trading involves risk.</span><div class="footer-links"><a href="/">Home</a><a href="/market-coverage">Market coverage</a><a href="/getting-started">Getting started</a><a href="/faq">FAQ</a><a href="/contact">Contact</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a></div></div></footer>
 <script>(function(){const b=document.getElementById("menu-toggle"),l=document.getElementById("site-links");if(!b||!l)return;function close(){b.setAttribute("aria-expanded","false");b.setAttribute("aria-label","Open navigation");l.classList.remove("is-open");}b.addEventListener("click",function(){const o=b.getAttribute("aria-expanded")==="true";b.setAttribute("aria-expanded",String(!o));b.setAttribute("aria-label",o?"Open navigation":"Close navigation");l.classList.toggle("is-open",!o);});l.addEventListener("click",e=>{if(e.target.closest("a"))close();});document.addEventListener("keydown",e=>{if(e.key==="Escape")close();});window.addEventListener("resize",()=>{if(innerWidth>980)close();});})();</script>
 <script src="/assistant.js?v=1" defer></script>
 </body></html>
