@@ -1,0 +1,185 @@
+/* VORTEX AI mobile UI normalization — navigation, form fields and touch controls */
+:root {
+  --mobile-control-height: 46px;
+  --mobile-control-radius: 10px;
+  --mobile-focus: #2563eb;
+}
+html, body { max-width: 100%; }
+img, svg, video, iframe { max-width: 100%; }
+button, a, input, select, textarea { -webkit-tap-highlight-color: transparent; }
+button, .btn, input[type="button"], input[type="submit"], input[type="reset"] {
+  min-height: 44px;
+  touch-action: manipulation;
+}
+input, select, textarea {
+  box-sizing: border-box;
+  max-width: 100%;
+  min-width: 0;
+}
+input::placeholder, textarea::placeholder {
+  color: #64748b;
+  opacity: 1;
+}
+:focus-visible {
+  outline: 3px solid #93c5fd;
+  outline-offset: 3px;
+}
+@media (max-width: 980px) {
+  /* Normalize the different public-page navigation implementations. */
+  header nav { position: relative; min-width: 0; }
+  header nav .nav-links,
+  header nav .navlinks,
+  header nav #site-links {
+    display: none !important;
+    position: absolute;
+    top: calc(100% + 1px);
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    width: 100%;
+    max-width: 100%;
+    max-height: calc(100vh - 84px);
+    max-height: calc(100dvh - 84px);
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 0;
+    padding: 8px 14px;
+    white-space: normal;
+    background: #fff;
+    color: #0f172a;
+    border: 1px solid #e2e8f0;
+    border-radius: 0 0 14px 14px;
+    box-shadow: 0 18px 38px rgba(15, 23, 42, .16);
+  }
+  header nav .nav-links.is-open,
+  header nav .navlinks.is-open,
+  header nav #site-links.is-open {
+    display: flex !important;
+  }
+  header nav .nav-links > a,
+  header nav .navlinks > a,
+  header nav #site-links > a {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 100%;
+    min-width: 0;
+    min-height: 48px;
+    padding: 12px 10px;
+    color: #334155;
+    font-size: 15px;
+    line-height: 1.35;
+    font-weight: 600;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    border: 0;
+    border-bottom: 1px solid #e2e8f0;
+    border-radius: 0;
+    text-align: left;
+  }
+  header nav .nav-links > a:last-child,
+  header nav .navlinks > a:last-child,
+  header nav #site-links > a:last-child { border-bottom: 0; }
+  header nav .nav-links > a:hover,
+  header nav .navlinks > a:hover,
+  header nav #site-links > a:hover {
+    color: #1d4ed8;
+    background: #f8fafc;
+  }
+  header nav .mobile-only { display: flex !important; }
+  header nav .mobile-nav-primary,
+  header nav .mobile-nav-cta {
+    margin-top: 6px;
+    padding: 12px 14px;
+    color: #fff !important;
+    background: #2563eb;
+    border: 1px solid #2563eb;
+    border-radius: 9px;
+    font-weight: 750;
+  }
+  header nav .menu-toggle,
+  header nav .nav-toggle {
+    display: inline-flex !important;
+    flex: 0 0 44px;
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+    margin-left: auto;
+  }
+  header nav .nav-actions { min-width: 0; flex: 0 0 auto; }
+}
+@media (max-width: 760px) {
+  html { scroll-padding-top: 82px; }
+  header nav { min-height: 68px; height: auto; gap: 10px; }
+  header nav .brand-link,
+  header nav .logo { flex: 0 1 auto; width: clamp(88px, 28vw, 112px); max-width: 34vw; }
+  header nav .nav-actions > .btn,
+  header nav .nav-actions > .signin { display: none !important; }
+  header nav .nav-links,
+  header nav .navlinks,
+  header nav #site-links {
+    max-height: calc(100vh - 76px);
+    max-height: calc(100dvh - 76px);
+  }
+  .hero-actions, .actions, .form-actions, .button-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .hero-actions > .btn,
+  .actions > .btn,
+  .form-actions > button,
+  .form-actions > .btn,
+  .button-row > button,
+  .button-row > .btn {
+    flex: 1 1 220px;
+    min-width: 0;
+  }
+  input, select, textarea {
+    width: 100%;
+    min-height: var(--mobile-control-height);
+    font-size: 16px;
+    line-height: 1.4;
+  }
+  input::placeholder, textarea::placeholder {
+    font-size: 15px;
+    line-height: 1.4;
+  }
+  button, .btn, input[type="button"], input[type="submit"], input[type="reset"] {
+    min-height: 46px;
+    max-width: 100%;
+    white-space: normal;
+    overflow-wrap: anywhere;
+    line-height: 1.3;
+  }
+  .wrap, main, section, article, form, fieldset, .panel, .card, .grid {
+    min-width: 0;
+    max-width: 100%;
+  }
+  table { max-width: 100%; }
+}
+@media (max-width: 480px) {
+  .hero-actions, .actions, .form-actions, .button-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .hero-actions > .btn,
+  .actions > .btn,
+  .form-actions > button,
+  .form-actions > .btn,
+  .button-row > button,
+  .button-row > .btn { width: 100%; flex: 1 1 auto; }
+  .panel, .card, .section { min-width: 0; }
+  input, select, textarea { border-radius: var(--mobile-control-radius); }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
