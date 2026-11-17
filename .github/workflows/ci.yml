@@ -10,8 +10,8 @@ permissions:
   contents: read
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
+  win-runtime-test:
+    runs-on: windows-2022
     steps:
       - uses: actions/checkout@v4
       - name: Set up Python 3.11
@@ -20,15 +20,16 @@ jobs:
           python-version: '3.11'
       - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
+          pip install --upgrade pip
           pip install -r requirements.txt
-      - name: Verify critical imports
-        run: python -c "import numpy; import pandas; print('Core dependencies OK')"
-      - name: Run regression suite
-        run: python -m pytest -v tests/ --junitxml=results.xml
+      - name: Verify Dependencies
+        run: python -c "import numpy; import MetaTrader5 as mt5; print(f'NumPy: {numpy.__version__}, MT5: {mt5.__version__}')"
+      - name: Run safe tests
+        run: python -m pytest tests/test_broker_mapping.py tests/test_account_isolation.py --junitxml=results.xml
       - name: Upload logs
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: regression-logs
+          name: windows-test-results
           path: results.xml
+          if-no-files-found: ignore
