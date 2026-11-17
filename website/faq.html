@@ -1,73 +1,89 @@
 <!doctype html>
 <html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#050b09"><meta name="description" content="Answers about VORTEX AI, MT5 compatibility, starting capital, data and trading risk."><title>Frequently asked questions | VORTEX AI</title><link rel="icon" type="image/svg+xml" href="/favicon.svg?v=20261112-3"><style>
-:root{color-scheme:dark;--bg:#050b09;--panel:#0c1513;--line:#203c34;--text:#f2faf7;--muted:#a1b9b0;--teal:#00e6ad;--cyan:#bfffea;--amber:#ffd58a}
-*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 78% -8%,#123d32 0,transparent 45%),var(--bg);color:var(--text);font:15px/1.65 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}a{color:var(--cyan)}.wrap{width:min(1000px,calc(100% - 32px));margin:auto}header{border-bottom:1px solid #17372d;background:#050b09e8}nav{height:82px;display:flex;align-items:center;justify-content:space-between;gap:18px}.logo{width:118px;max-width:32vw;height:auto;display:block}.navlinks,.footlinks{display:flex;gap:18px;flex-wrap:wrap;font-size:12px;color:var(--muted)}.navlinks a,.footlinks a{color:var(--muted);text-decoration:none}.navlinks a:hover,.footlinks a:hover{color:var(--teal)}main{padding:52px 0 70px}.kicker{color:var(--teal);font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase}h1{font-size:clamp(32px,5vw,48px);line-height:1.08;letter-spacing:-.04em;margin:10px 0 12px}h2{font-size:21px;line-height:1.25;margin:25px 0 8px}h3{font-size:16px;margin:0 0 6px}p,li{color:var(--muted)}p{margin:8px 0 15px}.lead{font-size:17px;max-width:740px}.panel,.card{background:var(--panel);border:1px solid var(--line);border-radius:15px;padding:22px;margin:15px 0}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}.grid .card{margin:0}.price{font-size:25px;color:var(--teal);font-weight:800;margin:12px 0}.pill{display:inline-block;border:1px solid #31564a;border-radius:99px;padding:4px 9px;color:var(--teal);font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}.btn{display:inline-flex;align-items:center;justify-content:center;padding:10px 15px;border-radius:10px;background:var(--teal);border:1px solid var(--teal);color:#061d15;text-decoration:none;font-weight:800;font-size:13px}.notice{border-left:3px solid var(--amber);background:#261d0e;color:#ffdfaa;padding:14px 16px;border-radius:0 10px 10px 0;margin:19px 0}.muted{color:var(--muted)}.faq{border-bottom:1px solid var(--line);padding:17px 0}.faq:last-child{border:0}.faq h3{font-size:15px}.faq p{margin-bottom:0}footer{border-top:1px solid var(--line);padding:24px 0 30px;color:#81988e;font-size:11px}.foot{display:flex;justify-content:space-between;align-items:flex-start;gap:18px}.back{color:var(--muted);text-decoration:none;font-size:12px}
-@media(max-width:720px){.grid{grid-template-columns:1fr}.foot{display:block}.footlinks{margin-top:12px}.navlinks{gap:10px;font-size:11px}nav{height:74px}.logo{width:96px}main{padding-top:38px}}
-
-/* Shared responsive header and content safeguards */
-html{scroll-padding-top:88px}
-body{max-width:100%;overflow-x:hidden}
-.wrap,main,.panel,.card,.grid,.foot{min-width:0}
-header{position:sticky;top:0;z-index:30;background:#050b09ed;border-bottom:1px solid #17372d;backdrop-filter:blur(12px)}
-nav{position:relative;min-width:0;gap:clamp(8px,1.6vw,18px)}
-nav>a:first-child{flex:0 0 auto;min-width:0}
-.logo{width:116px;max-width:34vw;height:auto;object-fit:contain}
-.navlinks{display:flex;align-items:center;justify-content:center;gap:clamp(10px,1.4vw,18px);flex-wrap:nowrap;min-width:0}
-.navlinks a{display:inline-flex;align-items:center;min-height:44px;white-space:nowrap}
-.back{flex:0 0 auto;white-space:nowrap}
-.menu-toggle{display:none;flex:0 0 42px;width:42px;height:42px;align-items:center;justify-content:center;gap:4px;flex-direction:column;border:1px solid #31564a;border-radius:10px;background:#12221d;color:var(--text);padding:8px;cursor:pointer}
-.menu-toggle .bar{display:block;width:19px;height:2px;border-radius:2px;background:currentColor;transition:transform .18s ease,opacity .18s ease}
-.menu-toggle.is-open .bar:nth-child(1){transform:translateY(6px) rotate(45deg)}
-.menu-toggle.is-open .bar:nth-child(2){opacity:0}
-.menu-toggle.is-open .bar:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
-img,svg,video,iframe{max-width:100%}
-button,.btn{min-height:44px;max-width:100%;white-space:normal;text-align:center;touch-action:manipulation}
-p,li,h1,h2,h3{overflow-wrap:anywhere}
-pre,code{max-width:100%;overflow-wrap:anywhere}
-@media(max-width:760px){
-  html{scroll-padding-top:78px}
-  nav{height:72px;gap:10px}
-  .logo{width:96px;max-width:28vw}
-  .menu-toggle{display:inline-flex}
-  .navlinks{display:none}
-  .navlinks.is-open{display:grid;position:absolute;left:0;right:0;top:calc(100% + 1px);z-index:31;grid-template-columns:repeat(2,minmax(0,1fr));gap:0;padding:8px 14px;border:1px solid #31564a;border-radius:0 0 14px 14px;background:#07110eef;box-shadow:0 16px 35px #0009;max-height:calc(100vh - 90px);overflow-y:auto}
-  .navlinks.is-open a{min-width:0;min-height:46px;padding:11px 8px;border-bottom:1px solid #1b382e;white-space:normal;overflow-wrap:anywhere}
-  .navlinks.is-open a:nth-last-child(-n+2){border-bottom:0}
-  .back{font-size:12px}
+:root{color-scheme:light;--bg:#fff;--panel:#fff;--line:#e2e8f0;--text:#0f172a;--muted:#475569;--teal:#2563eb;--cyan:#2563eb;--amber:#92400e}
+*{box-sizing:border-box}html{scroll-padding-top:92px}body{margin:0;background:#fff;color:#0f172a;font:15px/1.65 Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;line-height:1.65}
+a{color:#2563eb;text-decoration:none}.wrap{width:min(1240px,calc(100% - 48px));margin:auto}
+.site-header{position:sticky;top:0;z-index:20;background:#ffffffed;border-bottom:1px solid #e2e8f0;backdrop-filter:blur(14px)}
+.nav{height:76px;display:flex;align-items:center;justify-content:space-between;gap:22px;position:relative}
+.brand-link{display:block;flex:0 0 auto;width:132px}
+.brand-logo{display:block;width:100%;height:auto;max-height:58px;object-fit:contain}
+.nav-links{display:flex;align-items:center;gap:clamp(12px,2vw,27px);font-size:14px}
+.nav-links a{color:#475569;text-decoration:none;font-weight:500;white-space:nowrap}
+.nav-links a:hover,.nav-links a[aria-current=page]{color:#2563eb}
+.nav-actions{display:flex;align-items:center;gap:10px}
+.nav-actions .btn{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:9px 16px;border-radius:9px;text-decoration:none;font-size:13px;font-weight:700}
+.nav-actions .btn-outline{background:#fff;border:1px solid #cbd5e1;color:#0f172a}
+.nav-actions .btn-primary{background:#2563eb;border:1px solid #2563eb;color:#fff}
+.menu-toggle{display:none;width:42px;height:40px;align-items:center;justify-content:center;gap:5px;flex-direction:column;border:1px solid #cbd5e1;background:#fff;color:#0f172a;padding:8px;border-radius:9px;cursor:pointer}
+.menu-toggle span{display:block;width:19px;height:2px;background:currentColor;border-radius:2px}
+.mobile-only{display:none}
+main{padding:54px 0 76px}
+h1{font-size:clamp(32px,5vw,48px);line-height:1.1;letter-spacing:-.04em;margin:10px 0 14px;color:#0f172a}
+h2{font-size:22px;line-height:1.25;margin:28px 0 10px;color:#0f172a}
+h3{font-size:16px;margin:0 0 8px;color:#0f172a}
+p,li{color:#475569;margin:8px 0 14px}
+.lead{font-size:17px;max-width:760px;color:#475569}
+.kicker{color:#2563eb;font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase}
+.pill{display:inline-block;border:1px solid #dbeafe;background:#eff6ff;border-radius:99px;padding:4px 10px;color:#2563eb;font-size:11px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.panel,.card{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:24px;margin:20px 0;box-shadow:0 4px 18px #0f172a08}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px;margin:20px 0}
+.grid .card{margin:0}
+.price{font-size:26px;color:#2563eb;font-weight:800;margin:12px 0}
+.btn{display:inline-flex;align-items:center;justify-content:center;padding:10px 18px;border-radius:8px;background:#2563eb;border:1px solid #2563eb;color:#fff;text-decoration:none;font-weight:700;font-size:13px;transition:background .15s ease}
+.btn:hover{background:#1d4ed8;color:#fff}
+.notice{border:1px solid #dbeafe;border-left:4px solid #2563eb;background:#eff6ff;color:#334155;padding:14px 18px;border-radius:8px;margin:20px 0}
+.muted{color:#64748b}
+.faq{border-bottom:1px solid #e2e8f0;padding:20px 0}
+.faq:last-child{border:0}
+.faq h3{font-size:16px}
+.faq p{margin-bottom:0}
+footer{border-top:1px solid #e2e8f0;padding:26px 0 32px;color:#64748b;font-size:12px;background:#fff}
+.foot{display:flex;justify-content:space-between;align-items:flex-start;gap:18px}
+.footlinks{display:flex;gap:18px;flex-wrap:wrap;font-size:12px}
+.footlinks a{color:#475569}
+.footlinks a:hover{color:#2563eb}
+@media(max-width:980px){
+  .wrap{width:calc(100% - 36px)}
+  .nav{height:72px}
+  .brand-link{width:116px}
+  .nav-links{display:none}
+  .menu-toggle{display:flex}
+  .nav-links.is-open{display:flex;position:absolute;left:0;right:0;top:calc(100% + 1px);align-items:stretch;flex-direction:column;gap:0;padding:8px 14px;background:#fff;border:1px solid #e2e8f0;border-radius:0 0 12px 12px;box-shadow:0 18px 35px #0f172a18}
+  .nav-links.is-open a{padding:12px 6px;border-bottom:1px solid #e2e8f0;white-space:normal}
+  .nav-links.is-open a:last-child{border-bottom:0}
+  .nav-links .mobile-only{display:block}
+  .nav-links .mobile-nav-action{display:block}
+  .nav-links .mobile-nav-primary{color:#2563eb;font-weight:700}
+}
+@media(max-width:640px){
   .wrap{width:calc(100% - 24px)}
+  .nav{height:68px}
+  .brand-link{width:104px}
+  .nav-actions>.btn{display:none}
   main{padding:36px 0 48px}
   .panel,.card{padding:18px}
-  .grid{grid-template-columns:minmax(0,1fr)}
-  .foot{display:block}
-  .footlinks{margin-top:12px}
+  .grid{grid-template-columns:1fr}
+  .foot{flex-direction:column;gap:12px}
 }
-@media(max-width:360px){
-  nav{gap:7px}
-  .logo{width:88px}
-  .menu-toggle{flex-basis:40px;width:40px;height:40px}
-  .back{font-size:11px}
-}
-@media(prefers-reduced-motion:reduce){.menu-toggle .bar{transition:none}}
-
-
-/* VORTEX AI institutional public-site design system */
-:root{color-scheme:light;--bg:#fff;--panel:#fff;--line:#e2e8f0;--text:#0f172a;--muted:#475569;--teal:#2563eb;--cyan:#2563eb;--amber:#92400e}
-html{scroll-padding-top:92px}body{background:#fff!important;color:#0f172a!important;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif!important;line-height:1.65}
-a{color:#2563eb}.site-header{position:sticky;top:0;z-index:20;background:#ffffffed;border-bottom:1px solid #e2e8f0;backdrop-filter:blur(14px)}.site-header .wrap{width:min(1440px,calc(100% - 64px));margin:auto}.nav{height:76px;display:flex;align-items:center;justify-content:space-between;gap:22px;position:relative}.brand-link{display:block;flex:0 0 auto;width:132px}.brand-logo{display:block;width:100%;height:auto;max-height:58px;object-fit:contain}.nav-links{display:flex;align-items:center;gap:clamp(12px,2vw,27px);font-size:14px}.nav-links a{color:#475569;text-decoration:none;font-weight:500;white-space:nowrap}.nav-links a:hover,.nav-links a[aria-current=page]{color:#2563eb}.nav-actions{display:flex;align-items:center;gap:10px}.nav-actions .btn{display:inline-flex;align-items:center;justify-content:center;min-height:42px;padding:9px 16px;border-radius:9px;text-decoration:none;font-size:13px;font-weight:700}.nav-actions .btn-outline{background:#fff;border:1px solid #cbd5e1;color:#0f172a}.nav-actions .btn-primary{background:#2563eb;border:1px solid #2563eb;color:#fff}.menu-toggle{display:none;width:42px;height:40px;align-items:center;justify-content:center;gap:5px;flex-direction:column;border:1px solid #cbd5e1;background:#fff;color:#0f172a;padding:8px;border-radius:9px;cursor:pointer}.menu-toggle span{display:block;width:19px;height:2px;background:currentColor;border-radius:2px}.mobile-only{display:none}
-main{background:transparent!important;color:#0f172a!important}h1,h2,h3{color:#0f172a}p,li{color:#475569}.lead,.muted{color:#475569}.panel,.card,.feature-card,.step,.final-cta,.metrics-shell{background:#fff!important;border:1px solid #e2e8f0!important;border-radius:11px!important;box-shadow:0 4px 18px #0f172a08!important}.kicker,.pill{color:#2563eb!important}.pill{border-color:#dbeafe!important;background:#eff6ff!important}.btn,.actions .btn{background:#2563eb!important;border:1px solid #2563eb!important;color:#fff!important;border-radius:8px!important}.btn.secondary,.actions .btn.secondary{background:#fff!important;border-color:#cbd5e1!important;color:#0f172a!important}.status,.notice,.release-note{background:#eff6ff!important;border:1px solid #dbeafe!important;border-left:3px solid #2563eb!important;color:#334155!important;border-radius:8px!important}.status strong,.notice strong{color:#0f172a}.foot,footer{border-color:#e2e8f0!important;color:#64748b!important;background:#fff!important}.footlinks a,.footer-links a{color:#475569!important}.footlinks a:hover,.footer-links a:hover{color:#2563eb!important}.faq{border-color:#e2e8f0!important}
-@media(max-width:980px){.site-header .wrap{width:calc(100% - 36px)}.nav{height:72px}.brand-link{width:116px}.nav-links{display:none}.menu-toggle{display:flex}.nav-links.is-open{display:flex;position:absolute;left:0;right:0;top:calc(100% + 1px);align-items:stretch;flex-direction:column;gap:0;padding:8px 14px;background:#fff;border:1px solid #e2e8f0;border-radius:0 0 12px 12px;box-shadow:0 18px 35px #0f172a18}.nav-links.is-open a{padding:12px 6px;border-bottom:1px solid #e2e8f0;white-space:normal}.nav-links.is-open a:last-child{border-bottom:0}.nav-links .mobile-only{display:block}.nav-links .mobile-nav-action{display:block}.nav-links .mobile-nav-primary{color:#2563eb;font-weight:700}}
-@media(max-width:520px){.site-header .wrap{width:calc(100% - 24px)}.nav-actions>.btn{display:none}.brand-link{width:104px}.nav{height:68px}main{padding-top:34px!important}.panel,.card{padding:17px!important}}
 :focus-visible{outline:3px solid #93c5fd;outline-offset:3px}
 </style><link rel="stylesheet" href="/assistant.css?v=1">
 <link rel="stylesheet" href="/mobile-ui.css?v=20261115-1">
 </head>
 <body><header class="site-header"><div class="wrap"><nav class="nav" aria-label="Main navigation">
-<a class="brand-link" href="/" aria-label="VORTEX AI home"><img class="brand-logo" src="/vortext-ai-logo.webp?v=20261112-1" alt="VORTEX AI"></a>
+<a class="brand-link" href="/" aria-label="VORTEX AI home"><img class="brand-logo" src="/vortex-ai-logo.webp?v=20261114-1" alt="VORTEX AI"></a>
 <div class="nav-links" id="site-links">
-<a href="/#features">Platform</a><a href="/research.html">Research</a><a href="/market-coverage.html">Market coverage</a><a href="/#how-it-works">How it works</a><a href="/getting-started.html">Getting started</a><a href="/faq.html">FAQ</a><a href="/contact.html">Contact</a>
-<a class="mobile-only mobile-nav-action" href="/login.html">Sign in</a><a class="mobile-only mobile-nav-action mobile-nav-primary" href="/login.html?next=dashboard.html">Open dashboard</a>
+<a href="/#features">Platform</a>
+<a href="/research">Research</a>
+<a href="/market-coverage">Market coverage</a>
+<a href="/#how-it-works">How it works</a>
+<a href="/pricing">Plans</a>
+<a href="/getting-started">Getting started</a>
+<a href="/faq" aria-current="page">FAQ</a>
+<a href="/contact">Contact</a>
+<a class="mobile-only mobile-nav-action" href="/login">Sign in</a>
+<a class="mobile-only mobile-nav-action mobile-nav-primary" href="/login?next=dashboard">Open dashboard</a>
 </div>
-<div class="nav-actions"><a class="btn btn-outline btn-small" href="/login.html">Sign in</a><a class="btn btn-primary btn-small" href="/login.html?next=dashboard.html">Open dashboard</a><button class="menu-toggle" id="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="site-links"><span></span><span></span><span></span></button></div>
+<div class="nav-actions"><a class="btn btn-outline btn-small" href="/login">Sign in</a><a class="btn btn-primary btn-small" href="/login?next=dashboard">Open dashboard</a><button class="menu-toggle" id="menu-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="site-links"><span></span><span></span><span></span></button></div>
 </nav></div></header>
 <main class="wrap">
 <div class="kicker">Help centre</div><h1>Frequently asked questions</h1><p class="lead">Key details about the platform, supported instruments, MT5 connection and account funding.</p>
@@ -84,9 +100,9 @@ main{background:transparent!important;color:#0f172a!important}h1,h2,h3{color:#0f
 <div class="faq"><h3>Can anyone use email sign-in to create an account?</h3><p>No. The email sign-in link is configured for existing accounts only; it does not automatically create new users. The dashboard also checks the signed-in email against a server-side allowlist before returning trading data.</p></div>
 <div class="faq"><h3>Why might the dashboard show no trades?</h3><p>The dashboard requires a connected MT5 publisher, server-side feed credentials, an authorized signed-in account and a recent verified snapshot. No sample trades are presented as verified broker data.</p></div>
 <div class="faq"><h3>Should I share my MT5 password with support?</h3><p>No. Never send your broker password, one-time code, private API key, HMAC secret or full account credentials. Support may ask for a redacted screenshot, broker/server name and the approximate time of an issue.</p></div>
-</section><p><a class="btn" href="/contact.html">Contact support →</a></p>
+</section><p><a class="btn" href="/contact">Contact support →</a></p>
 </main>
-<footer><div class="wrap foot"><span>© VORTEX AI · Automated trading involves risk.</span><div class="footlinks"><a href="/getting-started.html">Getting started</a><a href="/pricing.html">Plans</a><a href="/faq.html">FAQ</a><a href="/contact.html">Contact & Support</a><a href="/privacy.html">Privacy</a><a href="/terms.html">Terms</a><a href="/">Home</a></div></div></footer>
+<footer><div class="wrap foot"><span>© VORTEX AI · Automated trading involves risk.</span><div class="footlinks"><a href="/getting-started">Getting started</a><a href="/pricing">Plans</a><a href="/faq">FAQ</a><a href="/contact">Contact & Support</a><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/">Home</a></div></div></footer>
 <script>
 (function(){
   const button=document.getElementById("menu-toggle");

@@ -24,9 +24,22 @@ function config() {
   const url = (process.env.SUPABASE_URL || process.env.VORTEX_PREVIEW_SUPABASE_URL || '').trim().replace(/\/+$/, '');
   const publishableKey = (process.env.SUPABASE_PUBLISHABLE_KEY || '').trim().replace(/[\r\n\s]+/g, '');
   const secretKey = (process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.VORTEX_PREVIEW_SUPABASE_SERVICE_ROLE_KEY || '').trim().replace(/[\r\n\s]+/g, '');
-  const secret = (process.env.VORTEXT_BOT_HMAC_SECRET || '').trim();
-  // Keep this aligned with app.vortext_dashboard.VortextDashboardPublisher.
-  const botId = (process.env.VORTEXT_BOT_ID || 'vortext-fleet').trim();
+  // Deterministic precedence: canonical VORTEX_BOT_HMAC_SECRET first, legacy VORTEXT_BOT_HMAC_SECRET fallback
+  const canonicalSecret = typeof process.env.VORTEX_BOT_HMAC_SECRET === 'string'
+    ? process.env.VORTEX_BOT_HMAC_SECRET.trim()
+    : '';
+  const legacySecret = typeof process.env.VORTEXT_BOT_HMAC_SECRET === 'string'
+    ? process.env.VORTEXT_BOT_HMAC_SECRET.trim()
+    : '';
+  const secret = canonicalSecret || legacySecret || '';
+  // Deterministic precedence: canonical VORTEX_BOT_ID first, legacy VORTEXT_BOT_ID fallback, final fallback 'vortex-main'
+  const canonicalBotId = typeof process.env.VORTEX_BOT_ID === 'string'
+    ? process.env.VORTEX_BOT_ID.trim()
+    : '';
+  const legacyBotId = typeof process.env.VORTEXT_BOT_ID === 'string'
+    ? process.env.VORTEXT_BOT_ID.trim()
+    : '';
+  const botId = (canonicalBotId || legacyBotId || 'vortex-main').trim();
   // Optional email fence; leave unset when all signed-in users should see shared feeds.
   const allowedEmails = (process.env.VORTEXT_DASHBOARD_ALLOWED_EMAILS || '')
     .split(',').map(function (s) { return s.trim().toLowerCase(); }).filter(Boolean);
@@ -285,8 +298,11 @@ async function getUser(c, token) {
 
 function serviceApiHeaders(c, extra) {
   const headers = Object.assign({ apikey: c.secretKey, Accept: 'application/json' }, extra || {});
-  // Supabase REST requires the service key in both apikey and Bearer authorization headers.
-  headers.Authorization = 'Bearer ' + c.secretKey;
+  // Modern Supabase secret keys (sb_secret_...) are opaque tokens and must NOT be sent in Authorization: Bearer.
+  // Legacy JWT service-role keys (starting with eyJ) retain Authorization: Bearer for backward compatibility.
+  if (typeof c.secretKey === 'string' && c.secretKey.startsWith('eyJ')) {
+    headers.Authorization = 'Bearer ' + c.secretKey;
+  }
   return headers;
 }
 
@@ -621,5 +637,6 @@ handler.SUPPORTED_LOCAL_REFS = SUPPORTED_LOCAL_REFS;
 handler.getConfig = config;
 handler.readyForIngest = readyForIngest;
 handler.readyForRead = readyForRead;
+handler.serviceApiHeaders = serviceApiHeaders;
 
 module.exports = handler;

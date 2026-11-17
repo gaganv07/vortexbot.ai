@@ -57,6 +57,10 @@
       "destination": "/getting-started.html"
     },
     {
+      "source": "/market-coverage",
+      "destination": "/market-coverage.html"
+    },
+    {
       "source": "/pricing",
       "destination": "/pricing.html"
     },

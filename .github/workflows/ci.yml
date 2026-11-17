@@ -1,0 +1,34 @@
+name: VORTEX CI Regression
+
+on:
+  push:
+    branches: [ "fix/trades-api-remediation-1" ]
+  pull_request:
+    branches: [ "fix/trades-api-remediation-1" ]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+      - name: Verify critical imports
+        run: python -c "import numpy; import pandas; print('Core dependencies OK')"
+      - name: Run regression suite
+        run: python -m pytest -v tests/ --junitxml=results.xml
+      - name: Upload logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: regression-logs
+          path: results.xml
