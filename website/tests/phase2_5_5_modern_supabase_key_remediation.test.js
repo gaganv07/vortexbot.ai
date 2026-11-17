@@ -22,7 +22,7 @@ const crypto = require('node:crypto');
 const tradesHandler = require('../api/trades.js');
 const analyticsHandler = require('../api/v1/analytics.js');
 
-const MOCK_MODERN_KEY = 'sb_secret_asyjnuiqibyzZY8DNKSJxg_xLY2ELyZ';
+const MOCK_MODERN_KEY = 'test-only-fixture-00000000000000000000000000000000';
 const MOCK_LEGACY_JWT = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ1Y3ppcWVrenlydHRnY294dGFzIiwicm9sZSI6InNlcnZpY2Vfcm9sZSJ9.mock_signature';
 
 test('--- Phase 2.5.5: Modern Supabase Key Compatibility Test Suite ---', async (t) => {
@@ -155,4 +155,5 @@ test('--- Phase 2.5.5: Modern Supabase Key Compatibility Test Suite ---', async 
   });
 
 });
+
 
