@@ -1,0 +1,45 @@
+/* Landing-page conversion scroll behavior. No layout-affecting animation properties. */
+html { scroll-behavior: smooth; scroll-padding-top: 96px; }
+.site-header { position: sticky; top: 0; z-index: 100; }
+.nav-actions .btn-primary { white-space: nowrap; }
+@media (max-width: 760px) {
+  .nav-actions { gap: 8px; }
+  .nav-actions .btn-outline { display: none !important; }
+  .nav-actions .btn-primary { display: inline-flex !important; min-height: 40px; padding: 8px 11px; font-size: 12px; }
+  .menu-toggle { width: 42px; height: 42px; flex-basis: 42px; }
+}
+html.scroll-reveals .scroll-reveal {
+  opacity: 0;
+  transform: translate3d(0, 12px, 0);
+  transition: opacity 300ms ease-out, transform 300ms ease-out;
+  will-change: opacity, transform;
+}
+html.scroll-reveals .scroll-reveal.is-revealed {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  will-change: auto;
+}
+.pricing-layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(250px, 290px); align-items: start; gap: 24px; }
+.pricing-main { min-width: 0; }
+.pricing-summary { position: sticky; top: 98px; align-self: start; }
+.pricing-summary-card { padding: 22px; border: 1px solid #dbe3ee; border-radius: 12px; background: #f8fafc; box-shadow: 0 8px 24px #0f172a0a; }
+.pricing-summary-kicker { display: block; color: #2563eb; font-size: 11px; font-weight: 800; letter-spacing: .12em; text-transform: uppercase; }
+.pricing-summary-value { display: block; margin-top: 10px; color: #0f172a; font-size: 30px; line-height: 1.15; font-variant-numeric: tabular-nums; }
+.pricing-summary-label { display: block; margin-top: 4px; color: #475569; font-size: 13px; }
+.pricing-summary dl { margin: 18px 0; }
+.pricing-summary dl div { display: flex; flex-direction: column; gap: 2px; padding: 10px 0; border-top: 1px solid #e2e8f0; }
+.pricing-summary dt { color: #64748b; font-size: 11px; }
+.pricing-summary dd { margin: 0; color: #0f172a; font-size: 13px; font-weight: 700; }
+.pricing-summary .btn { width: 100%; min-height: 44px; }
+.pricing-summary-card > p { margin: 12px 0 0; color: #64748b; font-size: 11px; line-height: 1.5; }
+@media (max-width: 900px) {
+  .pricing-layout { grid-template-columns: minmax(0, 1fr); }
+  .pricing-summary { position: static; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto !important; }
+  html.scroll-reveals .scroll-reveal,
+  html.scroll-reveals .scroll-reveal.is-revealed {
+    opacity: 1 !important; transform: none !important; transition: none !important; will-change: auto !important;
+  }
+}
