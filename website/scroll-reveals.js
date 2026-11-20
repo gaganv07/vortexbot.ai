@@ -3,7 +3,7 @@
   var root = document.documentElement;
   var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reduceMotion) return;
-  var selectors = '.feature-card, .step, .metric, .benefit, .session-callout, .preview-notice, .release-note';
+  var selectors = '.feature-card, .step, .metric, .benefit, .session-callout, .preview-notice, .release-note, .pricing-main .card';
   var targets = Array.prototype.slice.call(document.querySelectorAll(selectors));
   if (!targets.length) return;
   if (!('IntersectionObserver' in window)) return;
