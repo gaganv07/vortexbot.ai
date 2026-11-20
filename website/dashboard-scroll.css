@@ -1,0 +1,37 @@
+/* Live dashboard: preserve immediate data visibility and isolate long data tables. */
+html { scroll-behavior: auto !important; scroll-padding-top: 84px; }
+.live-dashboard, .live-dashboard * { scroll-behavior: auto !important; }
+.live-dashboard header { position: sticky; top: 0; z-index: 100; }
+.live-dashboard .table-wrap {
+  max-height: min(44vh, 420px);
+  min-height: 112px;
+  overflow: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-gutter: stable;
+}
+.live-dashboard .table-wrap thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: #f8fafc;
+  box-shadow: 0 1px 0 #e2e8f0;
+}
+.live-dashboard .metric,
+.live-dashboard .metric:hover,
+.live-dashboard .btn,
+.live-dashboard .nav-actions .nav-link,
+.live-dashboard .back-to-top {
+  transition: none !important;
+  transform: none !important;
+}
+.live-dashboard .metric:hover { box-shadow: 0 1px 3px rgba(0,0,0,.04); }
+.live-dashboard .back-to-top { scroll-behavior: auto !important; }
+.live-dashboard :focus-visible { scroll-margin-block: 90px; }
+@media (max-width: 640px) {
+  .live-dashboard .table-wrap { max-height: min(42vh, 360px); }
+  .live-dashboard header .dashboard-nav { min-height: 64px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .live-dashboard, .live-dashboard * { scroll-behavior: auto !important; animation: none !important; transition: none !important; }
+}
