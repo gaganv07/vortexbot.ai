@@ -22,7 +22,7 @@ footer{border-color:var(--vortex-border)!important}
 .back-to-top{background:var(--vortex-panel)!important;color:var(--vortex-text)!important;border-color:var(--vortex-border)!important}
 .nav-links.is-open{background:rgba(19,23,34,.92)!important;border-color:var(--vortex-border)!important;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
 .nav-links.is-open a{color:var(--vortex-text)!important;border-color:var(--vortex-border)!important}
-@media(max-width:760px){.hero-copy{padding:20px!important}.hero-visual{min-height:0}.nav-actions .btn-primary{display:inline-flex!important}}
+@media(max-width:760px){.hero-copy{padding:20px!important}.hero-visual{min-height:0}header.site-header nav .nav-actions>.btn-primary{display:inline-flex!important;min-height:40px;padding:8px 11px;font-size:12px}header.site-header nav .nav-actions>.btn-outline{display:none!important}}
 /* Pricing surfaces remain flat; glass is reserved for landing feature/hero cards and overlays. */
 body:has(.pricing-layout){background:var(--vortex-bg)!important;color:var(--vortex-text)!important}
 body:has(.pricing-layout) h1,body:has(.pricing-layout) h2,body:has(.pricing-layout) h3{color:var(--vortex-text)!important}
