@@ -1,0 +1,47 @@
+/* VORTEX dashboard dark trading-terminal surfaces; presentation-only. */
+:root{color-scheme:dark;--bg:#0B0E14;--panel:#131722;--panel-hover:#1E222D;--line:#2A2E39;--line-strong:#3A404D;--text:#EAECEF;--text-secondary:#C7CDD7;--muted:#848E9C;--primary:#0ECB81;--primary-hover:#0AA56A;--primary-light:#172B27;--primary-border:#245D4B;--success:#0ECB81;--success-bg:#132A24;--success-border:#245D4B;--warning:#F0B90B;--warning-bg:#2A2415;--warning-border:#5D4C20;--danger:#F6465D;--danger-bg:#2B1920;--danger-border:#63303A}
+html,body{background:var(--bg)!important;color:var(--text)!important}
+body.live-dashboard{height:100vh;height:100dvh;min-height:0;overflow:hidden;display:flex;flex-direction:column}
+.live-dashboard header{flex:0 0 auto;background:#0B0E14!important;border-bottom:1px solid var(--line)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+.live-dashboard main{flex:1 1 auto;min-height:0;overflow-y:auto;overscroll-behavior:contain;padding-top:24px;padding-bottom:40px}
+.live-dashboard .wrap{width:min(1440px,calc(100% - 36px))}
+.live-dashboard .dashboard-nav{min-height:68px}
+.live-dashboard .nav-actions .nav-link{color:var(--text-secondary)}
+.live-dashboard .nav-actions .nav-link:hover{color:var(--primary);background:var(--panel-hover)}
+.live-dashboard .user-chip{background:var(--panel);color:var(--text-secondary);border-color:var(--line)}
+.live-dashboard .kicker,.live-dashboard .welcome-kicker{color:var(--primary)}
+.live-dashboard h1,.live-dashboard h2,.live-dashboard .welcome-title,.live-dashboard .status-value,.live-dashboard .metric-value,.live-dashboard .empty-title{color:var(--text)!important}
+.live-dashboard .muted,.live-dashboard .fine,.live-dashboard .metric-hint,.live-dashboard .status-note,.live-dashboard .welcome-detail{color:var(--muted)!important}
+.live-dashboard .welcome-note,.live-dashboard .status-tile,.live-dashboard .metric,.live-dashboard .account-filter,.live-dashboard .card,.live-dashboard .dashboard-note{background:var(--panel)!important;border:1px solid var(--line)!important;box-shadow:none!important}
+.live-dashboard .metric,.live-dashboard .metric:hover{transform:none!important;transition:none!important}
+.live-dashboard .welcome-mark{background:var(--primary-light);border-color:var(--primary-border);color:var(--primary)}
+.live-dashboard .btn-primary{background:var(--primary)!important;border-color:var(--primary)!important;color:#06140F!important;box-shadow:none!important}
+.live-dashboard .btn-secondary,.live-dashboard .btn-quiet{background:var(--panel)!important;border-color:var(--line-strong)!important;color:var(--text)!important;box-shadow:none!important}
+.live-dashboard .btn:hover,.live-dashboard .btn-primary:hover,.live-dashboard .btn-secondary:hover{transform:none!important;box-shadow:none!important}
+.live-dashboard .account-filter label{color:var(--text-secondary)}
+.live-dashboard .account-filter select{background:var(--bg)!important;border-color:var(--line-strong)!important;color:var(--text)!important}
+.live-dashboard .table-wrap{background:var(--panel)!important;border:1px solid var(--line)!important;max-height:min(42vh,390px);overflow:auto;overscroll-behavior:contain;scrollbar-gutter:stable}
+.live-dashboard table{background:var(--panel)}
+.live-dashboard th{background:#191F2B!important;color:var(--muted)!important;border-bottom-color:var(--line)!important}
+.live-dashboard td{color:var(--text-secondary)!important;border-bottom-color:var(--line)!important;font-variant-numeric:tabular-nums}
+.live-dashboard tr:hover td{background:var(--panel-hover)!important}
+.live-dashboard .table-wrap thead th{position:sticky;top:0;z-index:2;box-shadow:0 1px 0 var(--line)!important}
+.live-dashboard .metric-value,.live-dashboard .status-value,.live-dashboard .user-chip,.live-dashboard [id*=balance],.live-dashboard [id*=equity],.live-dashboard [id*=profit],.live-dashboard [id*=price],.live-dashboard [id*=volume],.live-dashboard td{font-variant-numeric:tabular-nums}
+.live-dashboard .metric-value.positive,.live-dashboard td.positive,.live-dashboard .side.buy{color:var(--success)!important}
+.live-dashboard .metric-value.negative,.live-dashboard td.negative,.live-dashboard .side.sell{color:var(--danger)!important}
+.live-dashboard .side.buy{background:var(--success-bg)!important}
+.live-dashboard .side.sell{background:var(--danger-bg)!important}
+.live-dashboard .notice{background:#172334;border-color:var(--line);border-left-color:var(--primary);color:var(--text-secondary)}
+.live-dashboard .notice.ok{background:var(--success-bg);border-color:var(--success-border);color:#A7F3D0}
+.live-dashboard .notice.warn{background:var(--warning-bg);border-color:var(--warning-border);color:#FDE68A}
+.live-dashboard .feed-fresh{background:var(--success-bg);border-color:var(--success-border);color:var(--success)}
+.live-dashboard .feed-stale{background:var(--warning-bg);border-color:var(--warning-border);color:var(--warning)}
+.live-dashboard .feed-offline{background:var(--danger-bg);border-color:var(--danger-border);color:var(--danger)}
+.live-dashboard .mode-demo{background:var(--primary-light);border-color:var(--primary-border);color:var(--primary)}
+.live-dashboard .mode-real{background:var(--warning-bg);border-color:var(--warning-border);color:var(--warning)}
+.live-dashboard .mode-unknown{background:var(--panel-hover);border-color:var(--line);color:var(--muted)}
+.live-dashboard .table-placeholder{background:var(--panel)!important;color:var(--muted)!important}
+.live-dashboard .empty-mark{background:var(--panel-hover);border-color:var(--line);color:var(--muted)}
+.live-dashboard .back-to-top{background:var(--panel);border-color:var(--line);color:var(--text);box-shadow:none}
+@media(max-width:640px){.live-dashboard main{padding-top:18px}.live-dashboard .table-wrap{max-height:min(38vh,320px)}.live-dashboard .dashboard-nav{min-height:64px}}
+@media(prefers-reduced-motion:reduce){.live-dashboard,.live-dashboard *{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
