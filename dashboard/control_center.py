@@ -436,6 +436,27 @@ async def get_health():
     }
 
 
+
+@app.get("/api/v2/customer_snapshot")
+async def get_customer_snapshot():
+    """Return a minimal read-only customer view; suppress fallback metrics when MT5 is disconnected."""
+    telemetry = _get_live_telemetry()
+    connected = telemetry.get("connection", {}).get("mt5_status") == "CONNECTED"
+    account = telemetry.get("account", {}) if connected else {}
+    connection = telemetry.get("connection", {})
+    return {
+        "connected": connected,
+        "updated_at": telemetry.get("timestamp") if connected else None,
+        "broker": connection.get("broker") if connected else None,
+        "server": connection.get("server") if connected else None,
+        "account_number": connection.get("account_number") if connected else None,
+        "mode": connection.get("mode") if connected else None,
+        "account": account,
+        "positions": telemetry.get("open_positions", []) if connected else [],
+        "history": _read_trade_journal(limit=20),
+    }
+
+
 # ── PDF & Excel Exporters ─────────────────────────────────────────────────────
 
 @app.get("/api/v2/export/excel")
@@ -483,6 +504,17 @@ async def websocket_live_telemetry(websocket: WebSocket):
     except Exception as e:
         logger.error(f"WebSocket error: {e}")
         ws_manager.disconnect(websocket)
+
+
+
+@app.get("/customer", response_class=HTMLResponse)
+async def serve_customer_dashboard():
+    """Serve the isolated, read-only customer dashboard without replacing the operator console."""
+    template_path = Path(__file__).parent / "templates" / "customer_dashboard.html"
+    if template_path.exists():
+        with open(template_path, "r", encoding="utf-8") as f:
+            return HTMLResponse(f.read())
+    return HTMLResponse("<h1>Customer dashboard unavailable</h1>", status_code=503)
 
 
 # ── Main Single-Page App HTML Route ───────────────────────────────────────────
