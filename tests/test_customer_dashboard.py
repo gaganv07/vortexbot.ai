@@ -30,6 +30,7 @@ def test_customer_snapshot_suppresses_fallback_account_metrics_when_disconnected
     functions = {node.name: node for node in ast.walk(tree) if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))}
     snapshot = ast.get_source_segment(source, functions["get_customer_snapshot"])
     assert 'mt5_status") == "CONNECTED"' in snapshot
+    assert 'account_data_verified") is True' in snapshot
     assert '"account": account' in snapshot
     assert '"positions": telemetry.get("open_positions", []) if connected else []' in snapshot
     assert '"account_number": connection.get("account_number") if connected else None' in snapshot
