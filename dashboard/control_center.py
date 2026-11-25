@@ -275,6 +275,7 @@ def _get_live_telemetry() -> Dict[str, Any]:
         "timestamp": now_utc,
         "bot_status": bot_status,
         "heartbeat_age_s": round(now_ts - _last_heartbeat_ts, 2),
+        "account_data_verified": bool(account_info),
         "connection": {
             "mt5_status": mt5_status,
             "internet_status": "ONLINE",
@@ -441,7 +442,8 @@ async def get_health():
 async def get_customer_snapshot():
     """Return a minimal read-only customer view; suppress fallback metrics when MT5 is disconnected."""
     telemetry = _get_live_telemetry()
-    connected = telemetry.get("connection", {}).get("mt5_status") == "CONNECTED"
+    connected = (telemetry.get("connection", {}).get("mt5_status") == "CONNECTED"
+                 and telemetry.get("account_data_verified") is True)
     account = telemetry.get("account", {}) if connected else {}
     connection = telemetry.get("connection", {})
     return {
