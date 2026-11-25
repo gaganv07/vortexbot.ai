@@ -15,9 +15,11 @@ from __future__ import annotations
 
 import asyncio
 import csv
+import hmac
 import json
 import logging
 import os
+import re
 import sqlite3
 import time
 from datetime import datetime, timezone
@@ -26,9 +28,9 @@ from typing import Any, Dict, List, Optional
 
 import numpy as np
 import psutil
-from fastapi import FastAPI, HTTPException, Query, WebSocket, WebSocketDisconnect
+from fastapi import FastAPI, HTTPException, Query, Request, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import HTMLResponse, Response
+from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, Response
 
 from dashboard.reports_exporter import ReportsExporter
 from app.config import settings
@@ -55,6 +57,26 @@ app.add_middleware(
 )
 
 app.include_router(multi_account_router)
+
+_CUSTOMER_STALE_THRESHOLD_S = 30.0
+_ACCOUNT_ID_RE = re.compile(r"^[A-Za-z0-9._-]{1,40}$")
+_last_verified_broker_update: Optional[str] = None
+
+
+@app.middleware("http")
+async def security_and_auth_middleware(request: Request, call_next):
+    """Enforces Cache-Control: no-store on APIs/customer views and optional Bearer token auth."""
+    if request.url.path.startswith("/api/") and os.getenv("VORTEX_REQUIRE_AUTH", "").lower() == "true":
+        expected = os.getenv("VORTEX_CONTROL_SECRET", "")
+        auth_header = request.headers.get("authorization", "")
+        token = auth_header[7:].strip() if auth_header.lower().startswith("bearer ") else ""
+        if not expected or not token or not hmac.compare_digest(token, expected):
+            return JSONResponse(status_code=401, content={"detail": "Unauthorized: valid Bearer token required"})
+
+    response = await call_next(request)
+    if request.url.path.startswith("/api/") or request.url.path == "/customer":
+        response.headers["Cache-Control"] = "no-store, max-age=0"
+    return response
 
 _orchestrator = None
 _last_heartbeat_ts = time.time()
@@ -438,25 +460,101 @@ async def get_health():
 
 
 
+def _sanitize_customer_position(pos: Dict[str, Any]) -> Dict[str, Any]:
+    """Return only read-only customer-safe position fields (no internal AI/strategy metadata)."""
+    return {
+        "ticket": pos.get("ticket"),
+        "symbol": pos.get("symbol"),
+        "direction": pos.get("direction"),
+        "volume": pos.get("volume"),
+        "entry_price": pos.get("entry_price"),
+        "current_price": pos.get("current_price"),
+        "sl": pos.get("sl"),
+        "tp1": pos.get("tp1"),
+        "tp2": pos.get("tp2"),
+        "pnl_usd": pos.get("pnl_usd"),
+        "entry_time": pos.get("entry_time"),
+    }
+
+
+def _sanitize_customer_history_row(row: Dict[str, Any]) -> Dict[str, Any]:
+    """Return only customer-safe closed trade fields."""
+    return {
+        "trade_id": row.get("trade_id") or row.get("ticket"),
+        "symbol": row.get("symbol"),
+        "direction": row.get("direction") or row.get("type"),
+        "volume": row.get("volume") or row.get("lots"),
+        "entry_price": row.get("entry_price"),
+        "exit_price": row.get("exit_price"),
+        "pnl": row.get("pnl") if row.get("pnl") is not None else row.get("profit"),
+        "status": row.get("status") or "Closed",
+        "close_time": row.get("close_time") or row.get("exit_time") or row.get("entry_time") or row.get("timestamp"),
+    }
+
+
 @app.get("/api/v2/customer_snapshot")
-async def get_customer_snapshot():
+async def get_customer_snapshot(account_id: Optional[str] = Query(default=None)):
     """Return a minimal read-only customer view; suppress fallback metrics when MT5 is disconnected."""
+    global _last_verified_broker_update
+
+    if account_id is not None:
+        if not _ACCOUNT_ID_RE.match(account_id):
+            raise HTTPException(status_code=400, detail="Invalid account_id format")
+
     telemetry = _get_live_telemetry()
     connected = (telemetry.get("connection", {}).get("mt5_status") == "CONNECTED"
                  and telemetry.get("account_data_verified") is True)
-    account = telemetry.get("account", {}) if connected else {}
     connection = telemetry.get("connection", {})
+    active_account_number = connection.get("account_number")
+
+    if account_id is not None:
+        if not connected or active_account_number is None or str(active_account_number) != account_id:
+            raise HTTPException(status_code=403, detail="Unauthorized: account access denied")
+
+    heartbeat_age_s = float(telemetry.get("heartbeat_age_s", 0.0) or 0.0)
+    stale = bool(connected and heartbeat_age_s > _CUSTOMER_STALE_THRESHOLD_S)
+
+    if connected:
+        _last_verified_broker_update = telemetry.get("timestamp")
+
+    account = telemetry.get("account", {}) if connected else {}
+    positions = telemetry.get("open_positions", []) if connected else []
+    sanitized_positions = [_sanitize_customer_position(p) for p in positions]
+    history = [_sanitize_customer_history_row(r) for r in _read_trade_journal(limit=20)] if connected else []
+
     return {
         "connected": connected,
+        "stale": stale,
+        "fresh": bool(connected and not stale),
+        "heartbeat_age_s": round(heartbeat_age_s, 2),
         "updated_at": telemetry.get("timestamp") if connected else None,
+        "last_verified_at": _last_verified_broker_update,
         "broker": connection.get("broker") if connected else None,
         "server": connection.get("server") if connected else None,
         "account_number": connection.get("account_number") if connected else None,
         "mode": connection.get("mode") if connected else None,
         "account": account,
-        "positions": telemetry.get("open_positions", []) if connected else [],
-        "history": _read_trade_journal(limit=20),
+        "positions": sanitized_positions,
+        "history": history,
     }
+
+
+@app.get("/assets/vortex-ai-logo.webp")
+async def serve_vortex_logo():
+    """Serve the shared VORTEX AI logo from website/ without duplicating assets."""
+    logo_path = ROOT / "website" / "vortex-ai-logo.webp"
+    if logo_path.exists():
+        return FileResponse(logo_path, media_type="image/webp")
+    raise HTTPException(status_code=404, detail="Logo not found")
+
+
+@app.get("/assets/favicon.svg")
+async def serve_vortex_favicon():
+    """Serve the shared VORTEX AI favicon from website/."""
+    icon_path = ROOT / "website" / "favicon.svg"
+    if icon_path.exists():
+        return FileResponse(icon_path, media_type="image/svg+xml")
+    raise HTTPException(status_code=404, detail="Favicon not found")
 
 
 # ── PDF & Excel Exporters ─────────────────────────────────────────────────────

@@ -1,45 +1,947 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#f8fafc"><title>VORTEX AI | Customer Dashboard</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f8fafc">
+<title>Dashboard | VORTEX AI</title>
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
 <style>
-:root{color-scheme:light;--bg:#f8fafc;--panel:#fff;--line:#e2e8f0;--text:#0f172a;--muted:#64748b;--blue:#2563eb;--blue-soft:#eff6ff;--green:#16a34a;--red:#dc2626;--amber:#d97706;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-size:14px;line-height:1.5}header{position:sticky;top:0;background:#ffffffed;border-bottom:1px solid var(--line);backdrop-filter:blur(14px);z-index:5}.wrap{width:min(1120px,calc(100% - 36px));margin:auto}.nav{height:70px;display:flex;align-items:center;justify-content:space-between;gap:16px}.brand{font-weight:900;letter-spacing:.08em;color:#0f766e}.navlinks{display:flex;gap:18px;align-items:center;color:#334155;font-size:13px}.navlinks a{color:inherit;text-decoration:none}.pill{border:1px solid var(--line);border-radius:999px;padding:7px 12px;background:white;font-size:12px}.main{padding:30px 0 60px}.top{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;flex-wrap:wrap;margin-bottom:22px}.eyebrow{font-size:11px;font-weight:800;letter-spacing:.14em;color:var(--blue);text-transform:uppercase}h1{font-size:26px;letter-spacing:-.03em;margin:5px 0}.muted{color:var(--muted);font-size:13px}.actions{display:flex;flex-direction:column;align-items:flex-end;gap:7px}button{border:1px solid var(--line);background:white;border-radius:8px;padding:10px 15px;font-weight:700;color:var(--text);cursor:pointer}button.primary{background:var(--blue);color:white;border-color:var(--blue)}button:disabled{opacity:.55;cursor:wait}.welcome,.card{background:var(--panel);border:1px solid var(--line);border-radius:12px;box-shadow:0 1px 3px #0f172a0a}.welcome{padding:18px 20px;display:flex;align-items:center;gap:15px;margin-bottom:22px}.mark{width:42px;height:42px;border-radius:10px;background:var(--blue-soft);color:var(--blue);display:grid;place-items:center;font-size:20px}.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-bottom:16px}.card{padding:17px}.label{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:750}.value{font-size:22px;font-weight:850;margin-top:8px;overflow-wrap:anywhere}.sub{font-size:11px;color:var(--muted);margin-top:5px}.status{display:inline-flex;align-items:center;gap:7px;padding:7px 11px;border-radius:999px;font-weight:800;font-size:12px;background:#fee2e2;color:#991b1b}.status.ok{background:#dcfce7;color:#166534}.dot{width:7px;height:7px;border-radius:50%;background:currentColor}.section{margin-top:18px}.section-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}h2{font-size:16px;margin:0}.tablewrap{overflow:auto}table{width:100%;border-collapse:collapse;white-space:nowrap}th,td{text-align:left;padding:11px 10px;border-bottom:1px solid #f1f5f9;font-size:12px}th{font-size:10px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted)}.empty{text-align:center;padding:24px;color:var(--muted)}.notice{border:1px solid #bfdbfe;background:#eff6ff;color:#1e40af;border-radius:10px;padding:13px 15px;margin:16px 0;font-size:12px}.positive{color:var(--green)}.negative{color:var(--red)}@media(max-width:720px){.grid{grid-template-columns:1fr 1fr}.navlinks{gap:9px}.navlinks .optional{display:none}.main{padding-top:22px}h1{font-size:23px}}@media(max-width:480px){.grid{grid-template-columns:1fr}.wrap{width:min(100% - 24px,1120px)}.nav{height:60px}.pill{display:none}.top{display:block}.actions{align-items:flex-start;margin-top:14px}}
-</style></head>
+:root {
+  color-scheme: light;
+  --bg: #f8fafc;
+  --panel: #ffffff;
+  --panel-hover: #f1f5f9;
+  --line: #e2e8f0;
+  --line-strong: #cbd5e1;
+  --text: #0f172a;
+  --text-secondary: #334155;
+  --muted: #64748b;
+  --primary: #2563eb;
+  --primary-hover: #1d4ed8;
+  --primary-light: #eff6ff;
+  --primary-border: #bfdbfe;
+  --success: #16a34a;
+  --success-bg: #dcfce7;
+  --success-border: #bbf7d0;
+  --warning: #d97706;
+  --warning-bg: #fef3c7;
+  --warning-border: #fde68a;
+  --danger: #dc2626;
+  --danger-bg: #fee2e2;
+  --danger-border: #fecaca;
+  --font-sans: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-padding-top: 88px; -webkit-text-size-adjust: 100%; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  font-size: 14px;
+  line-height: 1.55;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+a { color: var(--primary); text-decoration: none; transition: color 0.15s ease; }
+a:hover { color: var(--primary-hover); }
+[hidden] { display: none !important; }
+
+.wrap { width: min(1200px, calc(100% - 36px)); margin: 0 auto; }
+
+/* Sticky Header */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  background: rgba(255, 255, 255, 0.95);
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+}
+.dashboard-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 72px;
+  gap: 16px;
+}
+.dashboard-nav .brand { display: flex; align-items: center; flex: 0 0 auto; gap: 10px; }
+.dashboard-nav .logo { height: 38px; width: auto; object-fit: contain; }
+.nav-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.nav-actions .nav-link {
+  color: var(--text-secondary);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 10px;
+  border-radius: 6px;
+  min-height: 38px;
+  display: inline-flex;
+  align-items: center;
+  transition: all 0.15s ease;
+}
+.nav-actions .nav-link:hover { color: var(--primary); background: var(--primary-light); }
+.user-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border: 1px solid var(--line-strong);
+  border-radius: 9999px;
+  background: #ffffff;
+  color: var(--text-secondary);
+  font-size: 12px;
+  font-weight: 600;
+  max-width: 240px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.user-chip::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--primary);
+  flex: 0 0 auto;
+}
+.user-chip.is-connected::before { background: var(--success); }
+
+/* Main Layout */
+main { padding: 32px 0 64px; }
+
+/* Topline Section */
+.topline {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+.dashboard-heading { flex: 1 1 360px; min-width: 0; }
+.kicker {
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--primary);
+  margin-bottom: 6px;
+}
+h1 {
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+.muted { color: var(--muted); font-size: 13px; }
+.readonly-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 10px;
+  padding: 4px 10px;
+  border: 1px solid var(--primary-border);
+  border-radius: 9999px;
+  background: var(--primary-light);
+  color: var(--primary);
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+.readonly-pill::before {
+  content: "";
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--primary);
+}
+
+/* Action Buttons */
+.top-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 8px;
+}
+.top-actions-row { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 0 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+.btn-primary {
+  background: var(--primary);
+  border: 1px solid var(--primary);
+  color: #ffffff;
+  box-shadow: 0 1px 2px rgba(37, 99, 235, 0.15);
+}
+.btn-primary:hover {
+  background: var(--primary-hover);
+  border-color: var(--primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+}
+.btn-secondary {
+  background: #ffffff;
+  border: 1px solid var(--line-strong);
+  color: var(--text);
+}
+.btn-secondary:hover {
+  background: var(--panel-hover);
+  border-color: var(--muted);
+  color: var(--text);
+  transform: translateY(-1px);
+}
+.btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none !important; box-shadow: none !important; }
+.action-meta { font-size: 11px; color: var(--muted); text-align: right; }
+
+/* Welcome Banner */
+.welcome-note {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding: 16px 20px;
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+.welcome-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: var(--primary-light);
+  border: 1px solid var(--primary-border);
+  color: var(--primary);
+  font-size: 20px;
+  flex: 0 0 auto;
+}
+.welcome-copy { min-width: 0; }
+.welcome-kicker { font-size: 11px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--primary); margin-bottom: 2px; }
+.welcome-title { font-size: 17px; font-weight: 800; color: var(--text); }
+.welcome-detail { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+/* Status Grid (3 Tiles) */
+.status-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.status-tile {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 18px 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-width: 0;
+}
+.status-tile > span {
+  font-size: 11px;
+  font-weight: 750;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.status-tile .status-value {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--text);
+  overflow-wrap: anywhere;
+}
+.status-tile .status-note {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 6px;
+  overflow-wrap: anywhere;
+}
+.feed-fresh {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  background: var(--success-bg);
+  border: 1px solid var(--success-border);
+  color: #15803d;
+  font-size: 12px;
+  font-weight: 750;
+  letter-spacing: 0.03em;
+  width: fit-content;
+}
+.feed-fresh::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--success); box-shadow: 0 0 0 2px rgba(22, 163, 74, 0.25); }
+.feed-stale {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  background: var(--warning-bg);
+  border: 1px solid var(--warning-border);
+  color: #b45309;
+  font-size: 12px;
+  font-weight: 750;
+  letter-spacing: 0.03em;
+  width: fit-content;
+}
+.feed-stale::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--warning); }
+.feed-offline {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  background: var(--danger-bg);
+  border: 1px solid var(--danger-border);
+  color: #b91c1c;
+  font-size: 12px;
+  font-weight: 750;
+  letter-spacing: 0.03em;
+  width: fit-content;
+}
+.feed-offline::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--danger); }
+
+.mode-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  width: fit-content;
+}
+.mode-demo { background: var(--primary-light); border: 1px solid var(--primary-border); color: var(--primary); }
+.mode-real { background: var(--warning-bg); border: 1px solid var(--warning-border); color: #92400e; }
+.mode-unknown { background: #f1f5f9; border: 1px solid var(--line-strong); color: var(--muted); }
+
+/* Notice Banner */
+.notice {
+  margin-bottom: 24px;
+  padding: 14px 18px;
+  border-radius: 10px;
+  font-size: 13px;
+  line-height: 1.5;
+  background: var(--primary-light);
+  border: 1px solid var(--primary-border);
+  border-left: 4px solid var(--primary);
+  color: var(--text-secondary);
+}
+.notice.ok { background: var(--success-bg); border-color: var(--success-border); border-left-color: var(--success); color: #14532d; }
+.notice.warn { background: var(--warning-bg); border-color: var(--warning-border); border-left-color: var(--warning); color: #78350f; }
+
+/* Key Metrics Grid */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+.metric {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 118px;
+  min-width: 0;
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.metric:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+}
+.metric span {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+.metric-value {
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--text);
+  margin: 8px 0 4px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+  overflow-wrap: anywhere;
+}
+.metric-value.is-pending { font-size: 16px; font-weight: 600; color: var(--muted); }
+.metric-value.positive { color: var(--success); }
+.metric-value.negative { color: var(--danger); }
+.metric-hint { font-size: 11px; color: var(--muted); }
+
+/* Cards & Tables */
+.card {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+}
+.card-head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+.card-head h2 { font-size: 18px; font-weight: 800; color: var(--text); }
+.fine { font-size: 12px; color: var(--muted); }
+
+.table-wrap {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  background: #ffffff;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: 13px;
+}
+th {
+  background: #f8fafc;
+  color: var(--muted);
+  font-size: 11px;
+  font-weight: 750;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--line);
+  white-space: nowrap;
+}
+td {
+  padding: 12px 14px;
+  border-bottom: 1px solid #f1f5f9;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  font-variant-numeric: tabular-nums;
+}
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: #f8fafc; }
+
+.side.buy {
+  display: inline-block;
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 800;
+  background: var(--success-bg);
+  color: #15803d;
+  letter-spacing: 0.04em;
+}
+.side.sell {
+  display: inline-block;
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 800;
+  background: var(--danger-bg);
+  color: #b91c1c;
+  letter-spacing: 0.04em;
+}
+td.positive { color: var(--success); font-weight: 700; }
+td.negative { color: var(--danger); font-weight: 700; }
+
+/* Empty Table States */
+.table-placeholder {
+  text-align: center !important;
+  padding: 40px 20px !important;
+  background: #fafbfc;
+}
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  max-width: 440px;
+  margin: 0 auto;
+}
+.empty-mark {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: #f1f5f9;
+  border: 1px solid var(--line-strong);
+  color: var(--muted);
+  font-size: 16px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4px;
+}
+.empty-title { font-size: 14px; font-weight: 750; color: var(--text); }
+.empty-detail { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+/* Back to top */
+.back-to-top {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 25;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  border: 1px solid var(--line-strong);
+  background: #ffffff;
+  color: var(--text);
+  font-size: 18px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(8px);
+  transition: all 0.2s ease;
+}
+.back-to-top.is-visible { opacity: 1; visibility: visible; transform: translateY(0); }
+.back-to-top:hover { background: var(--primary-light); color: var(--primary); border-color: var(--primary-border); }
+
+/* Responsive Breakpoints */
+@media (max-width: 980px) {
+  .status-grid { grid-template-columns: 1fr; }
+  .grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .topline { flex-direction: column; align-items: stretch; }
+  .top-actions { align-items: stretch; width: 100%; }
+  .top-actions-row { width: 100%; }
+  .top-actions-row .btn { flex: 1; }
+  .action-meta { text-align: left; }
+}
+
+@media (max-width: 640px) {
+  .wrap { width: calc(100% - 24px); }
+  .dashboard-nav { height: 64px; }
+  .dashboard-nav .logo { height: 32px; }
+  .nav-actions .optional-link { display: none; }
+  .user-chip { display: none; }
+  h1 { font-size: 22px; }
+  .grid { grid-template-columns: 1fr; }
+  .card { padding: 18px; }
+  .welcome-note { padding: 14px; gap: 12px; }
+  .welcome-mark { width: 38px; height: 38px; font-size: 18px; }
+  .metric { padding: 16px; min-height: 100px; }
+  .metric-value { font-size: 22px; }
+}
+</style>
+</head>
 <body>
-<header><div class="wrap nav"><div class="brand">◆ VORTEX AI</div><nav class="navlinks"><a href="/">Control Center</a><a class="optional" href="/api/v2/health">System health</a><span class="pill">LOCAL CUSTOMER VIEW</span></nav></div></header>
-<main class="wrap main">
-<section class="top"><div><div class="eyebrow">Private trading dashboard</div><h1>Your trading activity</h1><p class="muted">Read-only broker telemetry from the local VORTEX Control Center.</p><span class="pill" style="display:inline-block;margin-top:10px;color:var(--blue)">● READ-ONLY VIEW</span></div><div class="actions"><button class="primary" id="refresh">↻ Refresh now</button><span class="muted" id="refresh-note">Automatic refresh every 10 seconds</span></div></section>
-<section class="welcome"><div class="mark">✦</div><div><div class="eyebrow">VORTEX AI · Customer dashboard</div><strong>Welcome to your trading dashboard</strong><div class="muted">Broker figures appear only after the local MT5 connection is verified.</div></div></section>
-<div class="grid">
- <article class="card"><div class="label">Feed connection</div><div id="feed" class="value"><span class="status">Checking…</span></div><div class="sub" id="feed-detail">Verifying local broker feed</div></article>
- <article class="card"><div class="label">Account mode</div><div id="mode" class="value">Awaiting update</div><div class="sub" id="account-meta">Broker account details appear after a verified update</div></article>
- <article class="card"><div class="label">Last feed check</div><div id="updated" class="value" style="font-size:16px">Awaiting first update</div><div class="sub">Local device time</div></article>
-</div>
-<div id="notice" class="notice" role="status">Waiting for a verified MT5 broker connection. No simulated account figures are displayed.</div>
-<div class="grid">
- <article class="card"><div class="label">Open positions</div><div class="value" id="positions">—</div></article>
- <article class="card"><div class="label">Floating P&amp;L</div><div class="value" id="floating">—</div></article>
- <article class="card"><div class="label">Balance</div><div class="value" id="balance">—</div></article>
- <article class="card"><div class="label">Equity</div><div class="value" id="equity">—</div></article>
- <article class="card"><div class="label">Free margin</div><div class="value" id="margin">—</div></article>
- <article class="card"><div class="label">Closed P&amp;L</div><div class="value" id="closed">—</div></article>
-</div>
-<section class="section card"><div class="section-head"><h2>Open positions</h2><span class="muted" id="position-count">0 positions</span></div><div class="tablewrap"><table><thead><tr><th>Symbol</th><th>Direction</th><th>Volume</th><th>Entry</th><th>Current</th><th>Floating P&amp;L</th><th>Stop loss</th></tr></thead><tbody id="positions-body"><tr><td colspan="7" class="empty">Waiting for verified broker data</td></tr></tbody></table></div></section>
-<section class="section card"><div class="section-head"><h2>Recent trade history</h2><span class="muted">Local journal</span></div><div class="tablewrap"><table><thead><tr><th>Time</th><th>Symbol</th><th>Direction</th><th>Volume</th><th>P&amp;L</th><th>Status</th></tr></thead><tbody id="history-body"><tr><td colspan="6" class="empty">Waiting for trade history</td></tr></tbody></table></div></section>
+<header>
+  <div class="wrap">
+    <nav class="dashboard-nav" aria-label="Customer dashboard navigation">
+      <a class="brand" href="/customer" aria-label="VORTEX AI customer dashboard">
+        <img class="logo" src="/assets/vortex-ai-logo.webp" alt="VORTEX AI">
+      </a>
+      <div class="nav-actions">
+        <a class="nav-link" href="/">Control Center</a>
+        <a class="nav-link optional-link" href="/api/v2/health">System Health</a>
+        <a class="nav-link optional-link" href="https://vortexbot.ai/contact" target="_blank" rel="noopener noreferrer">Support</a>
+        <span id="session-chip" class="user-chip">READ-ONLY VIEW</span>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="topline">
+    <div class="dashboard-heading">
+      <div class="kicker">Private trading dashboard</div>
+      <h1>Your trading activity</h1>
+      <p class="muted">Read-only broker-confirmed telemetry from the local VORTEX Control Center.</p>
+      <span class="readonly-pill">READ-ONLY VIEW</span>
+    </div>
+    <div class="top-actions">
+      <div class="top-actions-row">
+        <button id="refresh" class="btn btn-primary" type="button"><span aria-hidden="true">↻</span> Refresh data</button>
+        <a class="btn btn-secondary" href="/">Control Center ↗</a>
+      </div>
+      <small id="refresh-note" class="action-meta">Automatic refresh every 10 seconds</small>
+    </div>
+  </div>
+
+  <section class="welcome-note" aria-live="polite">
+    <div class="welcome-mark" aria-hidden="true">✦</div>
+    <div class="welcome-copy">
+      <p class="welcome-kicker">VORTEX AI · CUSTOMER DASHBOARD</p>
+      <h2 class="welcome-title">Welcome to your trading dashboard</h2>
+      <p class="welcome-detail">Broker figures and trade history below are shown only when verified MT5 data is available.</p>
+    </div>
+  </section>
+
+  <div class="status-grid" aria-label="Trading feed status">
+    <div class="status-tile">
+      <span>Feed connection</span>
+      <strong id="feed-connection" class="status-value feed-offline">CHECKING…</strong>
+      <small id="feed-detail" class="status-note">Verifying the local broker feed…</small>
+    </div>
+    <div class="status-tile">
+      <span>Account mode</span>
+      <strong id="mode" class="mode-badge mode-unknown">ACCOUNT MODE UNKNOWN</strong>
+      <small id="account-meta" class="status-note">DEMO / REAL status appears after a verified broker update</small>
+    </div>
+    <div class="status-tile">
+      <span>Last successful broker update</span>
+      <strong id="updated" class="status-value">Awaiting first update</strong>
+      <small id="updated-note" class="status-note">Timestamp appears when verified broker telemetry is received</small>
+    </div>
+  </div>
+
+  <div id="notice" class="notice" role="status" aria-live="polite">Verifying the local MT5 broker connection…</div>
+
+  <div class="grid" aria-label="Broker account summary">
+    <div class="metric">
+      <span>Open positions</span>
+      <strong id="positions" class="metric-value is-pending">Awaiting data</strong>
+      <div class="metric-hint">Verified open broker positions</div>
+    </div>
+    <div class="metric">
+      <span>Floating P&amp;L</span>
+      <strong id="floating" class="metric-value is-pending">Awaiting data</strong>
+      <div class="metric-hint">Broker-reported open P&amp;L</div>
+    </div>
+    <div class="metric">
+      <span>Closed P&amp;L</span>
+      <strong id="closed" class="metric-value is-pending">Awaiting data</strong>
+      <div class="metric-hint">Realized closed net P&amp;L</div>
+    </div>
+    <div class="metric">
+      <span>Balance</span>
+      <strong id="balance" class="metric-value is-pending">Awaiting data</strong>
+      <div class="metric-hint">Latest verified broker balance</div>
+    </div>
+    <div class="metric">
+      <span>Equity</span>
+      <strong id="equity" class="metric-value is-pending">Awaiting data</strong>
+      <div class="metric-hint">Latest verified broker equity</div>
+    </div>
+    <div class="metric">
+      <span>Free margin</span>
+      <strong id="margin" class="metric-value is-pending">Awaiting data</strong>
+      <div class="metric-hint">Available broker margin</div>
+    </div>
+  </div>
+
+  <section class="card">
+    <div class="card-head">
+      <h2>Open positions</h2>
+      <span id="position-count" class="fine">Waiting for broker data</span>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Ticket</th>
+            <th>Symbol</th>
+            <th>Side</th>
+            <th>Volume</th>
+            <th>Entry</th>
+            <th>Current</th>
+            <th>Stop loss</th>
+            <th>Take profit</th>
+            <th>Floating P&amp;L</th>
+          </tr>
+        </thead>
+        <tbody id="positions-body">
+          <tr><td class="table-placeholder" colspan="9">Open positions will appear here after a verified broker connection.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="card">
+    <div class="card-head">
+      <h2>Recent trade history</h2>
+      <span class="fine">Latest 20 reconciled closed trades</span>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Time</th>
+            <th>Symbol</th>
+            <th>Side</th>
+            <th>Volume</th>
+            <th>Net P&amp;L</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="history-body">
+          <tr><td class="table-placeholder" colspan="6">Recent trade history will appear here after verified broker history is received.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <p class="fine">Read-only. This dashboard cannot submit, modify, or close MT5 orders. No cached or simulated figures are displayed when disconnected.</p>
 </main>
+
+<button class="back-to-top" id="back-to-top" type="button" aria-label="Back to top" title="Back to top">↑</button>
+
 <script>
-'use strict';
-const $=id=>document.getElementById(id);
-const num=v=>Number.isFinite(Number(v))?Number(v):0;
-const money=(v,c='USD')=>new Intl.NumberFormat(undefined,{style:'currency',currency:/^[A-Z]{3}$/.test(c)?c:'USD'}).format(num(v));
-const safe=(v)=>v===null||v===undefined||v===''?'—':String(v);
-function cell(row,value){const td=document.createElement('td');td.textContent=safe(value);row.appendChild(td)}
-function empty(id,span,message){const tr=document.createElement('tr'),td=document.createElement('td');td.colSpan=span;td.className='empty';td.textContent=message;tr.appendChild(td);$(id).replaceChildren(tr)}
-function clearFinancials(){['positions','floating','balance','equity','margin','closed'].forEach(id=>$(id).textContent='—');$('mode').textContent='Awaiting update';$('account-meta').textContent='Broker account details appear after a verified update';empty('positions-body',7,'No verified broker positions available');$('position-count').textContent='0 positions'}
-function renderPositions(rows){if(!rows.length){empty('positions-body',7,'No open positions');return}const frag=document.createDocumentFragment();rows.forEach(p=>{const tr=document.createElement('tr');cell(tr,p.symbol);cell(tr,p.direction);cell(tr,p.volume);cell(tr,p.entry_price);cell(tr,p.current_price);cell(tr,money(p.pnl_usd));cell(tr,p.sl);frag.appendChild(tr)});$('positions-body').replaceChildren(frag)}
-function renderHistory(rows){if(!rows.length){empty('history-body',6,'No recent trade history');return}const frag=document.createDocumentFragment();rows.slice(0,20).forEach(p=>{const tr=document.createElement('tr');cell(tr,p.close_time||p.exit_time||p.entry_time||p.timestamp);cell(tr,p.symbol);cell(tr,p.direction||p.type);cell(tr,p.volume||p.lots);cell(tr,p.pnl||p.profit);cell(tr,p.status||'Closed');frag.appendChild(tr)});$('history-body').replaceChildren(frag)}
-async function refresh(){const btn=$('refresh');btn.disabled=true;btn.textContent='Refreshing…';try{const res=await fetch('/api/v2/customer_snapshot',{cache:'no-store',headers:{Accept:'application/json'}});if(!res.ok)throw new Error('HTTP '+res.status);const data=await res.json();const connected=data.connected===true;const feed=$('feed');feed.innerHTML='';const badge=document.createElement('span');badge.className='status'+(connected?' ok':'');badge.textContent=connected?'● CONNECTED':'● DISCONNECTED';feed.appendChild(badge);$('feed-detail').textContent=connected?'Verified local MT5 connection':'Waiting for a verified MT5 broker connection';$('updated').textContent=connected?new Date(data.updated_at).toLocaleString():'Awaiting first update';$('notice').textContent=connected?'Live broker telemetry received from the local MT5 connection. This dashboard is read-only.':'No verified MT5 broker data is currently available. Financial values are intentionally withheld rather than showing fallback or simulated figures.';if(!connected){clearFinancials();renderHistory(data.history||[]);return}const a=data.account||{},c=a.currency||'USD',ps=data.positions||[];$('mode').textContent=data.mode||'—';$('account-meta').textContent=[data.broker||'',data.server||'',data.account_number?'Account '+data.account_number:''].filter(Boolean).join(' · ');$('positions').textContent=ps.length;$('floating').textContent=money(a.floating_pnl,c);$('balance').textContent=money(a.balance,c);$('equity').textContent=money(a.equity,c);$('margin').textContent=money(a.free_margin,c);$('closed').textContent=money(a.closed_pnl,c);$('position-count').textContent=ps.length+' positions';renderPositions(ps);renderHistory(data.history||[])}catch(e){$('feed').innerHTML='<span class="status">● UNAVAILABLE</span>';$('feed-detail').textContent='Unable to verify the local broker feed';$('notice').textContent='The local dashboard API could not be reached. No cached or simulated figures are displayed.';clearFinancials()}finally{btn.disabled=false;btn.textContent='↻ Refresh now'}}
-$('refresh').addEventListener('click',refresh);refresh();setInterval(refresh,10000);
-</script></body></html>
+(function () {
+  const $ = function (id) { return document.getElementById(id); };
+
+  function n(value) {
+    const v = Number(value);
+    return Number.isFinite(v) ? v : 0;
+  }
+
+  function money(value, currency) {
+    if (value === null || value === undefined || value === '') return '—';
+    const code = /^[A-Z]{3}$/.test(currency || '') ? currency : 'USD';
+    try {
+      return new Intl.NumberFormat(undefined, { style: 'currency', currency: code, minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(n(value));
+    } catch (_) {
+      return code + ' ' + n(value).toFixed(2);
+    }
+  }
+
+  function when(value) {
+    if (!value) return '—';
+    const d = new Date(value);
+    if (!Number.isFinite(d.getTime())) return '—';
+    return d.toLocaleString(undefined, {
+      year: 'numeric', month: 'short', day: '2-digit',
+      hour: '2-digit', minute: '2-digit', second: '2-digit',
+      hour12: false, timeZoneName: 'short'
+    });
+  }
+
+  function cell(row, value, cls) {
+    const td = document.createElement('td');
+    td.textContent = value === null || value === undefined || value === '' ? '—' : String(value);
+    if (cls) td.className = cls;
+    row.appendChild(td);
+  }
+
+  function empty(id, span, title, detail) {
+    const body = $(id);
+    const row = document.createElement('tr');
+    const td = document.createElement('td');
+    td.colSpan = span;
+    td.className = 'table-placeholder';
+    td.setAttribute('role', 'status');
+    const state = document.createElement('div');
+    state.className = 'empty-state';
+    const mark = document.createElement('span');
+    mark.className = 'empty-mark';
+    mark.setAttribute('aria-hidden', 'true');
+    mark.textContent = '—';
+    const heading = document.createElement('strong');
+    heading.className = 'empty-title';
+    heading.textContent = title;
+    const description = document.createElement('span');
+    description.className = 'empty-detail';
+    description.textContent = detail || '';
+    state.append(mark, heading, description);
+    td.appendChild(state);
+    row.appendChild(td);
+    body.replaceChildren(row);
+  }
+
+  function setFeed(label, state, detail) {
+    const el = $('feed-connection');
+    el.textContent = label;
+    el.className = 'status-value ' + (state === 'fresh' ? 'feed-fresh' : state === 'stale' ? 'feed-stale' : 'feed-offline');
+    $('feed-detail').textContent = detail || '';
+  }
+
+  function setNotice(text, kind) {
+    const el = $('notice');
+    el.textContent = text;
+    el.className = 'notice' + (kind ? ' ' + kind : '');
+  }
+
+  function clearFinancials(emptyTitle, emptyDetail) {
+    ['positions', 'floating', 'closed', 'balance', 'equity', 'margin'].forEach(function (id) {
+      const el = $(id);
+      el.textContent = 'Awaiting data';
+      el.className = 'metric-value is-pending';
+    });
+    const mode = $('mode');
+    mode.textContent = 'ACCOUNT MODE UNKNOWN';
+    mode.className = 'mode-badge mode-unknown';
+    $('account-meta').textContent = 'DEMO / REAL status appears after a verified broker update';
+    $('position-count').textContent = 'Waiting for broker data';
+    $('session-chip').className = 'user-chip';
+    empty('positions-body', 9, emptyTitle || 'No verified broker data', emptyDetail || 'Financial figures are suppressed while MT5 is disconnected.');
+    empty('history-body', 6, 'Trade history unavailable', 'Closed trade records appear only with an active verified broker feed.');
+  }
+
+  function renderPositions(rows, currency) {
+    if (!rows.length) {
+      empty('positions-body', 9, 'No open positions', 'The latest verified broker snapshot contains no open positions.');
+      return;
+    }
+    const frag = document.createDocumentFragment();
+    rows.forEach(function (p) {
+      const tr = document.createElement('tr');
+      const dir = String(p.direction || p.side || '').toUpperCase();
+      const sideCls = dir === 'BUY' ? 'side buy' : dir === 'SELL' ? 'side sell' : '';
+      const pnl = n(p.pnl_usd);
+      cell(tr, p.ticket);
+      cell(tr, p.symbol);
+      cell(tr, dir || '—', sideCls);
+      cell(tr, p.volume !== null && p.volume !== undefined ? n(p.volume).toFixed(2) : '—');
+      cell(tr, p.entry_price !== null && p.entry_price !== undefined ? n(p.entry_price).toFixed(5) : '—');
+      cell(tr, p.current_price !== null && p.current_price !== undefined ? n(p.current_price).toFixed(5) : '—');
+      cell(tr, n(p.sl) ? n(p.sl).toFixed(5) : '—');
+      cell(tr, n(p.tp1) ? n(p.tp1).toFixed(5) : '—');
+      cell(tr, money(pnl, currency), pnl >= 0 ? 'positive' : 'negative');
+      frag.appendChild(tr);
+    });
+    $('positions-body').replaceChildren(frag);
+  }
+
+  function renderHistory(rows, currency) {
+    if (!rows.length) {
+      empty('history-body', 6, 'No recent trade history', 'No reconciled closed trades were found.');
+      return;
+    }
+    const frag = document.createDocumentFragment();
+    rows.slice(0, 20).forEach(function (p) {
+      const tr = document.createElement('tr');
+      const dir = String(p.direction || '').toUpperCase();
+      const sideCls = dir === 'BUY' ? 'side buy' : dir === 'SELL' ? 'side sell' : '';
+      const pnl = p.pnl !== null && p.pnl !== undefined ? n(p.pnl) : null;
+      cell(tr, when(p.close_time));
+      cell(tr, p.symbol);
+      cell(tr, dir || '—', sideCls);
+      cell(tr, p.volume !== null && p.volume !== undefined ? n(p.volume).toFixed(2) : '—');
+      cell(tr, pnl !== null ? money(pnl, currency) : '—', pnl !== null ? (pnl >= 0 ? 'positive' : 'negative') : '');
+      cell(tr, p.status || 'Closed');
+      frag.appendChild(tr);
+    });
+    $('history-body').replaceChildren(frag);
+  }
+
+  async function refresh() {
+    const btn = $('refresh');
+    btn.disabled = true;
+    btn.textContent = 'Refreshing…';
+    try {
+      const res = await fetch('/api/v2/customer_snapshot', { cache: 'no-store', headers: { Accept: 'application/json' } });
+      if (!res.ok) throw new Error('HTTP ' + res.status);
+      const data = await res.json();
+      const connected = data.connected === true;
+      const stale = data.stale === true;
+
+      if (!connected) {
+        setFeed('● DISCONNECTED', 'offline', 'Waiting for a verified MT5 broker connection');
+        $('updated').textContent = data.last_verified_at ? when(data.last_verified_at) : 'Awaiting first update';
+        $('updated-note').textContent = data.last_verified_at ? 'Last verified broker update before disconnect' : 'No verified broker update received yet';
+        setNotice('No verified MT5 broker data is currently available. Financial values are intentionally withheld rather than showing fallback or simulated figures.', 'warn');
+        clearFinancials('MT5 disconnected', 'Financial figures are suppressed until a verified MT5 broker connection is active.');
+        return;
+      }
+
+      if (stale) {
+        setFeed('● FEED STALE', 'stale', 'Broker telemetry is older than the 30-second freshness window (' + n(data.heartbeat_age_s).toFixed(0) + 's)');
+        setNotice('Broker telemetry is stale. Values below may not reflect current market conditions; verify directly in MT5.', 'warn');
+      } else {
+        setFeed('● CONNECTED · FRESH', 'fresh', 'Verified local MT5 connection');
+        setNotice('Live broker telemetry received from the local MT5 connection. This dashboard is read-only.', 'ok');
+      }
+
+      $('session-chip').className = 'user-chip is-connected';
+      $('updated').textContent = data.updated_at ? when(data.updated_at) : '—';
+      $('updated-note').textContent = stale ? 'Stale snapshot · ' + n(data.heartbeat_age_s).toFixed(0) + 's old' : 'Verified broker snapshot';
+
+      const a = data.account || {};
+      const c = a.currency || 'USD';
+      const ps = Array.isArray(data.positions) ? data.positions : [];
+      const history = Array.isArray(data.history) ? data.history : [];
+
+      const rawMode = String(data.mode || 'UNKNOWN').toUpperCase();
+      const modeEl = $('mode');
+      modeEl.textContent = rawMode === 'DEMO' ? 'DEMO ACCOUNT' : rawMode === 'LIVE' || rawMode === 'REAL' ? 'REAL ACCOUNT' : 'ACCOUNT MODE UNKNOWN';
+      modeEl.className = 'mode-badge ' + (rawMode === 'DEMO' ? 'mode-demo' : (rawMode === 'LIVE' || rawMode === 'REAL') ? 'mode-real' : 'mode-unknown');
+      $('account-meta').textContent = [data.broker || '', data.server || '', data.account_number ? 'Account #' + data.account_number : ''].filter(Boolean).join(' · ') || 'Verified broker account';
+
+      $('positions').textContent = String(ps.length);
+      $('positions').className = 'metric-value';
+
+      const floating = n(a.floating_pnl);
+      $('floating').textContent = money(floating, c);
+      $('floating').className = 'metric-value ' + (floating >= 0 ? 'positive' : 'negative');
+
+      const closed = n(a.closed_pnl);
+      $('closed').textContent = money(closed, c);
+      $('closed').className = 'metric-value ' + (closed >= 0 ? 'positive' : 'negative');
+
+      $('balance').textContent = money(a.balance, c);
+      $('balance').className = 'metric-value';
+      $('equity').textContent = money(a.equity, c);
+      $('equity').className = 'metric-value';
+      $('margin').textContent = money(a.free_margin, c);
+      $('margin').className = 'metric-value';
+
+      $('position-count').textContent = ps.length + (ps.length === 1 ? ' position' : ' positions');
+      renderPositions(ps, c);
+      renderHistory(history, c);
+    } catch (_) {
+      setFeed('● UNAVAILABLE', 'offline', 'Unable to verify the local broker feed');
+      setNotice('The local dashboard API could not be reached. No cached or simulated figures are displayed.', 'warn');
+      clearFinancials('Connection unavailable', 'The local dashboard API could not be reached.');
+    } finally {
+      btn.disabled = false;
+      btn.textContent = '↻ Refresh data';
+    }
+  }
+
+  $('refresh').addEventListener('click', refresh);
+  refresh();
+  setInterval(refresh,10000);
+
+  const btt = $('back-to-top');
+  if (btt) {
+    let queued = false;
+    function sync() { btt.classList.toggle('is-visible', window.scrollY > 320); queued = false; }
+    window.addEventListener('scroll', function () { if (!queued) { queued = true; window.requestAnimationFrame(sync); } }, { passive: true });
+    btt.addEventListener('click', function () {
+      const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      window.scrollTo({ top: 0, behavior: reduced ? 'auto' : 'smooth' });
+    });
+    sync();
+  }
+})();
+</script>
+</body>
+</html>
