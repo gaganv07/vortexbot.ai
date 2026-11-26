@@ -11,6 +11,46 @@ const BODY_LIMIT = 512 * 1024;
 const MAX_CLOCK_SKEW_SECONDS = 300;
 const STALE_AFTER_MS = 30000;
 const ACCOUNT_ID_PATTERN = /^[A-Za-z0-9._-]{1,40}$/;
+const NONCE_PATTERN = /^[A-Za-z0-9._-]{8,128}$/;
+
+async function consumePersistentNonce(c, nonce, timestampSec) {
+  if (!nonce) {
+    if (String(process.env.VORTEX_REQUIRE_NONCE || '').trim().toLowerCase() === 'true') {
+      return { ok: false, status: 400, error: 'Missing request nonce' };
+    }
+    return { ok: true };
+  }
+  if (!NONCE_PATTERN.test(nonce)) {
+    return { ok: false, status: 400, error: 'Invalid request nonce' };
+  }
+  const reqTsIso = new Date(Number(timestampSec) * 1000).toISOString();
+  let response;
+  try {
+    response = await fetch(c.url + '/rest/v1/rpc/consume_vortex_ingest_nonce', {
+      method: 'POST',
+      headers: serviceApiHeaders(c, { 'Content-Type': 'application/json' }),
+      body: JSON.stringify({
+        p_bot_id: c.botId,
+        p_nonce: nonce,
+        p_request_ts: reqTsIso,
+        p_ttl_seconds: MAX_CLOCK_SKEW_SECONDS
+      }),
+      signal: AbortSignal.timeout(5000),
+      cache: 'no-store'
+    });
+  } catch (_) {
+    return { ok: false, status: 503, error: 'Replay protection store is unavailable' };
+  }
+  if (!response.ok) {
+    return { ok: false, status: 503, error: 'Replay protection store is unavailable' };
+  }
+  const payload = await response.json();
+  const row = Array.isArray(payload) ? payload[0] : payload;
+  if (!row || row.accepted !== true) {
+    return { ok: false, status: 409, error: 'Replayed request nonce rejected' };
+  }
+  return { ok: true };
+}
 
 function reply(res, status, body) {
   res.statusCode = status;
@@ -427,6 +467,12 @@ async function post(req, res, c) {
     String(req.headers['x-vortext-signature'] || '')
   )) {
     return reply(res, 401, { ok: false, error: 'Invalid or expired bot signature' });
+  }
+
+  const nonceHeader = String(req.headers['x-vortex-nonce'] || req.headers['x-vortext-nonce'] || '').trim();
+  const nonceCheck = await consumePersistentNonce(c, nonceHeader, req.headers['x-vortext-timestamp']);
+  if (!nonceCheck.ok) {
+    return reply(res, nonceCheck.status, { ok: false, error: nonceCheck.error });
   }
 
   let snapshot;

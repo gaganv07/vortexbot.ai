@@ -18,6 +18,7 @@ import csv
 import hmac
 import json
 import logging
+import math
 import os
 import re
 import sqlite3
@@ -33,6 +34,19 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, HTMLResponse, JSONResponse, Response
 
 from dashboard.reports_exporter import ReportsExporter
+from dashboard.customer_auth import (
+    ACCOUNT_ID_RE as _ACCOUNT_ID_RE,
+    authenticate_customer_request,
+    authorize_customer_account,
+    get_supabase_public_config,
+)
+from dashboard.telemetry_utils import (
+    DEFAULT_BROKER_TIMEZONE,
+    DEFAULT_STALE_THRESHOLD_S as _CUSTOMER_STALE_THRESHOLD_S,
+    convert_mt5_broker_epoch_to_utc,
+    evaluate_broker_freshness,
+    validate_finite_number,
+)
 from app.config import settings
 from app.multi_account import multi_account_router, set_api_account_manager
 
@@ -48,34 +62,60 @@ HEALTH_JSON    = REPORTS_DIR / "health_report.json"
 
 app = FastAPI(title="Legacy Asset Partners — AI Trading Control Center", version="3.5.0")
 
+
+def _get_allowed_origins() -> List[str]:
+    raw = os.getenv("VORTEX_ALLOWED_ORIGINS", "").strip()
+    if raw:
+        return [o.strip().rstrip("/") for o in raw.split(",") if o.strip() and o.strip() != "*"]
+    return ["http://127.0.0.1:8000", "http://localhost:8000"]
+
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=_get_allowed_origins(),
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "OPTIONS"],
+    allow_headers=["Authorization", "Content-Type", "Accept"],
 )
 
 app.include_router(multi_account_router)
 
-_CUSTOMER_STALE_THRESHOLD_S = 30.0
-_ACCOUNT_ID_RE = re.compile(r"^[A-Za-z0-9._-]{1,40}$")
 _last_verified_broker_update: Optional[str] = None
+
+
+def _verify_bearer_secret(request: Request, secret_env_names: tuple[str, ...]) -> Optional[JSONResponse]:
+    expected = ""
+    for env_name in secret_env_names:
+        val = os.getenv(env_name, "").strip()
+        if val:
+            expected = val
+            break
+    if not expected:
+        return JSONResponse(status_code=503, content={"detail": "Authentication secret not configured"})
+    auth_header = request.headers.get("authorization", "")
+    token = auth_header[7:].strip() if auth_header.lower().startswith("bearer ") else ""
+    if not token or not hmac.compare_digest(token, expected):
+        return JSONResponse(status_code=401, content={"detail": "Unauthorized: valid Bearer token required"})
+    return None
 
 
 @app.middleware("http")
 async def security_and_auth_middleware(request: Request, call_next):
-    """Enforces Cache-Control: no-store on APIs/customer views and optional Bearer token auth."""
-    if request.url.path.startswith("/api/") and os.getenv("VORTEX_REQUIRE_AUTH", "").lower() == "true":
-        expected = os.getenv("VORTEX_CONTROL_SECRET", "")
-        auth_header = request.headers.get("authorization", "")
-        token = auth_header[7:].strip() if auth_header.lower().startswith("bearer ") else ""
-        if not expected or not token or not hmac.compare_digest(token, expected):
-            return JSONResponse(status_code=401, content={"detail": "Unauthorized: valid Bearer token required"})
+    """Enforces Cache-Control: no-store and operator Bearer auth (customer routes enforce Supabase Auth)."""
+    path = request.url.path
+    if (
+        path.startswith("/api/")
+        and path not in ("/api/v2/customer_snapshot", "/api/v2/customer_auth_config")
+        and os.getenv("VORTEX_REQUIRE_AUTH", "").lower() == "true"
+    ):
+        err = _verify_bearer_secret(request, ("VORTEX_CONTROL_SECRET",))
+        if err is not None:
+            return err
 
     response = await call_next(request)
-    if request.url.path.startswith("/api/") or request.url.path == "/customer":
+    if path.startswith("/api/") or path == "/customer":
         response.headers["Cache-Control"] = "no-store, max-age=0"
+        response.headers["Pragma"] = "no-cache"
     return response
 
 _orchestrator = None
@@ -185,19 +225,38 @@ def _get_live_telemetry() -> Dict[str, Any]:
     else:
         bot_status = "BOT OFFLINE"
 
-    # 2. Account & MT5 Status
-    account_info = {}
+    # 2. Account & MT5 Status (strictly live-verified, genuine broker timestamp)
+    global _last_verified_broker_update
+    broker_tz = os.getenv("VORTEX_BROKER_TIMEZONE", DEFAULT_BROKER_TIMEZONE).strip() or DEFAULT_BROKER_TIMEZONE
+    account_info: Dict[str, Any] = {}
     mt5_status = "DISCONNECTED"
+    broker_updated_dt: Optional[datetime] = None
+    open_positions: List[Dict[str, Any]] = []
+
     if _orchestrator and hasattr(_orchestrator, "client"):
         account_info = _orchestrator.client.get_account() or {}
         mt5_status = "CONNECTED" if getattr(_orchestrator.client, "connected", False) else "DISCONNECTED"
+        # Extract genuine tick timestamp from orchestrator market data if available
+        if hasattr(_orchestrator, "msd") and isinstance(_orchestrator.msd, dict):
+            latest_tick_dt: Optional[datetime] = None
+            for md in _orchestrator.msd.values():
+                tick = getattr(md, "latest_tick", None)
+                tick_ts = getattr(tick, "timestamp", None) or getattr(tick, "time", None)
+                if isinstance(tick_ts, datetime):
+                    cand = tick_ts if tick_ts.tzinfo else tick_ts.replace(tzinfo=timezone.utc)
+                else:
+                    cand, _ = convert_mt5_broker_epoch_to_utc(tick_ts, broker_tz_name=broker_tz)
+                if cand is not None and (latest_tick_dt is None or cand > latest_tick_dt):
+                    latest_tick_dt = cand
+            broker_updated_dt = latest_tick_dt
     else:
         # Standalone read-only query directly from live MT5 API
         try:
             import MetaTrader5 as mt5
             if mt5.initialize():
                 acct = mt5.account_info()
-                if acct is not None:
+                term = mt5.terminal_info()
+                if acct is not None and (term is None or getattr(term, "connected", True)):
                     mt5_status = "CONNECTED"
                     account_info = {
                         "broker": acct.company,
@@ -212,16 +271,56 @@ def _get_live_telemetry() -> Dict[str, Any]:
                         "currency": acct.currency,
                         "trade_mode": getattr(acct, "trade_mode", 0),
                     }
+                    raw_pos = mt5.positions_get()
+                    tick_symbols: List[str] = []
+                    if raw_pos is not None:
+                        for p in raw_pos:
+                            tick_symbols.append(p.symbol)
+                            entry_dt, _ = convert_mt5_broker_epoch_to_utc(p.time, broker_tz_name=broker_tz)
+                            open_positions.append({
+                                "ticket": p.ticket,
+                                "symbol": p.symbol,
+                                "direction": "BUY" if p.type == 0 else "SELL",
+                                "volume": float(p.volume),
+                                "entry_price": float(p.price_open),
+                                "current_price": float(p.price_current),
+                                "sl": float(p.sl),
+                                "tp1": float(p.tp),
+                                "tp2": 0.0,
+                                "pnl_usd": round(float(p.profit) + float(getattr(p, "swap", 0.0)), 2),
+                                "entry_time": entry_dt.isoformat() if entry_dt else None,
+                            })
+                    for sym in (tick_symbols + ["EURUSD", "XAUUSD", "GBPUSD", "USDJPY", "BTCUSD"]):
+                        tick = mt5.symbol_info_tick(sym)
+                        if tick is not None and getattr(tick, "time", None):
+                            cand, _ = convert_mt5_broker_epoch_to_utc(tick.time, broker_tz_name=broker_tz)
+                            if cand is not None and (broker_updated_dt is None or cand > broker_updated_dt):
+                                broker_updated_dt = cand
+                            if broker_updated_dt is not None:
+                                break
         except Exception as e:
             logger.debug(f"Direct MT5 telemetry query error: {e}")
 
-        if not account_info and HEALTH_JSON.exists():
-            try:
-                with open(HEALTH_JSON, "r", encoding="utf-8") as f:
-                    hdata = json.load(f)
-                    mt5_status = "CONNECTED" if hdata.get("mt5_connected") else "DISCONNECTED"
-            except Exception:
-                pass
+    login_val = validate_finite_number(account_info.get("login")) if account_info else None
+    balance_val = validate_finite_number(account_info.get("balance")) if account_info else None
+    equity_val = validate_finite_number(account_info.get("equity")) if account_info else None
+
+    account_data_verified = bool(
+        mt5_status == "CONNECTED"
+        and login_val is not None
+        and login_val > 0
+        and balance_val is not None
+        and equity_val is not None
+    )
+
+    broker_stale, broker_data_age_s, freshness_reason = evaluate_broker_freshness(
+        broker_updated_dt,
+        now_utc=datetime.now(timezone.utc),
+        stale_threshold_s=_CUSTOMER_STALE_THRESHOLD_S,
+    )
+    broker_updated_at = broker_updated_dt.isoformat() if broker_updated_dt is not None else None
+    if account_data_verified and not broker_stale and broker_updated_at is not None:
+        _last_verified_broker_update = broker_updated_at
 
     # 3. Financial Metrics & Analytics
     analytics_data = {}
@@ -233,7 +332,8 @@ def _get_live_telemetry() -> Dict[str, Any]:
             pass
 
     # 4. Open Positions (With full field reconstruction)
-    open_positions = []
+    if _orchestrator and hasattr(_orchestrator, "engine"):
+        open_positions = []
     if _orchestrator and hasattr(_orchestrator, "engine"):
         trades = _orchestrator.engine.all_active_trades()
         for t in trades:
@@ -295,9 +395,14 @@ def _get_live_telemetry() -> Dict[str, Any]:
 
     return {
         "timestamp": now_utc,
+        "polled_at": now_utc,
         "bot_status": bot_status,
         "heartbeat_age_s": round(now_ts - _last_heartbeat_ts, 2),
-        "account_data_verified": bool(account_info),
+        "broker_updated_at": broker_updated_at,
+        "broker_data_age_s": broker_data_age_s,
+        "broker_stale": broker_stale,
+        "freshness_reason": freshness_reason,
+        "account_data_verified": account_data_verified,
         "connection": {
             "mt5_status": mt5_status,
             "internet_status": "ONLINE",
@@ -307,16 +412,16 @@ def _get_live_telemetry() -> Dict[str, Any]:
             "mode": "DEMO" if account_info.get("trade_mode", 0) == 0 else "LIVE",
         },
         "account": {
-            "balance": round(account_info.get("balance", 500.0), 2),
-            "equity": round(account_info.get("equity", 500.0), 2),
-            "free_margin": round(account_info.get("free_margin", 500.0), 2),
-            "margin": round(account_info.get("margin", 0.0), 2),
-            "margin_level": round(account_info.get("margin_level", 0.0), 1),
-            "floating_pnl": round(account_info.get("profit", 0.0), 2),
-            "closed_pnl": round(analytics_data.get("total_net_profit", 0.0), 2),
-            "daily_pnl": round(analytics_data.get("daily_pnl", 0.0), 2),
-            "weekly_pnl": round(analytics_data.get("weekly_pnl", 0.0), 2),
-            "monthly_pnl": round(analytics_data.get("monthly_pnl", 0.0), 2),
+            "balance": round(balance_val, 2) if balance_val is not None else None,
+            "equity": round(equity_val, 2) if equity_val is not None else None,
+            "free_margin": round(fm, 2) if (fm := validate_finite_number(account_info.get("free_margin"))) is not None else None,
+            "margin": round(mg, 2) if (mg := validate_finite_number(account_info.get("margin"))) is not None else None,
+            "margin_level": round(ml, 1) if (ml := validate_finite_number(account_info.get("margin_level"))) is not None else None,
+            "floating_pnl": round(fp, 2) if (fp := validate_finite_number(account_info.get("profit"))) is not None else None,
+            "closed_pnl": round(cp, 2) if (cp := validate_finite_number(analytics_data.get("total_net_profit"))) is not None else 0.0,
+            "daily_pnl": round(dp, 2) if (dp := validate_finite_number(analytics_data.get("daily_pnl"))) is not None else 0.0,
+            "weekly_pnl": round(wp, 2) if (wp := validate_finite_number(analytics_data.get("weekly_pnl"))) is not None else 0.0,
+            "monthly_pnl": round(mp, 2) if (mp := validate_finite_number(analytics_data.get("monthly_pnl"))) is not None else 0.0,
             "currency": account_info.get("currency", "USD"),
         },
         "risk": {
@@ -492,30 +597,45 @@ def _sanitize_customer_history_row(row: Dict[str, Any]) -> Dict[str, Any]:
     }
 
 
-@app.get("/api/v2/customer_snapshot")
-async def get_customer_snapshot(account_id: Optional[str] = Query(default=None)):
-    """Return a minimal read-only customer view; suppress fallback metrics when MT5 is disconnected."""
-    global _last_verified_broker_update
+@app.get("/api/v2/customer_auth_config")
+async def get_customer_auth_config():
+    """Return non-secret Supabase Auth configuration for customer sign-in."""
+    return get_supabase_public_config()
 
-    if account_id is not None:
-        if not _ACCOUNT_ID_RE.match(account_id):
-            raise HTTPException(status_code=400, detail="Invalid account_id format")
+
+@app.get("/api/v2/customer_snapshot")
+async def get_customer_snapshot(request: Request, account_id: Optional[str] = Query(default=None)):
+    """Return a minimal read-only customer view; fail closed on auth, ownership, or unverified telemetry."""
+    if account_id is not None and not _ACCOUNT_ID_RE.match(account_id):
+        raise HTTPException(status_code=400, detail="Invalid account_id format")
+
+    customer = await authenticate_customer_request(request)
 
     telemetry = _get_live_telemetry()
-    connected = (telemetry.get("connection", {}).get("mt5_status") == "CONNECTED"
-                 and telemetry.get("account_data_verified") is True)
+    connected = (
+        telemetry.get("connection", {}).get("mt5_status") == "CONNECTED"
+        and telemetry.get("account_data_verified") is True
+    )
     connection = telemetry.get("connection", {})
     active_account_number = connection.get("account_number")
 
-    if account_id is not None:
-        if not connected or active_account_number is None or str(active_account_number) != account_id:
-            raise HTTPException(status_code=403, detail="Unauthorized: account access denied")
+    authorize_customer_account(customer, active_account_number, account_id)
 
-    heartbeat_age_s = float(telemetry.get("heartbeat_age_s", 0.0) or 0.0)
-    stale = bool(connected and heartbeat_age_s > _CUSTOMER_STALE_THRESHOLD_S)
-
-    if connected:
-        _last_verified_broker_update = telemetry.get("timestamp")
+    raw_age = telemetry.get("broker_data_age_s")
+    broker_age_s = float(raw_age) if raw_age is not None else None
+    broker_updated_raw = telemetry.get("broker_updated_at")
+    if telemetry.get("broker_stale") is not None:
+        stale = bool(connected and telemetry.get("broker_stale"))
+    elif broker_updated_raw:
+        try:
+            parsed_dt = datetime.fromisoformat(str(broker_updated_raw))
+            stale, broker_age_s, _ = evaluate_broker_freshness(
+                parsed_dt, stale_threshold_s=_CUSTOMER_STALE_THRESHOLD_S
+            )
+        except ValueError:
+            stale = True
+    else:
+        stale = True
 
     account = telemetry.get("account", {}) if connected else {}
     positions = telemetry.get("open_positions", []) if connected else []
@@ -524,10 +644,12 @@ async def get_customer_snapshot(account_id: Optional[str] = Query(default=None))
 
     return {
         "connected": connected,
+        "account_data_verified": bool(telemetry.get("account_data_verified") is True),
         "stale": stale,
         "fresh": bool(connected and not stale),
-        "heartbeat_age_s": round(heartbeat_age_s, 2),
-        "updated_at": telemetry.get("timestamp") if connected else None,
+        "broker_data_age_s": round(broker_age_s, 2) if broker_age_s is not None else None,
+        "polled_at": telemetry.get("polled_at") or telemetry.get("timestamp"),
+        "updated_at": telemetry.get("broker_updated_at") if connected else None,
         "last_verified_at": _last_verified_broker_update,
         "broker": connection.get("broker") if connected else None,
         "server": connection.get("server") if connected else None,
@@ -593,6 +715,23 @@ async def export_pdf(range_title: str = Query("Continuous Live Demo Validation")
 
 @app.websocket("/ws/live")
 async def websocket_live_telemetry(websocket: WebSocket):
+    origin = (websocket.headers.get("origin") or "").strip().rstrip("/")
+    allowed_origins = _get_allowed_origins()
+    if origin and origin not in allowed_origins:
+        await websocket.close(code=1008)
+        return
+    if os.getenv("VORTEX_REQUIRE_AUTH", "").lower() == "true":
+        expected = os.getenv("VORTEX_CONTROL_SECRET", "").strip()
+        auth_header = websocket.headers.get("authorization", "")
+        token = (
+            auth_header[7:].strip()
+            if auth_header.lower().startswith("bearer ")
+            else (websocket.query_params.get("token") or "").strip()
+        )
+        if not expected or not token or not hmac.compare_digest(token, expected):
+            await websocket.close(code=1008)
+            return
+
     await ws_manager.connect(websocket)
     try:
         while True:

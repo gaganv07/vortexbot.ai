@@ -623,6 +623,21 @@ td.negative { color: var(--danger); font-weight: 700; }
     </div>
   </div>
 
+  <section id="auth-panel" class="card" aria-label="Customer sign-in" hidden style="margin-bottom:18px">
+    <div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between">
+      <div>
+        <strong>Customer Authentication Required</strong>
+        <p id="auth-help" class="status-note">Sign in with your VORTEX AI customer account to view verified MT5 telemetry.</p>
+      </div>
+      <form id="auth-form" style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
+        <input id="auth-email" type="email" autocomplete="email" placeholder="Email" required style="padding:8px 10px;border:1px solid var(--line-strong);border-radius:6px;min-height:42px">
+        <input id="auth-password" type="password" autocomplete="current-password" placeholder="Password" required style="padding:8px 10px;border:1px solid var(--line-strong);border-radius:6px;min-height:42px">
+        <button id="auth-submit" type="submit" class="btn">Sign in</button>
+        <button id="auth-signout" type="button" class="btn" hidden>Sign out</button>
+      </form>
+    </div>
+  </section>
+
   <div id="notice" class="notice" role="status" aria-live="polite">Verifying the local MT5 broker connection…</div>
 
   <div class="grid" aria-label="Broker account summary">
@@ -852,13 +867,49 @@ td.negative { color: var(--danger); font-weight: 700; }
     $('history-body').replaceChildren(frag);
   }
 
+  const TOKEN_KEY = 'vortex_customer_access_token';
+  let authConfig = null;
+
+  async function ensureAuthConfig() {
+    if (authConfig) return authConfig;
+    try {
+      const r = await fetch('/api/v2/customer_auth_config', { cache: 'no-store' });
+      authConfig = r.ok ? await r.json() : { configured: false };
+    } catch (_) {
+      authConfig = { configured: false };
+    }
+    return authConfig;
+  }
+
+  function updateAuthPanel(needsLogin, message) {
+    const panel = $('auth-panel');
+    const signout = $('auth-signout');
+    const hasToken = Boolean(sessionStorage.getItem(TOKEN_KEY));
+    if (panel) panel.hidden = !needsLogin && !hasToken;
+    if (signout) signout.hidden = !hasToken;
+    if (message && $('auth-help')) $('auth-help').textContent = message;
+  }
+
   async function refresh() {
     const btn = $('refresh');
     btn.disabled = true;
     btn.textContent = 'Refreshing…';
     try {
-      const res = await fetch('/api/v2/customer_snapshot', { cache: 'no-store', headers: { Accept: 'application/json' } });
+      const token = sessionStorage.getItem(TOKEN_KEY) || '';
+      const headers = { Accept: 'application/json' };
+      if (token) headers.Authorization = 'Bearer ' + token;
+      const res = await fetch('/api/v2/customer_snapshot', { cache: 'no-store', headers: headers });
+      if (res.status === 401 || res.status === 403 || res.status === 503) {
+        const cfg = await ensureAuthConfig();
+        if (res.status === 401) sessionStorage.removeItem(TOKEN_KEY);
+        updateAuthPanel(true, cfg.configured ? 'Sign in with your VORTEX AI customer account to view verified MT5 telemetry.' : 'Customer authentication is not configured on this server.');
+        setFeed('● AUTH REQUIRED', 'offline', 'Customer authentication required (' + res.status + ')');
+        setNotice('Access denied until a verified customer session is active.', 'warn');
+        clearFinancials('Authentication required', 'Sign in with a verified customer account to view broker telemetry.');
+        return;
+      }
       if (!res.ok) throw new Error('HTTP ' + res.status);
+      updateAuthPanel(false);
       const data = await res.json();
       const connected = data.connected === true;
       const stale = data.stale === true;
@@ -873,7 +924,8 @@ td.negative { color: var(--danger); font-weight: 700; }
       }
 
       if (stale) {
-        setFeed('● FEED STALE', 'stale', 'Broker telemetry is older than the 30-second freshness window (' + n(data.heartbeat_age_s).toFixed(0) + 's)');
+        const ageSec = n(data.broker_data_age_s !== undefined ? data.broker_data_age_s : data.heartbeat_age_s).toFixed(0);
+        setFeed('● FEED STALE', 'stale', 'Broker telemetry is older than the 30-second freshness window (' + ageSec + 's)');
         setNotice('Broker telemetry is stale. Values below may not reflect current market conditions; verify directly in MT5.', 'warn');
       } else {
         setFeed('● CONNECTED · FRESH', 'fresh', 'Verified local MT5 connection');
@@ -882,7 +934,8 @@ td.negative { color: var(--danger); font-weight: 700; }
 
       $('session-chip').className = 'user-chip is-connected';
       $('updated').textContent = data.updated_at ? when(data.updated_at) : '—';
-      $('updated-note').textContent = stale ? 'Stale snapshot · ' + n(data.heartbeat_age_s).toFixed(0) + 's old' : 'Verified broker snapshot';
+      const ageDisp = n(data.broker_data_age_s !== undefined ? data.broker_data_age_s : data.heartbeat_age_s).toFixed(0);
+      $('updated-note').textContent = stale ? 'Stale snapshot · ' + ageDisp + 's old' : 'Verified broker snapshot';
 
       const a = data.account || {};
       const c = a.currency || 'USD';
@@ -924,6 +977,42 @@ td.negative { color: var(--danger); font-weight: 700; }
       btn.disabled = false;
       btn.textContent = '↻ Refresh data';
     }
+  }
+
+  if ($('auth-form')) {
+    $('auth-form').addEventListener('submit', async function (ev) {
+      ev.preventDefault();
+      const cfg = await ensureAuthConfig();
+      if (!cfg.configured) {
+        updateAuthPanel(true, 'Supabase Auth is not configured on this server.');
+        return;
+      }
+      const email = $('auth-email').value.trim();
+      const password = $('auth-password').value;
+      try {
+        const r = await fetch(cfg.supabase_url + '/auth/v1/token?grant_type=password', {
+          method: 'POST',
+          headers: { apikey: cfg.publishable_key, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email: email, password: password })
+        });
+        const body = await r.json();
+        if (!r.ok || !body.access_token) {
+          updateAuthPanel(true, 'Sign-in failed. Check your email and password.');
+          return;
+        }
+        sessionStorage.setItem(TOKEN_KEY, body.access_token);
+        $('auth-password').value = '';
+        await refresh();
+      } catch (_) {
+        updateAuthPanel(true, 'Authentication service unavailable.');
+      }
+    });
+  }
+  if ($('auth-signout')) {
+    $('auth-signout').addEventListener('click', function () {
+      sessionStorage.removeItem(TOKEN_KEY);
+      refresh();
+    });
   }
 
   $('refresh').addEventListener('click', refresh);
